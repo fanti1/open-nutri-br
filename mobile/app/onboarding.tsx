@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { View } from 'react-native';
 import { useData } from '../src/data/DataProvider';
+import { CATALOG } from '../src/domain/catalog';
 import { PrivacyNotice } from '../src/features/common/PrivacyNotice';
 import { PRIVACY_VERSION } from '../src/lib/constants';
 import { AppText } from '../src/ui/AppText';
@@ -12,7 +13,11 @@ import { Screen } from '../src/ui/Screen';
 import { TextField } from '../src/ui/TextField';
 
 const HIGHLIGHTS: Array<{ icon: IconName; title: string; text: string }> = [
-  { icon: 'calculator-outline', title: '38 calculadoras científicas', text: 'Antropometria, metabolismo, hospitalar, UTI e pediatria — cada uma com a referência publicada.' },
+  {
+    icon: 'calculator-outline',
+    title: `${CATALOG.length} calculadoras científicas`,
+    text: 'Antropometria, metabolismo, hospitalar, UTI, pediatria e exames laboratoriais — cada uma com a referência publicada.',
+  },
   { icon: 'people-outline', title: 'Fichas de pacientes', text: 'Atendimentos, medidas, evolução, cálculos e arquivos de exames em um só lugar.' },
   { icon: 'calendar-outline', title: 'Agenda e tarefas', text: 'Organize seus atendimentos e receba lembretes no celular.' },
   { icon: 'lock-closed-outline', title: 'Seus dados ficam com você', text: 'Tudo fica salvo no seu aparelho. Faça backup para o Drive quando quiser.' },

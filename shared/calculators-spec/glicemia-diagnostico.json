@@ -1,0 +1,12 @@
+{
+  "slug": "glicemia-diagnostico",
+  "cases": [
+    { "inputs": { "fasting_glucose_mg_dl": 92, "hba1c_percent": 5.4 }, "expected": { "values": { "fasting_glucose_mg_dl": 92, "hba1c_percent": 5.4 }, "classification": "normoglicemia" } },
+    { "inputs": { "fasting_glucose_mg_dl": 110 }, "expected": { "values": { "fasting_glucose_mg_dl": 110 }, "classification": "pre_diabetes" } },
+    { "inputs": { "hba1c_percent": 5.7 }, "expected": { "values": { "hba1c_percent": 5.7 }, "classification": "pre_diabetes" } },
+    { "inputs": { "ogtt_2h_mg_dl": 150 }, "expected": { "values": { "ogtt_2h_mg_dl": 150 }, "classification": "pre_diabetes" } },
+    { "inputs": { "fasting_glucose_mg_dl": 118, "hba1c_percent": 6.8 }, "expected": { "values": { "fasting_glucose_mg_dl": 118, "hba1c_percent": 6.8 }, "classification": "compativel_com_diabetes" } },
+    { "inputs": { "fasting_glucose_mg_dl": 126 }, "expected": { "values": { "fasting_glucose_mg_dl": 126 }, "classification": "compativel_com_diabetes" } },
+    { "inputs": { "fasting_glucose_mg_dl": 95, "ogtt_2h_mg_dl": 200 }, "expected": { "values": { "fasting_glucose_mg_dl": 95, "ogtt_2h_mg_dl": 200 }, "classification": "compativel_com_diabetes" } }
+  ]
+}

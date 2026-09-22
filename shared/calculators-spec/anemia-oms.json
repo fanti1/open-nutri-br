@@ -1,0 +1,17 @@
+{
+  "slug": "anemia-oms",
+  "cases": [
+    { "inputs": { "age_years": 40, "sex": "male", "pregnant": false, "hemoglobin_g_dl": 14.0 }, "expected": { "values": { "hemoglobin_g_dl": 14.0, "anemia_cutoff_g_dl": 13.0 }, "classification": "sem_anemia" } },
+    { "inputs": { "age_years": 40, "sex": "male", "pregnant": false, "hemoglobin_g_dl": 12.5 }, "expected": { "values": { "hemoglobin_g_dl": 12.5, "anemia_cutoff_g_dl": 13.0 }, "classification": "anemia_leve" } },
+    { "inputs": { "age_years": 30, "sex": "female", "pregnant": false, "hemoglobin_g_dl": 11.5 }, "expected": { "values": { "hemoglobin_g_dl": 11.5, "anemia_cutoff_g_dl": 12.0 }, "classification": "anemia_leve" } },
+    { "inputs": { "age_years": 30, "sex": "female", "pregnant": false, "hemoglobin_g_dl": 12.0 }, "expected": { "values": { "hemoglobin_g_dl": 12.0, "anemia_cutoff_g_dl": 12.0 }, "classification": "sem_anemia" } },
+    { "inputs": { "age_years": 30, "sex": "female", "pregnant": true, "hemoglobin_g_dl": 11.5 }, "expected": { "values": { "hemoglobin_g_dl": 11.5, "anemia_cutoff_g_dl": 11.0 }, "classification": "sem_anemia" } },
+    { "inputs": { "age_years": 28, "sex": "female", "pregnant": true, "hemoglobin_g_dl": 6.5 }, "expected": { "values": { "hemoglobin_g_dl": 6.5, "anemia_cutoff_g_dl": 11.0 }, "classification": "anemia_grave" } },
+    { "inputs": { "age_years": 3, "sex": "male", "pregnant": false, "hemoglobin_g_dl": 9.5 }, "expected": { "values": { "hemoglobin_g_dl": 9.5, "anemia_cutoff_g_dl": 11.0 }, "classification": "anemia_moderada" } },
+    { "inputs": { "age_years": 0.75, "sex": "female", "pregnant": false, "hemoglobin_g_dl": 10.5 }, "expected": { "values": { "hemoglobin_g_dl": 10.5, "anemia_cutoff_g_dl": 11.0 }, "classification": "anemia_leve" } },
+    { "inputs": { "age_years": 8, "sex": "female", "pregnant": false, "hemoglobin_g_dl": 11.2 }, "expected": { "values": { "hemoglobin_g_dl": 11.2, "anemia_cutoff_g_dl": 11.5 }, "classification": "anemia_leve" } },
+    { "inputs": { "age_years": 8, "sex": "male", "pregnant": false, "hemoglobin_g_dl": 7.9 }, "expected": { "values": { "hemoglobin_g_dl": 7.9, "anemia_cutoff_g_dl": 11.5 }, "classification": "anemia_grave" } },
+    { "inputs": { "age_years": 13, "sex": "male", "pregnant": false, "hemoglobin_g_dl": 11.9 }, "expected": { "values": { "hemoglobin_g_dl": 11.9, "anemia_cutoff_g_dl": 12.0 }, "classification": "anemia_leve" } },
+    { "inputs": { "age_years": 70, "sex": "male", "pregnant": true, "hemoglobin_g_dl": 12.0 }, "expected": { "values": { "hemoglobin_g_dl": 12.0, "anemia_cutoff_g_dl": 13.0 }, "classification": "anemia_leve" } }
+  ]
+}

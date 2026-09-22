@@ -30,6 +30,7 @@ export const MODULES: Array<{ key: string; label: string; icon: IconName }> = [
   { key: 'ambulatorio', label: 'Consultório', icon: 'medkit-outline' },
   { key: 'hospitalar', label: 'Hospitalar / Terapia Intensiva', icon: 'business-outline' },
   { key: 'pediatria', label: 'Pediatria', icon: 'happy-outline' },
+  { key: 'bioquimica', label: 'Hematologia e Bioquímica', icon: 'flask-outline' },
 ];
 
 export const CATEGORY_LABELS: Record<string, string> = {
@@ -40,6 +41,10 @@ export const CATEGORY_LABELS: Record<string, string> = {
   curvas_crescimento: 'Curvas de crescimento (OMS)',
   classificacao_nutricional: 'Classificação nutricional',
   gasto_energetico: 'Gasto energético',
+  hematologia: 'Hematologia',
+  glicemia: 'Glicemia e insulina',
+  perfil_lipidico: 'Perfil lipídico',
+  funcao_renal: 'Função renal',
 };
 
 const ICONS: Record<string, IconName> = {
@@ -66,6 +71,9 @@ const ICONS: Record<string, IconName> = {
   ruler: 'resize-outline',
   percent: 'stats-chart-outline',
   layers: 'layers-outline',
+  blood: 'water-outline',
+  glucose: 'cube-outline',
+  kidney: 'filter-outline',
 };
 
 export function catalogIcon(entry: CatalogEntry): IconName {
@@ -73,6 +81,23 @@ export function catalogIcon(entry: CatalogEntry): IconName {
 }
 
 export type ResultTone = 'success' | 'warning' | 'danger' | 'info';
+
+/** Códigos que as palavras-chave abaixo classificariam errado (ex.: "pre_diabetes" contém "diabetes"). */
+const EXPLICIT_TONES: Record<string, ResultTone> = {
+  normoglicemia: 'success',
+  pre_diabetes: 'warning',
+  compativel_com_diabetes: 'danger',
+  deficiencia_de_ferro: 'warning',
+  resistencia_insulinica: 'warning',
+  perfil_desejavel: 'success',
+  perfil_alterado: 'warning',
+  g1_normal_ou_elevada: 'success',
+  g2_levemente_diminuida: 'warning',
+  g3a_leve_a_moderadamente_diminuida: 'warning',
+  g3b_moderada_a_gravemente_diminuida: 'danger',
+  g4_gravemente_diminuida: 'danger',
+  g5_falencia_renal: 'danger',
+};
 
 /**
  * Cor sugerida para a classificação (só apresentação — o significado clínico
@@ -82,6 +107,7 @@ export type ResultTone = 'success' | 'warning' | 'danger' | 'info';
 export function classificationTone(code: string | null): ResultTone {
   if (!code) return 'info';
   const text = code.toLowerCase();
+  if (EXPLICIT_TONES[text]) return EXPLICIT_TONES[text];
 
   if (/(grave|severa|acentuada|muito_|terceiro|critic|alto_risco|risco_alto|microcefalia|macrocefalia|obesidade|gravemente)/.test(text)) return 'danger';
   if (/(sem_|normal|eutrofi|adequad|bem_nutrido|baixo_risco|risco_baixo|dentro|positivo)/.test(text)) return 'success';

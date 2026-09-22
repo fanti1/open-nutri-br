@@ -23,7 +23,8 @@ export function autofillFromPatient(
   const ageMonths = ageInMonthsDecimal(patient.birth_date, at);
 
   set('sex', patient.sex);
-  set('age_years', years);
+  // Campos de idade que aceitam fração (ex.: anemia da OMS a partir de 6 meses) recebem anos com decimais.
+  set('age_years', acceptsFraction(schema.age_years) ? round(ageMonths / 12, 2) : years);
   set('age_months', ageMonths);
   set('weight_kg', measurements.weight_kg);
   set('current_weight_kg', measurements.weight_kg);
@@ -44,6 +45,10 @@ export function autofillFromPatient(
   }
 
   return values;
+}
+
+function acceptsFraction(rules: unknown): boolean {
+  return Array.isArray(rules) && rules.includes('numeric') && !rules.includes('integer');
 }
 
 function round(value: number, digits: number): number {

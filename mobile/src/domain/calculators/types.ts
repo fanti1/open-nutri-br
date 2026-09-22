@@ -31,6 +31,13 @@ export type Classifier<TInputs> = (
   inputs: TInputs,
 ) => string;
 
+/**
+ * Os campos isolados são válidos, mas a combinação não permite calcular (ex.:
+ * nenhum exame informado num cálculo em que todos são opcionais). A mensagem é
+ * mostrada ao usuário.
+ */
+export class IncompleteInputsError extends Error {}
+
 export interface Calculator<TInputs = Record<string, unknown>> {
   slug: string;
   module: string;

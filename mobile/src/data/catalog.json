@@ -1289,5 +1289,248 @@
             "crianca"
         ],
         "sort_order": 510
+    },
+    {
+        "slug": "anemia-oms",
+        "module": "bioquimica",
+        "category": "hematologia",
+        "name": "Anemia (OMS)",
+        "short_description": "Anemia e gravidade pela hemoglobina",
+        "icon_key": "blood",
+        "formula_reference": "World Health Organization, Haemoglobin concentrations for the diagnosis of anaemia and assessment of severity, WHO/NMH/NHD/MNM/11.1, 2011.",
+        "input_schema": {
+            "age_years": [
+                "required",
+                "numeric",
+                "min:0.5",
+                "max:120"
+            ],
+            "sex": [
+                "required",
+                "in:male,female"
+            ],
+            "pregnant": [
+                "required",
+                "boolean"
+            ],
+            "hemoglobin_g_dl": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:25"
+            ]
+        },
+        "life_stages": [
+            "crianca",
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 600
+    },
+    {
+        "slug": "ferritina-oms",
+        "module": "bioquimica",
+        "category": "hematologia",
+        "name": "Ferritina (OMS)",
+        "short_description": "Deficiência de ferro pela ferritina",
+        "icon_key": "blood",
+        "formula_reference": "World Health Organization, WHO guideline on use of ferritin concentrations to assess iron status in individuals and populations, 2020.",
+        "input_schema": {
+            "age_years": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:120"
+            ],
+            "inflammation": [
+                "required",
+                "boolean"
+            ],
+            "ferritin_ng_ml": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:10000"
+            ]
+        },
+        "life_stages": [
+            "crianca",
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 610
+    },
+    {
+        "slug": "glicemia-diagnostico",
+        "module": "bioquimica",
+        "category": "glicemia",
+        "name": "Diagnóstico Glicêmico",
+        "short_description": "Glicemia, HbA1c e TOTG (SBD)",
+        "icon_key": "glucose",
+        "formula_reference": "Sociedade Brasileira de Diabetes, Diretriz Oficial da SBD — Diagnóstico de diabetes mellitus, 2023 (critérios concordantes com a ADA, Standards of Care in Diabetes).",
+        "input_schema": {
+            "fasting_glucose_mg_dl": [
+                "nullable",
+                "required_without_all:hba1c_percent,ogtt_2h_mg_dl",
+                "numeric",
+                "min:20",
+                "max:1000"
+            ],
+            "hba1c_percent": [
+                "nullable",
+                "required_without_all:fasting_glucose_mg_dl,ogtt_2h_mg_dl",
+                "numeric",
+                "min:2",
+                "max:20"
+            ],
+            "ogtt_2h_mg_dl": [
+                "nullable",
+                "required_without_all:fasting_glucose_mg_dl,hba1c_percent",
+                "numeric",
+                "min:20",
+                "max:1000"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 620
+    },
+    {
+        "slug": "homa-ir",
+        "module": "bioquimica",
+        "category": "glicemia",
+        "name": "HOMA-IR",
+        "short_description": "Resistência à insulina",
+        "icon_key": "glucose",
+        "formula_reference": "Matthews DR et al., Homeostasis model assessment: insulin resistance and beta-cell function from fasting plasma glucose and insulin concentrations in man, Diabetologia, 1985; ponto de corte brasileiro: Geloneze B et al., BRAMS, Diabetes Res Clin Pract, 2006.",
+        "input_schema": {
+            "fasting_glucose_mg_dl": [
+                "required",
+                "numeric",
+                "min:20",
+                "max:1000"
+            ],
+            "fasting_insulin_uui_ml": [
+                "required",
+                "numeric",
+                "min:0.1",
+                "max:500"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 630
+    },
+    {
+        "slug": "perfil-lipidico",
+        "module": "bioquimica",
+        "category": "perfil_lipidico",
+        "name": "Perfil Lipídico",
+        "short_description": "LDL (Friedewald), não-HDL e metas",
+        "icon_key": "heart-pulse",
+        "formula_reference": "Faludi AA et al., Atualização da Diretriz Brasileira de Dislipidemias e Prevenção da Aterosclerose – 2017, Arq Bras Cardiol, 2017; Friedewald WT, Levy RI, Fredrickson DS, Clin Chem, 1972.",
+        "input_schema": {
+            "total_cholesterol_mg_dl": [
+                "required",
+                "numeric",
+                "min:20",
+                "max:1500"
+            ],
+            "hdl_mg_dl": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:300"
+            ],
+            "triglycerides_mg_dl": [
+                "required",
+                "numeric",
+                "min:10",
+                "max:10000"
+            ],
+            "fasting": [
+                "required",
+                "boolean"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 640
+    },
+    {
+        "slug": "ckd-epi-2021",
+        "module": "bioquimica",
+        "category": "funcao_renal",
+        "name": "CKD-EPI 2021",
+        "short_description": "TFG estimada e estágio KDIGO",
+        "icon_key": "kidney",
+        "formula_reference": "Inker LA et al., New Creatinine- and Cystatin C-Based Equations to Estimate GFR without Race, N Engl J Med, 2021; categorias: KDIGO 2012 Clinical Practice Guideline for the Evaluation and Management of CKD, Kidney Int Suppl, 2013.",
+        "input_schema": {
+            "creatinine_mg_dl": [
+                "required",
+                "numeric",
+                "min:0.1",
+                "max:30"
+            ],
+            "age_years": [
+                "required",
+                "integer",
+                "min:18",
+                "max:120"
+            ],
+            "sex": [
+                "required",
+                "in:male,female"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 650
+    },
+    {
+        "slug": "cockcroft-gault",
+        "module": "bioquimica",
+        "category": "funcao_renal",
+        "name": "Cockcroft-Gault",
+        "short_description": "Clearance de creatinina estimado",
+        "icon_key": "kidney",
+        "formula_reference": "Cockcroft DW, Gault MH, Prediction of creatinine clearance from serum creatinine, Nephron, 1976.",
+        "input_schema": {
+            "creatinine_mg_dl": [
+                "required",
+                "numeric",
+                "min:0.1",
+                "max:30"
+            ],
+            "age_years": [
+                "required",
+                "integer",
+                "min:18",
+                "max:120"
+            ],
+            "weight_kg": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:500"
+            ],
+            "sex": [
+                "required",
+                "in:male,female"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 660
     }
 ]

@@ -3,6 +3,7 @@ import { ageInMonthsDecimal, ageParts, formatAge, relativeDay } from '../../lib/
 import { autofillFromPatient } from '../autofill';
 import { maskDate, parseTypedDate } from '../../ui/DateTimeField';
 import { classificationTone } from '../catalog';
+import { classificationLabel } from '../forms/fieldLabels';
 import { parseCalculatorForm } from '../forms/parseForm';
 import { schemaToFields } from '../forms/schemaToFields';
 
@@ -59,6 +60,27 @@ describe('autofillFromPatient', () => {
 
     expect(values).toEqual({ height_m: '1.75', bmi: '22.86' });
   });
+
+  it('gives fractional years only to age fields that accept fractions', () => {
+    const at = new Date('2026-03-01T12:00:00');
+    const baby = { ...child, birth_date: '2025-06-01' };
+
+    expect(autofillFromPatient({ age_years: ['required', 'numeric', 'min:0.5'] }, baby, {}, at)).toEqual({ age_years: '0.75' });
+    expect(autofillFromPatient({ age_years: ['required', 'integer'] }, baby, {}, at)).toEqual({ age_years: '0' });
+  });
+});
+
+describe('classificationLabel', () => {
+  it.each([
+    ['desnutricao_moderada', 'Desnutrição moderada'],
+    ['pre_diabetes', 'Pré-diabetes'],
+    ['compativel_com_diabetes', 'Compatível com diabetes'],
+    ['g3a_leve_a_moderadamente_diminuida', 'G3a leve a moderadamente diminuída'],
+    ['sem_resistencia_insulinica', 'Sem resistência insulínica'],
+    ['risco_de_sobrepeso', 'Risco de sobrepeso'],
+  ])('%s → %s', (code, label) => {
+    expect(classificationLabel(code)).toBe(label);
+  });
 });
 
 describe('age helpers', () => {
@@ -103,6 +125,12 @@ describe('classificationTone', () => {
     ['muito_baixo_peso_para_idade', 'danger'],
     ['baixo_peso_para_idade', 'warning'],
     ['sem_risco_atual', 'success'],
+    ['pre_diabetes', 'warning'],
+    ['compativel_com_diabetes', 'danger'],
+    ['anemia_grave', 'danger'],
+    ['sem_anemia', 'success'],
+    ['g2_levemente_diminuida', 'warning'],
+    ['g5_falencia_renal', 'danger'],
   ])('%s → %s', (code, tone) => {
     expect(classificationTone(code)).toBe(tone);
   });

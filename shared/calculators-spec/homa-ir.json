@@ -1,0 +1,8 @@
+{
+  "slug": "homa-ir",
+  "cases": [
+    { "inputs": { "fasting_glucose_mg_dl": 90, "fasting_insulin_uui_ml": 10 }, "expected": { "values": { "homa_ir": 2.22 }, "classification": "sem_resistencia_insulinica" } },
+    { "inputs": { "fasting_glucose_mg_dl": 95, "fasting_insulin_uui_ml": 11.55 }, "expected": { "values": { "homa_ir": 2.71 }, "classification": "sem_resistencia_insulinica" } },
+    { "inputs": { "fasting_glucose_mg_dl": 100, "fasting_insulin_uui_ml": 15 }, "expected": { "values": { "homa_ir": 3.70 }, "classification": "resistencia_insulinica" } }
+  ]
+}

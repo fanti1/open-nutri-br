@@ -8,7 +8,7 @@ import { useFavorites, usePatient } from '../../src/data/hooks';
 import type { Patient } from '../../src/data/models';
 import { autofillFromPatient } from '../../src/domain/autofill';
 import { LIFE_STAGE_LABELS } from '../../src/domain/calculators/support/lifeStage';
-import type { CalculationOutcome } from '../../src/domain/calculators/types';
+import { IncompleteInputsError, type CalculationOutcome } from '../../src/domain/calculators/types';
 import { catalogEntry, catalogIcon } from '../../src/domain/catalog';
 import { computeCalculation, computeLocally, isLocalCalculator } from '../../src/domain/computeCalculation';
 import { fieldHint, fieldLabel, optionLabel } from '../../src/domain/forms/fieldLabels';
@@ -62,12 +62,12 @@ export default function CalculatorScreen() {
   const parsed = useMemo(() => parseCalculatorForm(fields, values), [fields, values]);
 
   // Calculadoras locais: resultado em tempo real, a cada tecla.
-  const localOutcome = useMemo(() => {
-    if (!local || !parsed.complete) return null;
+  const { localOutcome, localProblem } = useMemo(() => {
+    if (!local || !parsed.complete) return { localOutcome: null, localProblem: null };
     try {
-      return computeLocally(slug, parsed.inputs);
-    } catch {
-      return null;
+      return { localOutcome: computeLocally(slug, parsed.inputs), localProblem: null };
+    } catch (error) {
+      return { localOutcome: null, localProblem: error instanceof IncompleteInputsError ? error.message : null };
     }
   }, [local, parsed, slug]);
 
@@ -228,7 +228,7 @@ export default function CalculatorScreen() {
         local && (
           <Card tone="alt">
             <AppText tone="muted" align="center">
-              {missingFieldsMessage(fields, parsed.inputs) ?? 'Corrija os campos destacados para ver o resultado.'}
+              {missingFieldsMessage(fields, parsed.inputs) ?? localProblem ?? 'Corrija os campos destacados para ver o resultado.'}
             </AppText>
           </Card>
         )

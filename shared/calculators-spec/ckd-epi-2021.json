@@ -1,0 +1,13 @@
+{
+  "slug": "ckd-epi-2021",
+  "cases": [
+    { "inputs": { "creatinine_mg_dl": 1.0, "age_years": 50, "sex": "male" }, "expected": { "values": { "egfr_ml_min_173m2": 91.69 }, "classification": "g1_normal_ou_elevada" } },
+    { "inputs": { "creatinine_mg_dl": 0.7, "age_years": 50, "sex": "female" }, "expected": { "values": { "egfr_ml_min_173m2": 105.30 }, "classification": "g1_normal_ou_elevada" } },
+    { "inputs": { "creatinine_mg_dl": 0.5, "age_years": 30, "sex": "female" }, "expected": { "values": { "egfr_ml_min_173m2": 129.32 }, "classification": "g1_normal_ou_elevada" } },
+    { "inputs": { "creatinine_mg_dl": 1.2, "age_years": 60, "sex": "male" }, "expected": { "values": { "egfr_ml_min_173m2": 69.23 }, "classification": "g2_levemente_diminuida" } },
+    { "inputs": { "creatinine_mg_dl": 1.2, "age_years": 80, "sex": "female" }, "expected": { "values": { "egfr_ml_min_173m2": 45.76 }, "classification": "g3a_leve_a_moderadamente_diminuida" } },
+    { "inputs": { "creatinine_mg_dl": 1.4, "age_years": 70, "sex": "female" }, "expected": { "values": { "egfr_ml_min_173m2": 40.47 }, "classification": "g3b_moderada_a_gravemente_diminuida" } },
+    { "inputs": { "creatinine_mg_dl": 3.0, "age_years": 65, "sex": "male" }, "expected": { "values": { "egfr_ml_min_173m2": 22.35 }, "classification": "g4_gravemente_diminuida" } },
+    { "inputs": { "creatinine_mg_dl": 6.0, "age_years": 60, "sex": "male" }, "expected": { "values": { "egfr_ml_min_173m2": 10.04 }, "classification": "g5_falencia_renal" } }
+  ]
+}

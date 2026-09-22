@@ -59,6 +59,14 @@ final class CalculatorCatalog
         'waterlow' => ['short_description' => 'Desnutrição atual × crônica', 'icon_key' => 'layers', 'sort_order' => 490],
         'schofield' => ['short_description' => 'Taxa metabólica basal (todas as idades)', 'icon_key' => 'flame', 'sort_order' => 500],
         'necessidade-energetica-infantil' => ['short_description' => 'kcal/dia por idade e atividade (FAO/OMS)', 'icon_key' => 'zap', 'sort_order' => 510],
+
+        'anemia-oms' => ['short_description' => 'Anemia e gravidade pela hemoglobina', 'icon_key' => 'blood', 'sort_order' => 600],
+        'ferritina-oms' => ['short_description' => 'Deficiência de ferro pela ferritina', 'icon_key' => 'blood', 'sort_order' => 610],
+        'glicemia-diagnostico' => ['short_description' => 'Glicemia, HbA1c e TOTG (SBD)', 'icon_key' => 'glucose', 'sort_order' => 620],
+        'homa-ir' => ['short_description' => 'Resistência à insulina', 'icon_key' => 'glucose', 'sort_order' => 630],
+        'perfil-lipidico' => ['short_description' => 'LDL (Friedewald), não-HDL e metas', 'icon_key' => 'heart-pulse', 'sort_order' => 640],
+        'ckd-epi-2021' => ['short_description' => 'TFG estimada e estágio KDIGO', 'icon_key' => 'kidney', 'sort_order' => 650],
+        'cockcroft-gault' => ['short_description' => 'Clearance de creatinina estimado', 'icon_key' => 'kidney', 'sort_order' => 660],
     ];
 
     /**
@@ -106,6 +114,14 @@ final class CalculatorCatalog
         'waterlow' => 'Waterlow',
         'schofield' => 'Schofield',
         'necessidade-energetica-infantil' => 'Necessidade Energética Infantil',
+
+        'anemia-oms' => 'Anemia (OMS)',
+        'ferritina-oms' => 'Ferritina (OMS)',
+        'glicemia-diagnostico' => 'Diagnóstico Glicêmico',
+        'homa-ir' => 'HOMA-IR',
+        'perfil-lipidico' => 'Perfil Lipídico',
+        'ckd-epi-2021' => 'CKD-EPI 2021',
+        'cockcroft-gault' => 'Cockcroft-Gault',
     ];
 
     public function __construct(

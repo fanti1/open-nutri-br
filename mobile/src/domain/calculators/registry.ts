@@ -10,6 +10,13 @@ import { ingestaoLiquidosCalculator } from './ambulatorio/metabolismo/ingestaoLi
 import { mifflinStJeorCalculator } from './ambulatorio/metabolismo/mifflinStJeor';
 import { necessidadesProteicasCalculator } from './ambulatorio/metabolismo/necessidadesProteicas';
 import { valorCaloricoTotalCalculator } from './ambulatorio/metabolismo/valorCaloricoTotal';
+import { ckdEpi2021Calculator } from './bioquimica/funcaoRenal/ckdEpi2021';
+import { cockcroftGaultCalculator } from './bioquimica/funcaoRenal/cockcroftGault';
+import { diagnosticoGlicemicoCalculator } from './bioquimica/glicemia/diagnosticoGlicemico';
+import { homaIrCalculator } from './bioquimica/glicemia/homaIr';
+import { anemiaOmsCalculator } from './bioquimica/hematologia/anemiaOms';
+import { ferritinaOmsCalculator } from './bioquimica/hematologia/ferritinaOms';
+import { perfilLipidicoCalculator } from './bioquimica/perfilLipidico/perfilLipidico';
 import { balancoNitrogenadoCalculator } from './hospitalar/suporteNutricional/balancoNitrogenado';
 import { curreriCalculator } from './hospitalar/suporteNutricional/curreri';
 import { dietaEnteralCalculator } from './hospitalar/suporteNutricional/dietaEnteral';
@@ -67,6 +74,14 @@ export const CALCULATOR_REGISTRY: Record<string, Calculator<any>> = {
   'necessidade-energetica-infantil': necessidadeEnergeticaInfantilCalculator,
   // As curvas OMS (oms-*, gomez, waterlow) dependem de ~18 mil linhas de
   // tabela e são calculadas só no servidor — ver spec "server_only".
+
+  'anemia-oms': anemiaOmsCalculator,
+  'ferritina-oms': ferritinaOmsCalculator,
+  'glicemia-diagnostico': diagnosticoGlicemicoCalculator,
+  'homa-ir': homaIrCalculator,
+  'perfil-lipidico': perfilLipidicoCalculator,
+  'ckd-epi-2021': ckdEpi2021Calculator,
+  'cockcroft-gault': cockcroftGaultCalculator,
 };
 
 export function getCalculator(slug: string): Calculator<any> | undefined {

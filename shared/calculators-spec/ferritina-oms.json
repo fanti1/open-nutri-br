@@ -1,0 +1,10 @@
+{
+  "slug": "ferritina-oms",
+  "cases": [
+    { "inputs": { "age_years": 35, "inflammation": false, "ferritin_ng_ml": 10 }, "expected": { "values": { "ferritin_ng_ml": 10, "ferritin_cutoff_ng_ml": 15 }, "classification": "deficiencia_de_ferro" } },
+    { "inputs": { "age_years": 35, "inflammation": false, "ferritin_ng_ml": 40 }, "expected": { "values": { "ferritin_ng_ml": 40, "ferritin_cutoff_ng_ml": 15 }, "classification": "sem_deficiencia_de_ferro" } },
+    { "inputs": { "age_years": 35, "inflammation": true, "ferritin_ng_ml": 40 }, "expected": { "values": { "ferritin_ng_ml": 40, "ferritin_cutoff_ng_ml": 70 }, "classification": "deficiencia_de_ferro" } },
+    { "inputs": { "age_years": 3, "inflammation": false, "ferritin_ng_ml": 13 }, "expected": { "values": { "ferritin_ng_ml": 13, "ferritin_cutoff_ng_ml": 12 }, "classification": "sem_deficiencia_de_ferro" } },
+    { "inputs": { "age_years": 3, "inflammation": true, "ferritin_ng_ml": 25 }, "expected": { "values": { "ferritin_ng_ml": 25, "ferritin_cutoff_ng_ml": 30 }, "classification": "deficiencia_de_ferro" } }
+  ]
+}

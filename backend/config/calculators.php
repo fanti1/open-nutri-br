@@ -12,6 +12,13 @@ use App\Domain\Calculators\Ambulatorio\Metabolismo\IngestaoLiquidos\IngestaoLiqu
 use App\Domain\Calculators\Ambulatorio\Metabolismo\MifflinStJeor\MifflinStJeorCalculator;
 use App\Domain\Calculators\Ambulatorio\Metabolismo\NecessidadesProteicas\NecessidadesProteicasCalculator;
 use App\Domain\Calculators\Ambulatorio\Metabolismo\ValorCaloricoTotal\ValorCaloricoTotalCalculator;
+use App\Domain\Calculators\Bioquimica\FuncaoRenal\CkdEpi2021\CkdEpi2021Calculator;
+use App\Domain\Calculators\Bioquimica\FuncaoRenal\CockcroftGault\CockcroftGaultCalculator;
+use App\Domain\Calculators\Bioquimica\Glicemia\DiagnosticoGlicemico\DiagnosticoGlicemicoCalculator;
+use App\Domain\Calculators\Bioquimica\Glicemia\HomaIr\HomaIrCalculator;
+use App\Domain\Calculators\Bioquimica\Hematologia\AnemiaOms\AnemiaOmsCalculator;
+use App\Domain\Calculators\Bioquimica\Hematologia\FerritinaOms\FerritinaOmsCalculator;
+use App\Domain\Calculators\Bioquimica\PerfilLipidico\PerfilLipidico\PerfilLipidicoCalculator;
 use App\Domain\Calculators\Hospitalar\SuporteNutricional\BalancoNitrogenado\BalancoNitrogenadoCalculator;
 use App\Domain\Calculators\Hospitalar\SuporteNutricional\Curreri\CurreriCalculator;
 use App\Domain\Calculators\Hospitalar\SuporteNutricional\DietaEnteral\DietaEnteralCalculator;
@@ -95,4 +102,13 @@ return [
     'waterlow' => WaterlowCalculator::class,
     'schofield' => SchofieldCalculator::class,
     'necessidade-energetica-infantil' => NecessidadeEnergeticaInfantilCalculator::class,
+
+    // Fase 4 — Hematologia e Bioquímica
+    'anemia-oms' => AnemiaOmsCalculator::class,
+    'ferritina-oms' => FerritinaOmsCalculator::class,
+    'glicemia-diagnostico' => DiagnosticoGlicemicoCalculator::class,
+    'homa-ir' => HomaIrCalculator::class,
+    'perfil-lipidico' => PerfilLipidicoCalculator::class,
+    'ckd-epi-2021' => CkdEpi2021Calculator::class,
+    'cockcroft-gault' => CockcroftGaultCalculator::class,
 ];

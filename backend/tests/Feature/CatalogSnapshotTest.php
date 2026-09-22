@@ -31,7 +31,7 @@ class CatalogSnapshotTest extends TestCase
     {
         $entries = $this->app->make(CalculatorCatalog::class)->entries();
 
-        $this->assertCount(38, $entries);
+        $this->assertCount(45, $entries);
         foreach ($entries as $entry) {
             $this->assertNotEmpty($entry['name']);
             $this->assertNotEmpty($entry['life_stages']);

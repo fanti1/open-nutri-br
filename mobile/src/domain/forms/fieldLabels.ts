@@ -64,6 +64,18 @@ const FIELD_LABELS: Record<string, string> = {
   sofa: 'SOFA',
   comorbidities_count: 'Nº de comorbidades',
   days_hospital_to_icu: 'Dias da internação até a UTI',
+  pregnant: 'Gestante',
+  inflammation: 'Infecção ou inflamação presente',
+  hemoglobin_g_dl: 'Hemoglobina (g/dL)',
+  ferritin_ng_ml: 'Ferritina (ng/mL)',
+  fasting_glucose_mg_dl: 'Glicemia de jejum (mg/dL)',
+  fasting_insulin_uui_ml: 'Insulina de jejum (µUI/mL)',
+  hba1c_percent: 'Hemoglobina glicada — HbA1c (%)',
+  ogtt_2h_mg_dl: 'Glicemia 2 h após 75 g — TOTG (mg/dL)',
+  hdl_mg_dl: 'HDL-c (mg/dL)',
+  triglycerides_mg_dl: 'Triglicerídeos (mg/dL)',
+  fasting: 'Coleta em jejum',
+  creatinine_mg_dl: 'Creatinina sérica (mg/dL)',
 
   // Campos de resultado
   value: 'Resultado',
@@ -90,6 +102,13 @@ const FIELD_LABELS: Record<string, string> = {
   carbohydrate_g: 'Carboidratos (g)',
   fat_g: 'Lipídios (g)',
   protein_g_per_day: 'Proteína (g/dia)',
+  anemia_cutoff_g_dl: 'Limite para anemia (g/dL)',
+  ferritin_cutoff_ng_ml: 'Limite para deficiência (ng/mL)',
+  homa_ir: 'HOMA-IR',
+  ldl_mg_dl: 'LDL-c — Friedewald (mg/dL)',
+  non_hdl_mg_dl: 'Não-HDL-c (mg/dL)',
+  egfr_ml_min_173m2: 'TFG estimada (mL/min/1,73 m²)',
+  crcl_ml_min: 'Clearance de creatinina (mL/min)',
 };
 
 const OPTION_LABELS: Record<string, string> = {
@@ -134,6 +153,11 @@ const FIELD_HINTS: Record<string, string> = {
   box3_symptoms_score: PG_SGA_HINT,
   box4_activity_function_score: PG_SGA_HINT,
   age_months: 'Pode usar fração (ex.: 18,5 meses).',
+  pregnant: 'Gestantes têm ponto de corte próprio na OMS.',
+  inflammation: 'Ex.: PCR > 5 mg/L ou AGP > 1 g/L — a ferritina sobe na inflamação e o corte muda.',
+  ferritin_ng_ml: 'ng/mL equivale a µg/L.',
+  hba1c_percent: 'Os três exames são opcionais — preencha ao menos um.',
+  triglycerides_mg_dl: 'Com TG ≥ 400 mg/dL o LDL por Friedewald não é calculado.',
 };
 
 export function fieldHint(name: string): string | undefined {
@@ -148,8 +172,33 @@ export function optionLabel(value: string): string {
   return OPTION_LABELS[value] ?? value.replace(/_/g, ' ');
 }
 
+/** Os códigos de classificação são ASCII; estas palavras recuperam a acentuação na tela. */
+const ACCENTED_WORDS: Record<string, string> = {
+  desnutricao: 'desnutrição',
+  balanco: 'balanço',
+  educacao: 'educação',
+  intervencao: 'intervenção',
+  critica: 'crítica',
+  cronica: 'crônica',
+  intermediario: 'intermediário',
+  medio: 'médio',
+  pre: 'pré',
+  compativel: 'compatível',
+  deficiencia: 'deficiência',
+  resistencia: 'resistência',
+  insulinica: 'insulínica',
+  desejavel: 'desejável',
+  diminuida: 'diminuída',
+  falencia: 'falência',
+};
+
 /** Transforma um código de classificação (ex.: "risco_de_sobrepeso") em texto legível. */
 export function classificationLabel(code: string): string {
-  const text = code.replace(/_/g, ' ');
-  return text.charAt(0).toUpperCase() + text.slice(1);
+  const text = code
+    .split('_')
+    .map((word) => ACCENTED_WORDS[word] ?? word)
+    .join(' ');
+  // "pré diabetes" → "pré-diabetes" (grafia da SBD).
+  const hyphenated = text.replace(/\bpré (\p{L})/gu, 'pré-$1');
+  return hyphenated.charAt(0).toUpperCase() + hyphenated.slice(1);
 }
