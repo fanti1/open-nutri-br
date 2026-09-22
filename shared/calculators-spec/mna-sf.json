@@ -1,0 +1,8 @@
+{
+  "slug": "mna-sf",
+  "cases": [
+    { "inputs": { "food_intake_score": 2, "weight_loss_score": 3, "mobility_score": 2, "psychological_stress_score": 2, "neuropsychological_score": 2, "bmi_score": 3 }, "expected": { "values": { "total_score": 14 }, "classification": "estado_nutricional_normal" } },
+    { "inputs": { "food_intake_score": 1, "weight_loss_score": 2, "mobility_score": 1, "psychological_stress_score": 2, "neuropsychological_score": 1, "bmi_score": 2 }, "expected": { "values": { "total_score": 9 }, "classification": "risco_de_desnutricao" } },
+    { "inputs": { "food_intake_score": 0, "weight_loss_score": 0, "mobility_score": 0, "psychological_stress_score": 0, "neuropsychological_score": 0, "bmi_score": 0 }, "expected": { "values": { "total_score": 0 }, "classification": "desnutrido" } }
+  ]
+}

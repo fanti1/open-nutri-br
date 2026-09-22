@@ -1,0 +1,7 @@
+{
+  "slug": "gordura-corporal",
+  "cases": [
+    { "inputs": { "weight_kg": 70, "height_m": 1.75, "age_years": 30, "sex": "male" }, "expected": { "values": { "percentage": 18.13 }, "classification": null } },
+    { "inputs": { "weight_kg": 70, "height_m": 1.75, "age_years": 30, "sex": "female" }, "expected": { "values": { "percentage": 28.93 }, "classification": null } }
+  ]
+}

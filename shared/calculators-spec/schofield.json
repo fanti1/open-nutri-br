@@ -1,0 +1,11 @@
+{
+  "slug": "schofield",
+  "cases": [
+    { "inputs": { "age_years": 2, "sex": "male", "weight_kg": 12 }, "expected": { "values": { "bmr_kcal": 683.74 }, "classification": null } },
+    { "inputs": { "age_years": 3, "sex": "male", "weight_kg": 14 }, "expected": { "values": { "bmr_kcal": 822.18 }, "classification": null } },
+    { "inputs": { "age_years": 8, "sex": "female", "weight_kg": 25 }, "expected": { "values": { "bmr_kcal": 993.78 }, "classification": null } },
+    { "inputs": { "age_years": 15, "sex": "male", "weight_kg": 55 }, "expected": { "values": { "bmr_kcal": 1630.93 }, "classification": null } },
+    { "inputs": { "age_years": 40, "sex": "female", "weight_kg": 60 }, "expected": { "values": { "bmr_kcal": 1333.16 }, "classification": null } },
+    { "inputs": { "age_years": 70, "sex": "male", "weight_kg": 70 }, "expected": { "values": { "bmr_kcal": 1407.47 }, "classification": null } }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "slug": "pg-sga-sf",
+  "cases": [
+    { "inputs": { "box1_weight_history_score": 0, "box2_food_intake_score": 0, "box3_symptoms_score": 0, "box4_activity_function_score": 0 }, "expected": { "values": { "total_score": 0 }, "classification": "sem_necessidade_intervencao" } },
+    { "inputs": { "box1_weight_history_score": 1, "box2_food_intake_score": 1, "box3_symptoms_score": 1, "box4_activity_function_score": 0 }, "expected": { "values": { "total_score": 3 }, "classification": "educacao_nutricional" } },
+    { "inputs": { "box1_weight_history_score": 2, "box2_food_intake_score": 2, "box3_symptoms_score": 2, "box4_activity_function_score": 2 }, "expected": { "values": { "total_score": 8 }, "classification": "intervencao_por_nutricionista" } },
+    { "inputs": { "box1_weight_history_score": 3, "box2_food_intake_score": 3, "box3_symptoms_score": 3, "box4_activity_function_score": 3 }, "expected": { "values": { "total_score": 12 }, "classification": "intervencao_critica_urgente" } }
+  ]
+}

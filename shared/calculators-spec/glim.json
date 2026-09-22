@@ -1,0 +1,8 @@
+{
+  "slug": "glim",
+  "cases": [
+    { "inputs": { "weight_loss_percent": 3, "weight_loss_period_months": 6, "bmi": 23, "age_years": 50, "reduced_muscle_mass": "nenhuma", "reduced_food_intake": false, "disease_burden_inflammation": false }, "expected": { "values": { "phenotypic_severity": 0, "etiologic_criteria_met": 0 }, "classification": "sem_desnutricao" } },
+    { "inputs": { "weight_loss_percent": 7, "weight_loss_period_months": 6, "bmi": 23, "age_years": 50, "reduced_muscle_mass": "nenhuma", "reduced_food_intake": true, "disease_burden_inflammation": false }, "expected": { "values": { "phenotypic_severity": 1, "etiologic_criteria_met": 1 }, "classification": "desnutricao_moderada" } },
+    { "inputs": { "weight_loss_percent": 15, "weight_loss_period_months": 3, "bmi": 17, "age_years": 50, "reduced_muscle_mass": "grave", "reduced_food_intake": true, "disease_burden_inflammation": true }, "expected": { "values": { "phenotypic_severity": 2, "etiologic_criteria_met": 1 }, "classification": "desnutricao_grave" } }
+  ]
+}

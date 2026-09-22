@@ -1,0 +1,8 @@
+{
+  "slug": "necessidade-energetica-infantil",
+  "cases": [
+    { "inputs": { "age_years": 4.5, "sex": "male", "weight_kg": 17, "activity_level": "moderada" }, "expected": { "values": { "kcal_per_kg": 77, "kcal_per_day": 1309 }, "classification": null } },
+    { "inputs": { "age_years": 10.2, "sex": "female", "weight_kg": 34, "activity_level": "intensa" }, "expected": { "values": { "kcal_per_kg": 66, "kcal_per_day": 2244 }, "classification": null } },
+    { "inputs": { "age_years": 16, "sex": "male", "weight_kg": 60, "activity_level": "leve" }, "expected": { "values": { "kcal_per_kg": 44, "kcal_per_day": 2640 }, "classification": null } }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "slug": "conut",
+  "cases": [
+    { "inputs": { "albumin_g_dl": 4.0, "total_cholesterol_mg_dl": 200, "lymphocytes_cells_mm3": 2000 }, "expected": { "values": { "total_score": 0 }, "classification": "normal" } },
+    { "inputs": { "albumin_g_dl": 3.2, "total_cholesterol_mg_dl": 150, "lymphocytes_cells_mm3": 1300 }, "expected": { "values": { "total_score": 4 }, "classification": "desnutricao_leve" } },
+    { "inputs": { "albumin_g_dl": 2.0, "total_cholesterol_mg_dl": 90, "lymphocytes_cells_mm3": 700 }, "expected": { "values": { "total_score": 12 }, "classification": "desnutricao_grave" } }
+  ]
+}

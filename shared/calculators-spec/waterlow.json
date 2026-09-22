@@ -1,0 +1,7 @@
+{
+  "slug": "waterlow",
+  "server_only": true,
+  "cases": [
+    { "inputs": { "age_months": 36, "sex": "female", "weight_kg": 11, "length_cm": 88, "measurement_position": "em_pe" }, "expected": { "values": { "weight_for_height_percent": 90.55, "height_for_age_percent": 92.58 }, "classification": "desnutricao_pregressa" } }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "slug": "oms-imc-idade-0-5",
+  "server_only": true,
+  "cases": [
+    { "inputs": { "age_months": 18, "sex": "male", "weight_kg": 11, "length_cm": 80, "measurement_position": "deitado" }, "expected": { "values": { "z_score": 0.79, "measure": 17.19 }, "classification": "eutrofia" } }
+  ]
+}

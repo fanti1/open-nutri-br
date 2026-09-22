@@ -1,0 +1,8 @@
+{
+  "slug": "gomez",
+  "server_only": true,
+  "cases": [
+    { "inputs": { "age_months": 12, "sex": "male", "weight_kg": 7.0 }, "expected": { "values": { "percent_of_median": 72.57, "reference_median": 9.65 }, "classification": "desnutricao_segundo_grau" } },
+    { "inputs": { "age_months": 12, "sex": "male", "weight_kg": 9.646 }, "expected": { "values": { "percent_of_median": 100.0 }, "classification": "sem_desnutricao" } }
+  ]
+}

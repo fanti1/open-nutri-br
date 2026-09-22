@@ -1,0 +1,8 @@
+{
+  "slug": "nutricao-parenteral",
+  "cases": [
+    { "inputs": { "non_protein_kcal": 1500, "protein_g": 75 }, "expected": { "values": { "nitrogen_g": 12, "kcal_per_gram_nitrogen": 125 }, "classification": "dentro_da_faixa_recomendada" } },
+    { "inputs": { "non_protein_kcal": 1000, "protein_g": 100 }, "expected": { "values": { "nitrogen_g": 16, "kcal_per_gram_nitrogen": 62.5 }, "classification": "abaixo_da_faixa_recomendada" } },
+    { "inputs": { "non_protein_kcal": 2000, "protein_g": 50 }, "expected": { "values": { "nitrogen_g": 8, "kcal_per_gram_nitrogen": 250 }, "classification": "acima_da_faixa_recomendada" } }
+  ]
+}

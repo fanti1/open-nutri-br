@@ -1,0 +1,7 @@
+{
+  "slug": "necessidades-proteicas",
+  "cases": [
+    { "inputs": { "weight_kg": 70, "clinical_context": "saudavel" }, "expected": { "values": { "protein_g_per_day": 56 }, "classification": null } },
+    { "inputs": { "weight_kg": 70, "clinical_context": "critico" }, "expected": { "values": { "protein_g_per_day": 140 }, "classification": null } }
+  ]
+}

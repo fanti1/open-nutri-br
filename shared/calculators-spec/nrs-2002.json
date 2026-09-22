@@ -1,0 +1,9 @@
+{
+  "slug": "nrs-2002",
+  "cases": [
+    { "inputs": { "nutritional_status_score": 2, "severity_score": 1, "age_years": 45 }, "expected": { "values": { "total_score": 3 }, "classification": "risco_nutricional" } },
+    { "inputs": { "nutritional_status_score": 0, "severity_score": 0, "age_years": 30 }, "expected": { "values": { "total_score": 0 }, "classification": "sem_risco_atual" } },
+    { "inputs": { "nutritional_status_score": 1, "severity_score": 0, "age_years": 75 }, "expected": { "values": { "total_score": 2 }, "classification": "sem_risco_atual" } },
+    { "inputs": { "nutritional_status_score": 1, "severity_score": 1, "age_years": 75 }, "expected": { "values": { "total_score": 3 }, "classification": "risco_nutricional" } }
+  ]
+}

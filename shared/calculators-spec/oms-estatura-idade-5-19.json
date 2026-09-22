@@ -1,0 +1,11 @@
+{
+  "slug": "oms-estatura-idade-5-19",
+  "server_only": true,
+  "source": "Escores calculados pela própria OMS: anthroplus/data-raw/survey_who2007_z.csv (ids 6, 17, 120, 5).",
+  "cases": [
+    { "inputs": { "age_months": 80.65, "sex": "male", "height_cm": 114.6 }, "expected": { "values": { "z_score": -1.07 }, "classification": "estatura_adequada_para_idade" } },
+    { "inputs": { "age_months": 99, "sex": "female", "height_cm": 141.5 }, "expected": { "values": { "z_score": 2.29 }, "classification": "estatura_adequada_para_idade" } },
+    { "inputs": { "age_months": 193.95, "sex": "female", "height_cm": 145.9 }, "expected": { "values": { "z_score": -2.47 }, "classification": "baixa_estatura_para_idade" } },
+    { "inputs": { "age_months": 188.57, "sex": "male", "height_cm": 171.4 }, "expected": { "values": { "z_score": -0.07 }, "classification": "estatura_adequada_para_idade" } }
+  ]
+}

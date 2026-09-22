@@ -1,0 +1,7 @@
+{
+  "slug": "curreri",
+  "cases": [
+    { "inputs": { "weight_kg": 70, "burned_body_surface_percent": 30 }, "expected": { "values": { "get_kcal": 2950 }, "classification": null } },
+    { "inputs": { "weight_kg": 80, "burned_body_surface_percent": 50 }, "expected": { "values": { "get_kcal": 4000 }, "classification": null } }
+  ]
+}

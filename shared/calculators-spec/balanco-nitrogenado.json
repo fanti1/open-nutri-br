@@ -1,0 +1,8 @@
+{
+  "slug": "balanco-nitrogenado",
+  "cases": [
+    { "inputs": { "protein_intake_g": 90, "urinary_urea_nitrogen_24h_g": 10 }, "expected": { "values": { "balance_g_per_day": 0.4 }, "classification": "balanco_positivo" } },
+    { "inputs": { "protein_intake_g": 62.5, "urinary_urea_nitrogen_24h_g": 10 }, "expected": { "values": { "balance_g_per_day": -4 }, "classification": "balanco_negativo" } },
+    { "inputs": { "protein_intake_g": 87.5, "urinary_urea_nitrogen_24h_g": 10 }, "expected": { "values": { "balance_g_per_day": 0 }, "classification": "balanco_neutro" } }
+  ]
+}

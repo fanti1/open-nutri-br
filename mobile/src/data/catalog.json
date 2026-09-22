@@ -1,0 +1,1293 @@
+[
+    {
+        "slug": "imc",
+        "module": "ambulatorio",
+        "category": "antropometria",
+        "name": "IMC",
+        "short_description": "Índice de Massa Corporal",
+        "icon_key": "scale",
+        "formula_reference": "World Health Organization, Obesity: Preventing and Managing the Global Epidemic, WHO Technical Report Series 894, 2000.",
+        "input_schema": {
+            "weight_kg": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:500"
+            ],
+            "height_m": [
+                "required",
+                "numeric",
+                "min:0.3",
+                "max:2.5"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 10
+    },
+    {
+        "slug": "peso-ideal",
+        "module": "ambulatorio",
+        "category": "antropometria",
+        "name": "Peso Ideal",
+        "short_description": "Peso ideal pelo IMC (Devine)",
+        "icon_key": "target",
+        "formula_reference": "Devine BJ, Gentamicin therapy, Drug Intell Clin Pharm, 1974;8:650-655.",
+        "input_schema": {
+            "height_m": [
+                "required",
+                "numeric",
+                "min:0.3",
+                "max:2.5"
+            ],
+            "sex": [
+                "required",
+                "in:male,female"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 20
+    },
+    {
+        "slug": "perda-de-peso",
+        "module": "ambulatorio",
+        "category": "antropometria",
+        "name": "Perda de Peso %",
+        "short_description": "% de perda de peso e significância clínica",
+        "icon_key": "trend-down",
+        "formula_reference": "Blackburn GL et al., Nutritional and metabolic assessment of the hospitalized patient, JPEN, 1977.",
+        "input_schema": {
+            "usual_weight_kg": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:500"
+            ],
+            "current_weight_kg": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:500"
+            ],
+            "period_days": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:365"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 30
+    },
+    {
+        "slug": "cintura-quadril",
+        "module": "ambulatorio",
+        "category": "antropometria",
+        "name": "Cintura-Quadril",
+        "short_description": "Relação cintura-quadril (RCQ)",
+        "icon_key": "circle",
+        "formula_reference": "World Health Organization, Waist Circumference and Waist-Hip Ratio: Report of a WHO Expert Consultation, 2008.",
+        "input_schema": {
+            "waist_cm": [
+                "required",
+                "numeric",
+                "min:30",
+                "max:250"
+            ],
+            "hip_cm": [
+                "required",
+                "numeric",
+                "min:30",
+                "max:250"
+            ],
+            "sex": [
+                "required",
+                "in:male,female"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 40
+    },
+    {
+        "slug": "gordura-corporal",
+        "module": "ambulatorio",
+        "category": "antropometria",
+        "name": "Gordura Corporal %",
+        "short_description": "% de gordura corporal (Deurenberg)",
+        "icon_key": "pie-chart",
+        "formula_reference": "Deurenberg P, Weststrate JA, Seidell JC, Body mass index as a measure of body fatness, Br J Nutr, 1991.",
+        "input_schema": {
+            "weight_kg": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:500"
+            ],
+            "height_m": [
+                "required",
+                "numeric",
+                "min:0.3",
+                "max:2.5"
+            ],
+            "age_years": [
+                "required",
+                "integer",
+                "min:1",
+                "max:120"
+            ],
+            "sex": [
+                "required",
+                "in:male,female"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 50
+    },
+    {
+        "slug": "harris-benedict",
+        "module": "ambulatorio",
+        "category": "metabolismo",
+        "name": "Harris-Benedict",
+        "short_description": "Cálculo de gasto energético (TMB)",
+        "icon_key": "flame",
+        "formula_reference": "Roza AM, Shizgal HM, The Harris Benedict equation reevaluated, Am J Clin Nutr, 1984.",
+        "input_schema": {
+            "weight_kg": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:500"
+            ],
+            "height_cm": [
+                "required",
+                "numeric",
+                "min:30",
+                "max:250"
+            ],
+            "age_years": [
+                "required",
+                "integer",
+                "min:1",
+                "max:120"
+            ],
+            "sex": [
+                "required",
+                "in:male,female"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 60
+    },
+    {
+        "slug": "mifflin-st-jeor",
+        "module": "ambulatorio",
+        "category": "metabolismo",
+        "name": "Mifflin-St Jeor",
+        "short_description": "Cálculo de gasto energético (TMB)",
+        "icon_key": "activity",
+        "formula_reference": "Mifflin MD et al., A new predictive equation for resting energy expenditure in healthy individuals, Am J Clin Nutr, 1990.",
+        "input_schema": {
+            "weight_kg": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:500"
+            ],
+            "height_cm": [
+                "required",
+                "numeric",
+                "min:30",
+                "max:250"
+            ],
+            "age_years": [
+                "required",
+                "integer",
+                "min:1",
+                "max:120"
+            ],
+            "sex": [
+                "required",
+                "in:male,female"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 70
+    },
+    {
+        "slug": "formula-de-bolso",
+        "module": "ambulatorio",
+        "category": "metabolismo",
+        "name": "Fórmula de Bolso",
+        "short_description": "Estimativa rápida de GET (kcal/kg)",
+        "icon_key": "zap",
+        "formula_reference": "McClave SA et al., ASPEN Clinical Guidelines: Nutrition Support Therapy, JPEN, 2016.",
+        "input_schema": {
+            "weight_kg": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:500"
+            ],
+            "factor_kcal_per_kg": [
+                "required",
+                "numeric",
+                "min:20",
+                "max:35"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 80
+    },
+    {
+        "slug": "valor-calorico-total",
+        "module": "ambulatorio",
+        "category": "metabolismo",
+        "name": "Valor Calórico Total",
+        "short_description": "Valor Calórico Total (VCT)",
+        "icon_key": "calculator",
+        "formula_reference": "FAO/WHO/UNU, Human Energy Requirements: Report of a Joint Expert Consultation, 2001.",
+        "input_schema": {
+            "bmr_kcal": [
+                "required",
+                "numeric",
+                "min:200",
+                "max:6000"
+            ],
+            "activity_level": [
+                "required",
+                "in:sedentario,leve,moderado,intenso,muito_intenso"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 90
+    },
+    {
+        "slug": "distribuicao-macros",
+        "module": "ambulatorio",
+        "category": "metabolismo",
+        "name": "Distribuição de Macros",
+        "short_description": "Distribuição de macronutrientes",
+        "icon_key": "pie-chart",
+        "formula_reference": "Institute of Medicine, Dietary Reference Intakes for Energy, Carbohydrate, Fiber, Fat, Protein and Amino Acids (AMDR), 2005.",
+        "input_schema": {
+            "total_kcal": [
+                "required",
+                "numeric",
+                "min:200",
+                "max:6000"
+            ],
+            "carb_percent": [
+                "required",
+                "numeric",
+                "between:45,65"
+            ],
+            "protein_percent": [
+                "required",
+                "numeric",
+                "between:10,35"
+            ],
+            "fat_percent": [
+                "required",
+                "numeric",
+                "between:20,35"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 100
+    },
+    {
+        "slug": "necessidades-proteicas",
+        "module": "ambulatorio",
+        "category": "metabolismo",
+        "name": "Necessidades Proteicas",
+        "short_description": "Necessidade proteica diária",
+        "icon_key": "drumstick",
+        "formula_reference": "ESPEN Guideline on Clinical Nutrition, Clin Nutr, 2016; Institute of Medicine, Dietary Reference Intakes, 2005.",
+        "input_schema": {
+            "weight_kg": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:500"
+            ],
+            "clinical_context": [
+                "required",
+                "in:saudavel,hospitalizado_leve,hospitalizado_moderado,critico"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 110
+    },
+    {
+        "slug": "ingestao-liquidos",
+        "module": "ambulatorio",
+        "category": "metabolismo",
+        "name": "Ingestão de Líquidos",
+        "short_description": "Necessidade hídrica diária",
+        "icon_key": "droplet",
+        "formula_reference": "ESPEN Guideline on Home Enteral Nutrition, Clin Nutr.",
+        "input_schema": {
+            "weight_kg": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:500"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 120
+    },
+    {
+        "slug": "nrs-2002",
+        "module": "hospitalar",
+        "category": "triagem_risco",
+        "name": "NRS-2002",
+        "short_description": "Triagem de risco nutricional",
+        "icon_key": "clipboard-check",
+        "formula_reference": "Kondrup J et al., Nutritional risk screening (NRS 2002): a new method based on an analysis of controlled clinical trials, Clin Nutr, 2003.",
+        "input_schema": {
+            "nutritional_status_score": [
+                "required",
+                "integer",
+                "between:0,3"
+            ],
+            "severity_score": [
+                "required",
+                "integer",
+                "between:0,3"
+            ],
+            "age_years": [
+                "required",
+                "integer",
+                "min:1",
+                "max:120"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 200
+    },
+    {
+        "slug": "must",
+        "module": "hospitalar",
+        "category": "triagem_risco",
+        "name": "MUST",
+        "short_description": "Triagem universal de desnutrição",
+        "icon_key": "shield-alert",
+        "formula_reference": "BAPEN / Malnutrition Advisory Group, The MUST Report, 2003.",
+        "input_schema": {
+            "weight_kg": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:500"
+            ],
+            "height_m": [
+                "required",
+                "numeric",
+                "min:0.3",
+                "max:2.5"
+            ],
+            "weight_loss_percent": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:100"
+            ],
+            "acute_disease_effect": [
+                "required",
+                "boolean"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 210
+    },
+    {
+        "slug": "mna-sf",
+        "module": "hospitalar",
+        "category": "triagem_risco",
+        "name": "MNA-SF",
+        "short_description": "Mini Avaliação Nutricional (idoso)",
+        "icon_key": "user-check",
+        "formula_reference": "Rubenstein LZ et al., Screening for undernutrition in geriatric practice: developing the short-form MNA, J Gerontol A Biol Sci Med Sci, 2001; Guigoz Y, Vellas B, Garry PJ, 1994 (MNA original).",
+        "input_schema": {
+            "food_intake_score": [
+                "required",
+                "integer",
+                "between:0,2"
+            ],
+            "weight_loss_score": [
+                "required",
+                "integer",
+                "between:0,3"
+            ],
+            "mobility_score": [
+                "required",
+                "integer",
+                "between:0,2"
+            ],
+            "psychological_stress_score": [
+                "required",
+                "integer",
+                "in:0,2"
+            ],
+            "neuropsychological_score": [
+                "required",
+                "integer",
+                "between:0,2"
+            ],
+            "bmi_score": [
+                "required",
+                "integer",
+                "between:0,3"
+            ]
+        },
+        "life_stages": [
+            "idoso"
+        ],
+        "sort_order": 220
+    },
+    {
+        "slug": "asg-detsky",
+        "module": "hospitalar",
+        "category": "triagem_risco",
+        "name": "ASG (Detsky)",
+        "short_description": "Avaliação Subjetiva Global",
+        "icon_key": "clipboard-list",
+        "formula_reference": "Detsky AS et al., What is subjective global assessment of nutritional status?, JPEN, 1987.",
+        "input_schema": {
+            "weight_change_rating": [
+                "required",
+                "in:A,B,C"
+            ],
+            "dietary_intake_rating": [
+                "required",
+                "in:A,B,C"
+            ],
+            "gi_symptoms_rating": [
+                "required",
+                "in:A,B,C"
+            ],
+            "functional_capacity_rating": [
+                "required",
+                "in:A,B,C"
+            ],
+            "metabolic_demand_rating": [
+                "required",
+                "in:A,B,C"
+            ],
+            "physical_exam_rating": [
+                "required",
+                "in:A,B,C"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 230
+    },
+    {
+        "slug": "pg-sga-sf",
+        "module": "hospitalar",
+        "category": "triagem_risco",
+        "name": "PG-SGA SF",
+        "short_description": "PG-SGA — forma resumida",
+        "icon_key": "clipboard-list",
+        "formula_reference": "Ottery FD, Nutrition, 1996; Bauer J, Capra S, Ferguson M, Eur J Clin Nutr, 2002 (validação da forma resumida).",
+        "input_schema": {
+            "box1_weight_history_score": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:4"
+            ],
+            "box2_food_intake_score": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:4"
+            ],
+            "box3_symptoms_score": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:24"
+            ],
+            "box4_activity_function_score": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:4"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 240
+    },
+    {
+        "slug": "glim",
+        "module": "hospitalar",
+        "category": "triagem_risco",
+        "name": "GLIM",
+        "short_description": "Critérios diagnósticos de desnutrição",
+        "icon_key": "stethoscope",
+        "formula_reference": "Cederholm T et al., GLIM criteria for the diagnosis of malnutrition — a consensus report, Clin Nutr / JPEN, 2019.",
+        "input_schema": {
+            "weight_loss_percent": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:100"
+            ],
+            "weight_loss_period_months": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:60"
+            ],
+            "bmi": [
+                "required",
+                "numeric",
+                "min:5",
+                "max:80"
+            ],
+            "age_years": [
+                "required",
+                "integer",
+                "min:18",
+                "max:120"
+            ],
+            "reduced_muscle_mass": [
+                "required",
+                "in:nenhuma,leve_moderada,grave"
+            ],
+            "reduced_food_intake": [
+                "required",
+                "boolean"
+            ],
+            "disease_burden_inflammation": [
+                "required",
+                "boolean"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 250
+    },
+    {
+        "slug": "conut",
+        "module": "hospitalar",
+        "category": "triagem_risco",
+        "name": "CONUT",
+        "short_description": "Estado nutricional por exames laboratoriais",
+        "icon_key": "flask",
+        "formula_reference": "Ignacio de Ulíbarri J et al., CONUT: a tool for controlling nutritional status, Nutr Hosp, 2005.",
+        "input_schema": {
+            "albumin_g_dl": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:10"
+            ],
+            "total_cholesterol_mg_dl": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:1000"
+            ],
+            "lymphocytes_cells_mm3": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:20000"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 260
+    },
+    {
+        "slug": "pni",
+        "module": "hospitalar",
+        "category": "triagem_risco",
+        "name": "PNI",
+        "short_description": "Índice de Prognóstico Nutricional",
+        "icon_key": "trending-up",
+        "formula_reference": "Buzby GP et al., Prognostic nutritional index in gastrointestinal surgery, Ann Surg, 1980.",
+        "input_schema": {
+            "albumin_g_dl": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:10"
+            ],
+            "triceps_skinfold_mm": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:60"
+            ],
+            "transferrin_mg_dl": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:1000"
+            ],
+            "delayed_hypersensitivity": [
+                "required",
+                "in:anergico,menor_5mm,maior_igual_5mm"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 270
+    },
+    {
+        "slug": "mnutric",
+        "module": "hospitalar",
+        "category": "triagem_risco",
+        "name": "mNUTRIC",
+        "short_description": "Risco nutricional em UTI",
+        "icon_key": "heart-pulse",
+        "formula_reference": "Heyland DK et al., Crit Care, 2011; Rahman A et al., Identifying critically-ill patients who will benefit most from nutritional therapy (modified NUTRIC), Clin Nutr, 2016.",
+        "input_schema": {
+            "age_years": [
+                "required",
+                "numeric",
+                "min:18",
+                "max:120"
+            ],
+            "apache_ii": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:71"
+            ],
+            "sofa": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:24"
+            ],
+            "comorbidities_count": [
+                "required",
+                "integer",
+                "min:0",
+                "max:20"
+            ],
+            "days_hospital_to_icu": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:365"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 280
+    },
+    {
+        "slug": "curreri",
+        "module": "hospitalar",
+        "category": "suporte_nutricional",
+        "name": "Curreri (Queimados)",
+        "short_description": "Necessidade calórica em queimados",
+        "icon_key": "flame",
+        "formula_reference": "Curreri PW et al., Dietary requirements of patients with major burns, J Trauma, 1974.",
+        "input_schema": {
+            "weight_kg": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:500"
+            ],
+            "burned_body_surface_percent": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:100"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 290
+    },
+    {
+        "slug": "balanco-nitrogenado",
+        "module": "hospitalar",
+        "category": "suporte_nutricional",
+        "name": "Balanço Nitrogenado",
+        "short_description": "Balanço nitrogenado",
+        "icon_key": "scale",
+        "formula_reference": "Blackburn GL et al., Nutritional and metabolic assessment of the hospitalized patient, JPEN, 1977.",
+        "input_schema": {
+            "protein_intake_g": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:1000"
+            ],
+            "urinary_urea_nitrogen_24h_g": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:100"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 300
+    },
+    {
+        "slug": "holliday-segar",
+        "module": "hospitalar",
+        "category": "suporte_nutricional",
+        "name": "Holliday-Segar",
+        "short_description": "Necessidade hídrica (Holliday-Segar)",
+        "icon_key": "droplet",
+        "formula_reference": "Holliday MA, Segar WE, The maintenance need for water in parenteral fluid therapy, Pediatrics, 1957.",
+        "input_schema": {
+            "weight_kg": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:500"
+            ]
+        },
+        "life_stages": [
+            "crianca",
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 310
+    },
+    {
+        "slug": "nutricao-parenteral",
+        "module": "hospitalar",
+        "category": "suporte_nutricional",
+        "name": "Nutrição Parenteral",
+        "short_description": "Relação kcal não-proteica : nitrogênio",
+        "icon_key": "droplets",
+        "formula_reference": "ASPEN/BRASPEN Guidelines for Parenteral Nutrition.",
+        "input_schema": {
+            "non_protein_kcal": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:10000"
+            ],
+            "protein_g": [
+                "required",
+                "numeric",
+                "min:0.1",
+                "max:1000"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 320
+    },
+    {
+        "slug": "dieta-enteral",
+        "module": "hospitalar",
+        "category": "suporte_nutricional",
+        "name": "Dieta Enteral",
+        "short_description": "Taxa de infusão enteral",
+        "icon_key": "droplets",
+        "formula_reference": "ASPEN/BRASPEN Guidelines for Enteral Nutrition.",
+        "input_schema": {
+            "target_volume_ml": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:5000"
+            ],
+            "infusion_duration_hours": [
+                "required",
+                "numeric",
+                "min:0.5",
+                "max:24"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 330
+    },
+    {
+        "slug": "oms-peso-idade-0-5",
+        "module": "pediatria",
+        "category": "curvas_crescimento",
+        "name": "Peso/Idade (OMS)",
+        "short_description": "Escore-Z e classificação SISVAN (0–5 anos)",
+        "icon_key": "scale",
+        "formula_reference": "WHO Multicentre Growth Reference Study Group, WHO Child Growth Standards, 2006; classificação: Ministério da Saúde, Norma Técnica do SISVAN, 2011.",
+        "input_schema": {
+            "age_months": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:59.99"
+            ],
+            "sex": [
+                "required",
+                "in:male,female"
+            ],
+            "weight_kg": [
+                "required",
+                "numeric",
+                "min:0.5",
+                "max:60"
+            ]
+        },
+        "life_stages": [
+            "crianca"
+        ],
+        "sort_order": 400
+    },
+    {
+        "slug": "oms-comprimento-idade-0-5",
+        "module": "pediatria",
+        "category": "curvas_crescimento",
+        "name": "Comprimento/Idade (OMS)",
+        "short_description": "Escore-Z e classificação SISVAN (0–5 anos)",
+        "icon_key": "ruler",
+        "formula_reference": "WHO Multicentre Growth Reference Study Group, WHO Child Growth Standards, 2006; classificação: Ministério da Saúde, Norma Técnica do SISVAN, 2011.",
+        "input_schema": {
+            "age_months": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:59.99"
+            ],
+            "sex": [
+                "required",
+                "in:male,female"
+            ],
+            "length_cm": [
+                "required",
+                "numeric",
+                "min:35",
+                "max:130"
+            ],
+            "measurement_position": [
+                "required",
+                "in:deitado,em_pe"
+            ]
+        },
+        "life_stages": [
+            "crianca"
+        ],
+        "sort_order": 410
+    },
+    {
+        "slug": "oms-peso-comprimento-0-5",
+        "module": "pediatria",
+        "category": "curvas_crescimento",
+        "name": "Peso/Comprimento (OMS)",
+        "short_description": "Escore-Z e classificação SISVAN (0–5 anos)",
+        "icon_key": "scale",
+        "formula_reference": "WHO Multicentre Growth Reference Study Group, WHO Child Growth Standards, 2006; classificação: Ministério da Saúde, Norma Técnica do SISVAN, 2011.",
+        "input_schema": {
+            "age_months": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:59.99"
+            ],
+            "sex": [
+                "required",
+                "in:male,female"
+            ],
+            "weight_kg": [
+                "required",
+                "numeric",
+                "min:0.5",
+                "max:60"
+            ],
+            "length_cm": [
+                "required",
+                "numeric",
+                "min:35",
+                "max:130"
+            ],
+            "measurement_position": [
+                "required",
+                "in:deitado,em_pe"
+            ]
+        },
+        "life_stages": [
+            "crianca"
+        ],
+        "sort_order": 420
+    },
+    {
+        "slug": "oms-imc-idade-0-5",
+        "module": "pediatria",
+        "category": "curvas_crescimento",
+        "name": "IMC/Idade (OMS 0–5)",
+        "short_description": "Escore-Z e classificação SISVAN (0–5 anos)",
+        "icon_key": "activity",
+        "formula_reference": "WHO Multicentre Growth Reference Study Group, WHO Child Growth Standards, 2006; classificação: Ministério da Saúde, Norma Técnica do SISVAN, 2011.",
+        "input_schema": {
+            "age_months": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:59.99"
+            ],
+            "sex": [
+                "required",
+                "in:male,female"
+            ],
+            "weight_kg": [
+                "required",
+                "numeric",
+                "min:0.5",
+                "max:60"
+            ],
+            "length_cm": [
+                "required",
+                "numeric",
+                "min:35",
+                "max:130"
+            ],
+            "measurement_position": [
+                "required",
+                "in:deitado,em_pe"
+            ]
+        },
+        "life_stages": [
+            "crianca"
+        ],
+        "sort_order": 430
+    },
+    {
+        "slug": "oms-perimetro-cefalico-0-5",
+        "module": "pediatria",
+        "category": "curvas_crescimento",
+        "name": "Perímetro Cefálico (OMS)",
+        "short_description": "Escore-Z (0–5 anos)",
+        "icon_key": "circle",
+        "formula_reference": "WHO Multicentre Growth Reference Study Group, WHO Child Growth Standards: head circumference-for-age, 2007; classificação: WHO, Zika virus exposure in utero guideline, 2016.",
+        "input_schema": {
+            "age_months": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:59.99"
+            ],
+            "sex": [
+                "required",
+                "in:male,female"
+            ],
+            "head_circumference_cm": [
+                "required",
+                "numeric",
+                "min:20",
+                "max:65"
+            ]
+        },
+        "life_stages": [
+            "crianca"
+        ],
+        "sort_order": 440
+    },
+    {
+        "slug": "oms-imc-idade-5-19",
+        "module": "pediatria",
+        "category": "curvas_crescimento",
+        "name": "IMC/Idade (OMS 5–19)",
+        "short_description": "Escore-Z e classificação SISVAN (5–19 anos)",
+        "icon_key": "activity",
+        "formula_reference": "de Onis M et al., Development of a WHO growth reference for school-aged children and adolescents, Bull World Health Organ, 2007; classificação: Ministério da Saúde, Norma Técnica do SISVAN, 2011.",
+        "input_schema": {
+            "age_months": [
+                "required",
+                "numeric",
+                "min:60",
+                "max:228.99"
+            ],
+            "sex": [
+                "required",
+                "in:male,female"
+            ],
+            "weight_kg": [
+                "required",
+                "numeric",
+                "min:5",
+                "max:250"
+            ],
+            "height_cm": [
+                "required",
+                "numeric",
+                "min:80",
+                "max:230"
+            ]
+        },
+        "life_stages": [
+            "crianca"
+        ],
+        "sort_order": 450
+    },
+    {
+        "slug": "oms-estatura-idade-5-19",
+        "module": "pediatria",
+        "category": "curvas_crescimento",
+        "name": "Estatura/Idade (OMS 5–19)",
+        "short_description": "Escore-Z e classificação SISVAN (5–19 anos)",
+        "icon_key": "ruler",
+        "formula_reference": "de Onis M et al., Bull World Health Organ, 2007; classificação: Ministério da Saúde, Norma Técnica do SISVAN, 2011.",
+        "input_schema": {
+            "age_months": [
+                "required",
+                "numeric",
+                "min:60",
+                "max:228.99"
+            ],
+            "sex": [
+                "required",
+                "in:male,female"
+            ],
+            "height_cm": [
+                "required",
+                "numeric",
+                "min:80",
+                "max:230"
+            ]
+        },
+        "life_stages": [
+            "crianca"
+        ],
+        "sort_order": 460
+    },
+    {
+        "slug": "oms-peso-idade-5-10",
+        "module": "pediatria",
+        "category": "curvas_crescimento",
+        "name": "Peso/Idade (OMS 5–10)",
+        "short_description": "Escore-Z e classificação SISVAN (5–10 anos)",
+        "icon_key": "scale",
+        "formula_reference": "de Onis M et al., Bull World Health Organ, 2007; classificação: Ministério da Saúde, Norma Técnica do SISVAN, 2011.",
+        "input_schema": {
+            "age_months": [
+                "required",
+                "numeric",
+                "min:60",
+                "max:120.99"
+            ],
+            "sex": [
+                "required",
+                "in:male,female"
+            ],
+            "weight_kg": [
+                "required",
+                "numeric",
+                "min:5",
+                "max:150"
+            ]
+        },
+        "life_stages": [
+            "crianca"
+        ],
+        "sort_order": 470
+    },
+    {
+        "slug": "gomez",
+        "module": "pediatria",
+        "category": "classificacao_nutricional",
+        "name": "Gomez",
+        "short_description": "% de adequação peso/idade",
+        "icon_key": "percent",
+        "formula_reference": "Gómez F et al., Mortality in second and third degree malnutrition, J Trop Pediatr, 1956; mediana de referência: WHO Child Growth Standards, 2006.",
+        "input_schema": {
+            "age_months": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:59.99"
+            ],
+            "sex": [
+                "required",
+                "in:male,female"
+            ],
+            "weight_kg": [
+                "required",
+                "numeric",
+                "min:0.5",
+                "max:60"
+            ]
+        },
+        "life_stages": [
+            "crianca"
+        ],
+        "sort_order": 480
+    },
+    {
+        "slug": "waterlow",
+        "module": "pediatria",
+        "category": "classificacao_nutricional",
+        "name": "Waterlow",
+        "short_description": "Desnutrição atual × crônica",
+        "icon_key": "layers",
+        "formula_reference": "Waterlow JC, Classification and definition of protein-calorie malnutrition, BMJ, 1972; medianas de referência: WHO Child Growth Standards, 2006.",
+        "input_schema": {
+            "age_months": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:59.99"
+            ],
+            "sex": [
+                "required",
+                "in:male,female"
+            ],
+            "weight_kg": [
+                "required",
+                "numeric",
+                "min:0.5",
+                "max:60"
+            ],
+            "length_cm": [
+                "required",
+                "numeric",
+                "min:35",
+                "max:130"
+            ],
+            "measurement_position": [
+                "required",
+                "in:deitado,em_pe"
+            ]
+        },
+        "life_stages": [
+            "crianca"
+        ],
+        "sort_order": 490
+    },
+    {
+        "slug": "schofield",
+        "module": "pediatria",
+        "category": "gasto_energetico",
+        "name": "Schofield",
+        "short_description": "Taxa metabólica basal (todas as idades)",
+        "icon_key": "flame",
+        "formula_reference": "Schofield WN, Hum Nutr Clin Nutr, 1985; coeficientes conforme FAO/WHO/UNU, Human Energy Requirements, 2004, Tabela 5.2.",
+        "input_schema": {
+            "age_years": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:120"
+            ],
+            "sex": [
+                "required",
+                "in:male,female"
+            ],
+            "weight_kg": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:300"
+            ]
+        },
+        "life_stages": [
+            "crianca",
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 500
+    },
+    {
+        "slug": "necessidade-energetica-infantil",
+        "module": "pediatria",
+        "category": "gasto_energetico",
+        "name": "Necessidade Energética Infantil",
+        "short_description": "kcal/dia por idade e atividade (FAO/OMS)",
+        "icon_key": "zap",
+        "formula_reference": "FAO/WHO/UNU, Human Energy Requirements: Report of a Joint Expert Consultation, 2004, Tabelas 4.5 e 4.6.",
+        "input_schema": {
+            "age_years": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:17.99"
+            ],
+            "sex": [
+                "required",
+                "in:male,female"
+            ],
+            "weight_kg": [
+                "required",
+                "numeric",
+                "min:5",
+                "max:200"
+            ],
+            "activity_level": [
+                "required",
+                "in:leve,moderada,intensa"
+            ]
+        },
+        "life_stages": [
+            "crianca"
+        ],
+        "sort_order": 510
+    }
+]

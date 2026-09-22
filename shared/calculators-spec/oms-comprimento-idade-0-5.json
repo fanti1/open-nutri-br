@@ -1,0 +1,9 @@
+{
+  "slug": "oms-comprimento-idade-0-5",
+  "server_only": true,
+  "source": "Caso 1 = teste oficial do pacote anthro da OMS (987 dias, 72,86 cm deitado, z -6,09).",
+  "cases": [
+    { "inputs": { "age_months": 32.4271047227926, "sex": "male", "length_cm": 72.86, "measurement_position": "deitado" }, "expected": { "values": { "z_score": -6.09, "measure": 72.16 }, "classification": "muito_baixa_estatura_para_idade" } },
+    { "inputs": { "age_months": 24, "sex": "female", "length_cm": 85, "measurement_position": "em_pe" }, "expected": { "values": { "z_score": -0.23 }, "classification": "estatura_adequada_para_idade" } }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "slug": "mnutric",
+  "cases": [
+    { "inputs": { "age_years": 45, "apache_ii": 10, "sofa": 3, "comorbidities_count": 1, "days_hospital_to_icu": 0 }, "expected": { "values": { "total_score": 0 }, "classification": "baixo_risco_nutricional" } },
+    { "inputs": { "age_years": 80, "apache_ii": 22, "sofa": 8, "comorbidities_count": 3, "days_hospital_to_icu": 2 }, "expected": { "values": { "total_score": 7 }, "classification": "alto_risco_nutricional" } },
+    { "inputs": { "age_years": 60, "apache_ii": 16, "sofa": 5, "comorbidities_count": 1, "days_hospital_to_icu": 0 }, "expected": { "values": { "total_score": 2 }, "classification": "baixo_risco_nutricional" } }
+  ]
+}

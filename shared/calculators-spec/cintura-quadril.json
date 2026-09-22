@@ -1,0 +1,9 @@
+{
+  "slug": "cintura-quadril",
+  "cases": [
+    { "inputs": { "waist_cm": 90, "hip_cm": 100, "sex": "male" }, "expected": { "values": { "value": 0.9 }, "classification": "risco_normal" } },
+    { "inputs": { "waist_cm": 95, "hip_cm": 100, "sex": "male" }, "expected": { "values": { "value": 0.95 }, "classification": "risco_aumentado" } },
+    { "inputs": { "waist_cm": 80, "hip_cm": 100, "sex": "female" }, "expected": { "values": { "value": 0.8 }, "classification": "risco_normal" } },
+    { "inputs": { "waist_cm": 90, "hip_cm": 100, "sex": "female" }, "expected": { "values": { "value": 0.9 }, "classification": "risco_aumentado" } }
+  ]
+}

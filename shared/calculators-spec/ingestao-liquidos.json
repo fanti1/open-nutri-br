@@ -1,0 +1,6 @@
+{
+  "slug": "ingestao-liquidos",
+  "cases": [
+    { "inputs": { "weight_kg": 70 }, "expected": { "values": { "min_ml_per_day": 2100, "max_ml_per_day": 2450 }, "classification": null } }
+  ]
+}

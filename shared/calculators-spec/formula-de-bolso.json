@@ -1,0 +1,6 @@
+{
+  "slug": "formula-de-bolso",
+  "cases": [
+    { "inputs": { "weight_kg": 70, "factor_kcal_per_kg": 25 }, "expected": { "values": { "get_kcal": 1750 }, "classification": null } }
+  ]
+}

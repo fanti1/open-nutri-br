@@ -1,0 +1,7 @@
+{
+  "slug": "valor-calorico-total",
+  "cases": [
+    { "inputs": { "bmr_kcal": 1648.75, "activity_level": "moderado" }, "expected": { "values": { "vct_kcal": 2555.56 }, "classification": null } },
+    { "inputs": { "bmr_kcal": 1400, "activity_level": "sedentario" }, "expected": { "values": { "vct_kcal": 1680 }, "classification": null } }
+  ]
+}

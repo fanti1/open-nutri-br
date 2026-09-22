@@ -1,0 +1,7 @@
+{
+  "slug": "dieta-enteral",
+  "cases": [
+    { "inputs": { "target_volume_ml": 1440, "infusion_duration_hours": 24 }, "expected": { "values": { "rate_ml_per_hour": 60 }, "classification": null } },
+    { "inputs": { "target_volume_ml": 500, "infusion_duration_hours": 4 }, "expected": { "values": { "rate_ml_per_hour": 125 }, "classification": null } }
+  ]
+}

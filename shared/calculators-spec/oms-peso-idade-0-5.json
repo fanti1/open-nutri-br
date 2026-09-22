@@ -1,0 +1,10 @@
+{
+  "slug": "oms-peso-idade-0-5",
+  "server_only": true,
+  "source": "Valores esperados calculados por implementação independente sobre as tabelas oficiais OMS, validada contra o teste oficial do pacote anthro.",
+  "cases": [
+    { "inputs": { "age_months": 50.0041067761807, "sex": "female", "weight_kg": 17 }, "expected": { "values": { "z_score": 0.24 }, "classification": "peso_adequado_para_idade" } },
+    { "inputs": { "age_months": 12, "sex": "male", "weight_kg": 5.0 }, "expected": { "values": { "z_score": -5.36 }, "classification": "muito_baixo_peso_para_idade" } },
+    { "inputs": { "age_months": 0, "sex": "male", "weight_kg": 3.3464 }, "expected": { "values": { "z_score": 0.0 }, "classification": "peso_adequado_para_idade" } }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "slug": "distribuicao-macros",
+  "cases": [
+    { "inputs": { "total_kcal": 2000, "carb_percent": 50, "protein_percent": 20, "fat_percent": 30 }, "expected": { "values": { "carbohydrate_g": 250, "protein_g": 100, "fat_g": 66.67 }, "classification": null } }
+  ]
+}

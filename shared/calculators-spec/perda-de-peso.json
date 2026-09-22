@@ -1,0 +1,8 @@
+{
+  "slug": "perda-de-peso",
+  "cases": [
+    { "inputs": { "usual_weight_kg": 100, "current_weight_kg": 99.5, "period_days": 7 }, "expected": { "values": { "percentage": 0.5 }, "classification": "sem_perda_significativa" } },
+    { "inputs": { "usual_weight_kg": 100, "current_weight_kg": 99, "period_days": 7 }, "expected": { "values": { "percentage": 1.0 }, "classification": "perda_significativa" } },
+    { "inputs": { "usual_weight_kg": 100, "current_weight_kg": 97, "period_days": 7 }, "expected": { "values": { "percentage": 3.0 }, "classification": "perda_severa" } }
+  ]
+}

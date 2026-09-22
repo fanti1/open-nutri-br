@@ -1,0 +1,7 @@
+{
+  "slug": "peso-ideal",
+  "cases": [
+    { "inputs": { "height_m": 1.80, "sex": "male" }, "expected": { "values": { "value": 74.99 }, "classification": null } },
+    { "inputs": { "height_m": 1.65, "sex": "female" }, "expected": { "values": { "value": 56.91 }, "classification": null } }
+  ]
+}

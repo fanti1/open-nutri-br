@@ -1,0 +1,9 @@
+{
+  "slug": "imc",
+  "cases": [
+    { "inputs": { "weight_kg": 70, "height_m": 1.75 }, "expected": { "values": { "value": 22.86 }, "classification": "eutrofia" } },
+    { "inputs": { "weight_kg": 50, "height_m": 1.70 }, "expected": { "values": { "value": 17.3 }, "classification": "baixo_peso" } },
+    { "inputs": { "weight_kg": 80, "height_m": 1.70 }, "expected": { "values": { "value": 27.68 }, "classification": "sobrepeso" } },
+    { "inputs": { "weight_kg": 90, "height_m": 1.70 }, "expected": { "values": { "value": 31.14 }, "classification": "obesidade" } }
+  ]
+}

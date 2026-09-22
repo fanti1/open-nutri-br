@@ -1,0 +1,8 @@
+{
+  "slug": "holliday-segar",
+  "cases": [
+    { "inputs": { "weight_kg": 8 }, "expected": { "values": { "ml_per_day": 800 }, "classification": null } },
+    { "inputs": { "weight_kg": 15 }, "expected": { "values": { "ml_per_day": 1250 }, "classification": null } },
+    { "inputs": { "weight_kg": 70 }, "expected": { "values": { "ml_per_day": 2500 }, "classification": null } }
+  ]
+}

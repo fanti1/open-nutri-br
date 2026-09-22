@@ -1,0 +1,7 @@
+{
+  "slug": "harris-benedict",
+  "cases": [
+    { "inputs": { "weight_kg": 70, "height_cm": 175, "age_years": 30, "sex": "male" }, "expected": { "values": { "bmr_kcal": 1695.67 }, "classification": null } },
+    { "inputs": { "weight_kg": 60, "height_cm": 165, "age_years": 25, "sex": "female" }, "expected": { "values": { "bmr_kcal": 1405.33 }, "classification": null } }
+  ]
+}
