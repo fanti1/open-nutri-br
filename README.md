@@ -2,7 +2,7 @@
 
 App para nutricionistas brasileiros: calculadoras clínicas com método científico e referência, fichas de pacientes, agenda com lembretes e checklist de tarefas. App nativo em React Native/Expo que funciona inteiro offline; um backend Laravel serve de implementação de referência das fórmulas.
 
-- **54 calculadoras**: Consultório (antropometria — incluindo relação cintura-estatura, índice de conicidade e dobras cutâneas de Jackson-Pollock e Durnin-Womersley — e metabolismo, incluindo Cunningham), Hospitalar/Terapia Intensiva (triagem, diagnóstico, suporte nutricional e gasto energético em ventilação mecânica e queimados — Penn State, Swinamer, Toronto), Pediatria (curvas de crescimento OMS com classificação SISVAN, Gomez, Waterlow, Schofield, necessidade energética FAO) e Hematologia/Bioquímica (anemia e ferritina OMS, diagnóstico glicêmico SBD, HOMA-IR, perfil lipídico, CKD-EPI 2021, Cockcroft-Gault). Cada uma declara para quais fases da vida (criança/adulto/idoso) foi validada.
+- **55 calculadoras**, organizadas por público (criança, adulto, idoso) e área: Consultório (antropometria — incluindo IMC do idoso com os cortes do SISVAN, incluindo relação cintura-estatura, índice de conicidade e dobras cutâneas de Jackson-Pollock e Durnin-Womersley — e metabolismo, incluindo Cunningham), Hospitalar/Terapia Intensiva (triagem, diagnóstico, suporte nutricional e gasto energético em ventilação mecânica e queimados — Penn State, Swinamer, Toronto), Pediatria (curvas de crescimento OMS com classificação SISVAN, Gomez, Waterlow, Schofield, necessidade energética FAO) e Hematologia/Bioquímica (anemia e ferritina OMS, diagnóstico glicêmico SBD, HOMA-IR, perfil lipídico, CKD-EPI 2021, Cockcroft-Gault). Cada uma declara para quais fases da vida (criança/adulto/idoso) foi validada.
 - **100% offline**: todas as calculadoras (inclusive as curvas da OMS) e a tabela TACO completa rodam no celular, sem internet e sem servidor.
 - **Tudo aberto a todos**, sem conta.
 - **Dados no aparelho** (SQLite), com backup opcional no Google Drive (ou e-mail, WhatsApp…).
@@ -13,7 +13,8 @@ Decisões e lacunas de cada fase em `docs/adr/`:
 [0003 Dados locais e acesso aberto](docs/adr/0003-dados-locais-e-acesso-aberto.md) ·
 [0004 Hematologia e Bioquímica](docs/adr/0004-fase-4-hematologia-bioquimica.md) ·
 [0005 Extensões de Consultório](docs/adr/0005-fase-6-extensoes-consultorio.md) ·
-[0006 App 100% offline](docs/adr/0006-app-100-offline.md).
+[0006 App 100% offline](docs/adr/0006-app-100-offline.md) ·
+[0007 Calculadoras por público](docs/adr/0007-publico-primeiro.md).
 
 ## Estrutura
 
@@ -56,7 +57,7 @@ touch database/database.sqlite
 php artisan migrate --seed   # popula o catálogo de calculadoras
 ```
 
-Testes (241: as 54 calculadoras com vetores científicos conhecidos, curvas OMS com gabarito da própria OMS, acesso público, catálogo, alimentos, LGPD):
+Testes (247: as 55 calculadoras com vetores científicos conhecidos, curvas OMS com gabarito da própria OMS, acesso público, catálogo, alimentos, LGPD):
 
 ```
 php artisan test
@@ -88,7 +89,7 @@ npm install
 npm run android         # ou npm run ios (exige Mac) / npm run web
 ```
 
-Testes (247: as 54 calculadoras contra os mesmos vetores do PHPUnit em `shared/calculators-spec/`, curvas OMS e TACO embarcadas, camada de dados sobre SQLite real, perfil do cálculo, formulários e auto-preenchimento):
+Testes (252: as 55 calculadoras contra os mesmos vetores do PHPUnit em `shared/calculators-spec/`, curvas OMS e TACO embarcadas, camada de dados sobre SQLite real, perfil do cálculo, formulários e auto-preenchimento):
 
 ```
 npm test
@@ -112,6 +113,6 @@ Build iOS via EAS exige conta Apple Developer (US$99/ano) — sem atalho, mas ta
 
 ## Decisões-chave
 
-- **Faixa etária por calculadora**: cada calculadora declara para quais públicos (criança/adulto/idoso) sua fórmula foi validada; a ficha do paciente mostra só as adequadas à idade dele.
+- **Público primeiro**: a aba Calculadoras começa por "para quem é o cálculo" (criança, adulto ou idoso) e mostra só os métodos validados para esse público; a ficha do paciente faz o mesmo com a idade dele.
 - **Fonte única das fórmulas**: backend e app implementam a mesma engine e são testados contra os mesmos vetores em `shared/calculators-spec/`. O catálogo do app é gerado a partir do backend.
 - **Nomenclatura própria**: nomes de tela/produto (abas, seções) são próprios do OpenNutri BR, não copiados de nenhum concorrente. Nomes de métodos científicos (IMC, Harris-Benedict, GLIM etc.) são os nomes universais da literatura.

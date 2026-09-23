@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Pressable, View } from 'react-native';
-import { LIFE_STAGE_LABELS } from '../../domain/calculators/support/lifeStage';
+import { LIFE_STAGE_LABELS, LIFE_STAGE_PLURAL, STAGE_COLOR_KEY } from '../../domain/calculators/support/lifeStage';
 import type { LifeStage } from '../../domain/calculators/types';
 import { catalogIcon, moduleInfo, type CatalogEntry } from '../../domain/catalog';
 import { useTheme } from '../../theme/ThemeProvider';
@@ -8,7 +8,6 @@ import { AppText } from '../../ui/AppText';
 import { Card } from '../../ui/Card';
 import { IconTile } from '../../ui/IconTile';
 
-const STAGE_COLOR_KEY = { crianca: 'child', adulto: 'adult', idoso: 'elderly' } as const;
 
 /** "Adulto · Idoso" em texto pequeno e colorido — informa sem ocupar uma linha de etiquetas. */
 export function StageLine({ stages }: { stages: LifeStage[] }) {
@@ -33,10 +32,30 @@ interface CalculatorListItemProps {
   divider?: boolean;
   /** Mostra a área (útil em resultados de busca, que misturam áreas). */
   showModule?: boolean;
+  /**
+   * Como indicar a faixa etária: "all" lista todas (busca, que mistura
+   * públicos); "exclusive" só marca métodos exclusivos de uma faixa (dentro de
+   * um público já escolhido); "none" omite.
+   */
+  stages?: 'all' | 'exclusive' | 'none';
+}
+
+/** Selo para método validado para uma única faixa (ex.: "Específico para idosos"). */
+function ExclusiveBadge({ stage }: { stage: LifeStage }) {
+  const { colors } = useTheme();
+  const tint = colors[STAGE_COLOR_KEY[stage]];
+  return (
+    <View style={{ alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: `${tint}1A`, borderRadius: 6, paddingHorizontal: 6, paddingVertical: 2, marginTop: 2 }}>
+      <Ionicons name="star-half-outline" size={11} color={tint} />
+      <AppText variant="small" color={tint}>
+        Específico para {LIFE_STAGE_PLURAL[stage]}
+      </AppText>
+    </View>
+  );
 }
 
 /** Linha compacta de calculadora, para listas agrupadas dentro de um cartão. */
-export function CalculatorListItem({ entry, onPress, favorite, onToggleFavorite, divider, showModule }: CalculatorListItemProps) {
+export function CalculatorListItem({ entry, onPress, favorite, onToggleFavorite, divider, showModule, stages = 'all' }: CalculatorListItemProps) {
   const { colors } = useTheme();
   const module = moduleInfo(entry.module);
 
@@ -65,7 +84,8 @@ export function CalculatorListItem({ entry, onPress, favorite, onToggleFavorite,
           {showModule && module ? `${module.label} · ` : ''}
           {entry.short_description}
         </AppText>
-        <StageLine stages={entry.life_stages} />
+        {stages === 'all' && <StageLine stages={entry.life_stages} />}
+        {stages === 'exclusive' && entry.life_stages.length === 1 && <ExclusiveBadge stage={entry.life_stages[0]} />}
       </View>
       {onToggleFavorite ? (
         <Pressable
@@ -89,12 +109,14 @@ export function CalculatorGroup({
   favorites,
   onToggleFavorite,
   showModule,
+  stages,
 }: {
   entries: CatalogEntry[];
   onOpen: (entry: CatalogEntry) => void;
   favorites?: Set<string>;
   onToggleFavorite?: (entry: CatalogEntry) => void;
   showModule?: boolean;
+  stages?: CalculatorListItemProps['stages'];
 }) {
   return (
     <Card padded={false} style={{ overflow: 'hidden' }}>
@@ -107,6 +129,7 @@ export function CalculatorGroup({
           onToggleFavorite={onToggleFavorite ? () => onToggleFavorite(entry) : undefined}
           divider={index < entries.length - 1}
           showModule={showModule}
+          stages={stages}
         />
       ))}
     </Card>

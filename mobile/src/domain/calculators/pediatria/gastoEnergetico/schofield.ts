@@ -40,8 +40,9 @@ export function schofieldFormula(inputs: SchofieldInputs): Record<string, number
 
 export const schofieldCalculator = makeCalculator<SchofieldInputs>({
   slug: 'schofield',
-  module: 'pediatria',
-  category: 'gasto_energetico',
+  // Todas as faixas etárias: fica em Consultório → Metabolismo.
+  module: 'ambulatorio',
+  category: 'metabolismo',
   version: 'v1',
   reference: {
     method: 'Taxa Metabólica Basal (Schofield, por peso)',

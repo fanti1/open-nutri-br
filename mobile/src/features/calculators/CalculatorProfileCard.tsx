@@ -11,7 +11,7 @@ import {
   type CalculatorProfile,
   type ProfileSex,
 } from '../../domain/calculatorProfile';
-import { LIFE_STAGE_LABELS, LIFE_STAGE_PLURAL, LIFE_STAGE_SHORT_LABELS } from '../../domain/calculators/support/lifeStage';
+import { LIFE_STAGE_LABELS, LIFE_STAGE_PLURAL, LIFE_STAGE_SHORT_LABELS, STAGE_COLOR_KEY } from '../../domain/calculators/support/lifeStage';
 import type { LifeStage } from '../../domain/calculators/types';
 import type { CatalogEntry } from '../../domain/catalog';
 import { formatAge } from '../../lib/format';
@@ -24,7 +24,6 @@ import { Segmented } from '../../ui/Chips';
 import { IconTile } from '../../ui/IconTile';
 import { sexLabel } from '../patients/patientHelpers';
 
-const STAGE_COLOR_KEY = { crianca: 'child', adulto: 'adult', idoso: 'elderly' } as const;
 
 interface CalculatorProfileCardProps {
   entry: Pick<CatalogEntry, 'life_stages'>;
@@ -32,6 +31,8 @@ interface CalculatorProfileCardProps {
   patient: Patient | null;
   /** Perfil avulso já guardado para esta calculadora. */
   saved: CalculatorProfile | null;
+  /** Faixa já escolhida antes de abrir a calculadora (aba Calculadoras). */
+  preferredStage?: LifeStage | null;
   onSave: (profile: CalculatorProfile) => void;
   onPickPatient: () => void;
   onClearPatient: () => void;
@@ -41,10 +42,10 @@ interface CalculatorProfileCardProps {
  * "Para quem é o cálculo?" — faixa etária e sexo, escolhidos uma vez por
  * calculadora e guardados, ou herdados da ficha de um paciente.
  */
-export function CalculatorProfileCard({ entry, patient, saved, onSave, onPickPatient, onClearPatient }: CalculatorProfileCardProps) {
+export function CalculatorProfileCard({ entry, patient, saved, preferredStage, onSave, onPickPatient, onClearPatient }: CalculatorProfileCardProps) {
   const { colors } = useTheme();
   const [editing, setEditing] = useState(false);
-  const [draft, setDraft] = useState<Partial<CalculatorProfile>>(() => saved ?? initialDraft(entry));
+  const [draft, setDraft] = useState<Partial<CalculatorProfile>>(() => saved ?? { ...initialDraft(entry), ...(preferredStage ? { stage: preferredStage } : {}) });
 
   useEffect(() => {
     if (saved) setDraft(saved);
@@ -108,9 +109,11 @@ export function CalculatorProfileCard({ entry, patient, saved, onSave, onPickPat
       <View style={{ gap: 4 }}>
         <Header title="Para quem é o cálculo?" />
         <AppText variant="caption" tone="muted">
-          {firstTime
-            ? 'Escolha a faixa etária e o sexo. Fica salvo para esta calculadora — você só escolhe de novo se quiser mudar.'
-            : 'Altere a faixa etária ou o sexo deste cálculo.'}
+          {!firstTime
+            ? 'Altere a faixa etária ou o sexo deste cálculo.'
+            : draft.stage
+              ? 'Confirme a faixa etária e escolha o sexo. Fica salvo para esta calculadora — você só escolhe de novo se quiser mudar.'
+              : 'Escolha a faixa etária e o sexo. Fica salvo para esta calculadora — você só escolhe de novo se quiser mudar.'}
         </AppText>
       </View>
 
@@ -131,7 +134,7 @@ export function CalculatorProfileCard({ entry, patient, saved, onSave, onPickPat
         <AppText variant="small" tone="subtle">
           {draft.stage ? `${LIFE_STAGE_LABELS[draft.stage]}: ${stageAgeRangeLabel(draft.stage)}.` : ''}
           {disabledStages.length > 0
-            ? `${draft.stage ? ' ' : ''}Método não validado para ${disabledStages.map((s) => LIFE_STAGE_PLURAL[s]).join(' e ')}.`
+            ? `${draft.stage ? ' ' : ''}Método validado só para ${entry.life_stages.map((s) => LIFE_STAGE_PLURAL[s]).join(' e ')}.`
             : ''}
         </AppText>
       </View>

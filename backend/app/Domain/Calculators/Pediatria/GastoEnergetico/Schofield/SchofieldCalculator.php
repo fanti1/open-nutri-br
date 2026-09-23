@@ -14,14 +14,18 @@ final class SchofieldCalculator extends AbstractCalculator
         return 'schofield';
     }
 
+    /**
+     * Equações por faixa etária de 0 a 60+ anos (base das recomendações
+     * FAO/OMS/UNU): exibida em Consultório → Metabolismo para todos os públicos.
+     */
     public function module(): string
     {
-        return 'pediatria';
+        return 'ambulatorio';
     }
 
     public function category(): string
     {
-        return 'gasto_energetico';
+        return 'metabolismo';
     }
 
     public function version(): string

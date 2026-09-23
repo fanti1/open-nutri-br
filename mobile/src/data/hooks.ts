@@ -1,4 +1,5 @@
 import type { CalculatorProfile } from '../domain/calculatorProfile';
+import type { LifeStage } from '../domain/calculators/types';
 import { useData } from './DataProvider';
 import { useLiveQuery } from './useLiveQuery';
 
@@ -17,6 +18,13 @@ export function useCalculatorProfile(slug: string) {
     loading: loading && !data,
     save: (profile: CalculatorProfile) => settings.setCalculatorProfile(slug, profile),
   };
+}
+
+/** Público escolhido na aba Calculadoras — lembrado entre as sessões. */
+export function useAudience(): [LifeStage, (stage: LifeStage) => void] {
+  const { settings } = useData();
+  const { data } = useSettings();
+  return [data?.calculator_audience ?? 'adulto', (stage) => void settings.set('calculator_audience', stage)];
 }
 
 export function useFavorites() {

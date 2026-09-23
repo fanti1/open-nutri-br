@@ -47,12 +47,12 @@ final class ImcCalculator extends AbstractCalculator
     }
 
     /**
-     * IMC/WHO 2000 classifica adultos; crianças usam IMC-por-idade (curvas WHO,
-     * Fase 3), por isso este método não é oferecido para o público infantil.
+     * Cortes da OMS para adultos (20–59 anos, como no SISVAN). Crianças usam
+     * IMC-por-idade (curvas OMS) e idosos o IMC com cortes de Lipschitz (imc-idoso).
      */
     public function lifeStages(): array
     {
-        return [LifeStage::Adult, LifeStage::Elderly];
+        return [LifeStage::Adult];
     }
 
     protected function formula(): FormulaInterface

@@ -32,7 +32,8 @@ export const imcCalculator = makeCalculator<ImcInputs>({
     citation:
       'World Health Organization, Obesity: Preventing and Managing the Global Epidemic, WHO Technical Report Series 894, 2000.',
   },
-  lifeStages: ['adulto', 'idoso'],
+  // Adultos (20–59 anos); idosos usam o IMC com cortes de Lipschitz (imc-idoso).
+  lifeStages: ['adulto'],
   formula: imcFormula,
   classifier: imcClassifier,
 });

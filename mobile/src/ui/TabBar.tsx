@@ -26,6 +26,7 @@ export function TabBar<T extends string>({ tabs, value, onChange }: { tabs: TabI
             key={tab.value}
             accessibilityRole="tab"
             accessibilityState={{ selected: active }}
+            aria-selected={active}
             accessibilityLabel={tab.label}
             onPress={() => onChange(tab.value)}
             style={{ flex: 1, alignItems: 'center', gap: 4, paddingTop: 6, paddingBottom: 10 }}

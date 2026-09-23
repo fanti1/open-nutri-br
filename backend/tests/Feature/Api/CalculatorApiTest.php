@@ -58,7 +58,20 @@ class CalculatorApiTest extends TestCase
 
         $response->assertOk()
             ->assertJsonPath('slug', 'imc')
-            ->assertJsonPath('life_stages', ['adulto', 'idoso']);
+            ->assertJsonPath('life_stages', ['adulto']);
+    }
+
+    public function test_elderly_bmi_uses_the_sisvan_cutoffs(): void
+    {
+        $this->getJson('/api/v1/calculators/imc-idoso')
+            ->assertOk()
+            ->assertJsonPath('life_stages', ['idoso']);
+
+        // 25 kg/m² seria sobrepeso no adulto (OMS), mas é peso adequado no idoso (> 22 e < 27).
+        $this->postJson('/api/v1/calculators/imc-idoso/calculate', ['weight_kg' => 64, 'height_m' => 1.6])
+            ->assertOk()
+            ->assertJsonPath('values.value', 25)
+            ->assertJsonPath('classification', 'eutrofia');
     }
 
     public function test_returns_404_for_an_unknown_calculator(): void

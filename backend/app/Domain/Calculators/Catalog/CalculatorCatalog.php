@@ -18,7 +18,8 @@ final class CalculatorCatalog
      * @var array<string, array{short_description: string, icon_key: string, sort_order: int}>
      */
     private const PRESENTATION = [
-        'imc' => ['short_description' => 'Índice de Massa Corporal', 'icon_key' => 'scale', 'sort_order' => 10],
+        'imc' => ['short_description' => 'Índice de Massa Corporal (adulto)', 'icon_key' => 'scale', 'sort_order' => 10],
+        'imc-idoso' => ['short_description' => 'IMC com pontos de corte para idosos (SISVAN)', 'icon_key' => 'scale', 'sort_order' => 11],
         'peso-ideal' => ['short_description' => 'Peso ideal pelo IMC (Devine)', 'icon_key' => 'target', 'sort_order' => 20],
         'perda-de-peso' => ['short_description' => '% de perda de peso e significância clínica', 'icon_key' => 'trend-down', 'sort_order' => 30],
         'cintura-quadril' => ['short_description' => 'Relação cintura-quadril (RCQ)', 'icon_key' => 'circle', 'sort_order' => 40],
@@ -60,7 +61,7 @@ final class CalculatorCatalog
         'oms-peso-idade-5-10' => ['short_description' => 'Escore-Z e classificação SISVAN (5–10 anos)', 'icon_key' => 'scale', 'sort_order' => 470],
         'gomez' => ['short_description' => '% de adequação peso/idade', 'icon_key' => 'percent', 'sort_order' => 480],
         'waterlow' => ['short_description' => 'Desnutrição atual × crônica', 'icon_key' => 'layers', 'sort_order' => 490],
-        'schofield' => ['short_description' => 'Taxa metabólica basal (todas as idades)', 'icon_key' => 'flame', 'sort_order' => 500],
+        'schofield' => ['short_description' => 'Taxa metabólica basal (todas as idades)', 'icon_key' => 'flame', 'sort_order' => 72],
         'necessidade-energetica-infantil' => ['short_description' => 'kcal/dia por idade e atividade (FAO/OMS)', 'icon_key' => 'zap', 'sort_order' => 510],
 
         'anemia-oms' => ['short_description' => 'Anemia e gravidade pela hemoglobina', 'icon_key' => 'blood', 'sort_order' => 600],
@@ -84,6 +85,7 @@ final class CalculatorCatalog
      */
     private const DISPLAY_NAMES = [
         'imc' => 'IMC',
+        'imc-idoso' => 'IMC do Idoso',
         'peso-ideal' => 'Peso Ideal',
         'perda-de-peso' => 'Perda de Peso %',
         'cintura-quadril' => 'Cintura-Quadril',

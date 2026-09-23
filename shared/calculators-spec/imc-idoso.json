@@ -1,0 +1,10 @@
+{
+  "slug": "imc-idoso",
+  "cases": [
+    { "inputs": { "weight_kg": 50, "height_m": 1.60 }, "expected": { "values": { "value": 19.53 }, "classification": "baixo_peso" } },
+    { "inputs": { "weight_kg": 56.32, "height_m": 1.60 }, "expected": { "values": { "value": 22.0 }, "classification": "baixo_peso" } },
+    { "inputs": { "weight_kg": 62, "height_m": 1.60 }, "expected": { "values": { "value": 24.22 }, "classification": "eutrofia" } },
+    { "inputs": { "weight_kg": 69.12, "height_m": 1.60 }, "expected": { "values": { "value": 27.0 }, "classification": "sobrepeso" } },
+    { "inputs": { "weight_kg": 80, "height_m": 1.70 }, "expected": { "values": { "value": 27.68 }, "classification": "sobrepeso" } }
+  ]
+}

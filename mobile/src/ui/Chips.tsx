@@ -30,6 +30,8 @@ export function ChipGroup<T extends string>({ options, value, onChange, scroll =
         key={option.value}
         accessibilityRole="button"
         accessibilityState={{ selected: active, disabled: option.disabled }}
+        aria-selected={active}
+        aria-disabled={option.disabled}
         disabled={option.disabled}
         onPress={() => onChange(option.value)}
         style={{
@@ -82,6 +84,8 @@ export function Segmented<T extends string>({
             key={option.value}
             accessibilityRole="tab"
             accessibilityState={{ selected: active, disabled: option.disabled }}
+            aria-selected={active}
+            aria-disabled={option.disabled}
             accessibilityLabel={option.label}
             disabled={option.disabled}
             onPress={() => onChange(option.value)}

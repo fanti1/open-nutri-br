@@ -4,7 +4,7 @@
         "module": "ambulatorio",
         "category": "antropometria",
         "name": "IMC",
-        "short_description": "Índice de Massa Corporal",
+        "short_description": "Índice de Massa Corporal (adulto)",
         "icon_key": "scale",
         "formula_reference": "World Health Organization, Obesity: Preventing and Managing the Global Epidemic, WHO Technical Report Series 894, 2000.",
         "input_schema": {
@@ -22,10 +22,36 @@
             ]
         },
         "life_stages": [
-            "adulto",
-            "idoso"
+            "adulto"
         ],
         "sort_order": 10
+    },
+    {
+        "slug": "imc-idoso",
+        "module": "ambulatorio",
+        "category": "antropometria",
+        "name": "IMC do Idoso",
+        "short_description": "IMC com pontos de corte para idosos (SISVAN)",
+        "icon_key": "scale",
+        "formula_reference": "Lipschitz DA, Screening for nutritional status in the elderly, Prim Care, 1994; adotado pelo Ministério da Saúde no SISVAN para pessoas com 60 anos ou mais.",
+        "input_schema": {
+            "weight_kg": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:500"
+            ],
+            "height_m": [
+                "required",
+                "numeric",
+                "min:0.3",
+                "max:2.5"
+            ]
+        },
+        "life_stages": [
+            "idoso"
+        ],
+        "sort_order": 11
     },
     {
         "slug": "peso-ideal",
@@ -474,6 +500,39 @@
             "idoso"
         ],
         "sort_order": 70
+    },
+    {
+        "slug": "schofield",
+        "module": "ambulatorio",
+        "category": "metabolismo",
+        "name": "Schofield",
+        "short_description": "Taxa metabólica basal (todas as idades)",
+        "icon_key": "flame",
+        "formula_reference": "Schofield WN, Hum Nutr Clin Nutr, 1985; coeficientes conforme FAO/WHO/UNU, Human Energy Requirements, 2004, Tabela 5.2.",
+        "input_schema": {
+            "age_years": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:120"
+            ],
+            "sex": [
+                "required",
+                "in:male,female"
+            ],
+            "weight_kg": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:300"
+            ]
+        },
+        "life_stages": [
+            "crianca",
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 72
     },
     {
         "slug": "cunningham",
@@ -1632,39 +1691,6 @@
             "crianca"
         ],
         "sort_order": 490
-    },
-    {
-        "slug": "schofield",
-        "module": "pediatria",
-        "category": "gasto_energetico",
-        "name": "Schofield",
-        "short_description": "Taxa metabólica basal (todas as idades)",
-        "icon_key": "flame",
-        "formula_reference": "Schofield WN, Hum Nutr Clin Nutr, 1985; coeficientes conforme FAO/WHO/UNU, Human Energy Requirements, 2004, Tabela 5.2.",
-        "input_schema": {
-            "age_years": [
-                "required",
-                "numeric",
-                "min:0",
-                "max:120"
-            ],
-            "sex": [
-                "required",
-                "in:male,female"
-            ],
-            "weight_kg": [
-                "required",
-                "numeric",
-                "min:1",
-                "max:300"
-            ]
-        },
-        "life_stages": [
-            "crianca",
-            "adulto",
-            "idoso"
-        ],
-        "sort_order": 500
     },
     {
         "slug": "necessidade-energetica-infantil",

@@ -2,6 +2,7 @@ import { notifyChange } from '../changes';
 import type { SqlDatabase } from '../db/types';
 import { nowIso } from '../ids';
 import type { CalculatorProfile, CalculatorProfiles } from '../../domain/calculatorProfile';
+import type { LifeStage } from '../../domain/calculators/types';
 import type { Profile } from '../models';
 
 export type ThemePreference = 'system' | 'light' | 'dark';
@@ -14,6 +15,8 @@ export interface AppSettings {
   last_backup_at: string | null;
   /** Perfil (faixa etária + sexo) escolhido em cada calculadora, por slug. */
   calculator_profiles: CalculatorProfiles;
+  /** Público escolhido na aba Calculadoras (criança, adulto ou idoso). */
+  calculator_audience: LifeStage;
 }
 
 const DEFAULTS: AppSettings = {
@@ -23,6 +26,7 @@ const DEFAULTS: AppSettings = {
   theme: 'system',
   last_backup_at: null,
   calculator_profiles: {},
+  calculator_audience: 'adulto',
 };
 
 /** Preferências e perfil do profissional (chave → JSON) e calculadoras favoritas. */

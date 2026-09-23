@@ -4,6 +4,7 @@ use App\Domain\Calculators\Ambulatorio\Antropometria\CinturaQuadril\CinturaQuadr
 use App\Domain\Calculators\Ambulatorio\Antropometria\DurninWomersley\DurninWomersleyCalculator;
 use App\Domain\Calculators\Ambulatorio\Antropometria\GorduraCorporal\GorduraCorporalCalculator;
 use App\Domain\Calculators\Ambulatorio\Antropometria\Imc\ImcCalculator;
+use App\Domain\Calculators\Ambulatorio\Antropometria\ImcIdoso\ImcIdosoCalculator;
 use App\Domain\Calculators\Ambulatorio\Antropometria\IndiceConicidade\IndiceConicidadeCalculator;
 use App\Domain\Calculators\Ambulatorio\Antropometria\JacksonPollock3\JacksonPollock3Calculator;
 use App\Domain\Calculators\Ambulatorio\Antropometria\JacksonPollock7\JacksonPollock7Calculator;
@@ -64,6 +65,7 @@ use App\Domain\Calculators\Pediatria\GastoEnergetico\Schofield\SchofieldCalculat
 return [
     // Fase 1 — Ambulatório / Antropometria
     'imc' => ImcCalculator::class,
+    'imc-idoso' => ImcIdosoCalculator::class,
     'peso-ideal' => PesoIdealCalculator::class,
     'perda-de-peso' => PerdaDePesoCalculator::class,
     'cintura-quadril' => CinturaQuadrilCalculator::class,

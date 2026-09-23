@@ -15,7 +15,7 @@ import {
   type CalculatorProfile,
 } from '../../src/domain/calculatorProfile';
 import { LIFE_STAGE_LABELS, LIFE_STAGE_PLURAL } from '../../src/domain/calculators/support/lifeStage';
-import { IncompleteInputsError } from '../../src/domain/calculators/types';
+import { IncompleteInputsError, type LifeStage } from '../../src/domain/calculators/types';
 import { catalogEntry, catalogIcon, moduleInfo } from '../../src/domain/catalog';
 import { computeLocally } from '../../src/domain/computeCalculation';
 import { fieldHint, fieldLabel, optionLabel } from '../../src/domain/forms/fieldLabels';
@@ -37,7 +37,7 @@ import { TextField } from '../../src/ui/TextField';
 import { toast } from '../../src/ui/Toast';
 
 export default function CalculatorScreen() {
-  const { slug, patientId, consultationId } = useLocalSearchParams<{ slug: string; patientId?: string; consultationId?: string }>();
+  const { slug, patientId, consultationId, faixa } = useLocalSearchParams<{ slug: string; patientId?: string; consultationId?: string; faixa?: string }>();
   const router = useRouter();
   const { colors } = useTheme();
   const { consultations, calculations, settings } = useData();
@@ -56,8 +56,19 @@ export default function CalculatorScreen() {
   const [savedId, setSavedId] = useState<string | null>(null);
   const [aboutOpen, setAboutOpen] = useState(false);
 
+  // Vindo da escolha de público (aba Calculadoras), a faixa etária já está decidida;
+  // o sexo continua sendo o guardado para esta calculadora.
+  const hubStage = entry && faixa && entry.life_stages.includes(faixa as LifeStage) ? (faixa as LifeStage) : null;
+  const savedForAudience: CalculatorProfile | null =
+    savedProfile && hubStage && savedProfile.stage !== hubStage ? { ...savedProfile, stage: hubStage } : savedProfile;
+
   // Com paciente, o perfil vem da ficha; sem paciente, do perfil guardado desta calculadora.
-  const profile: CalculatorProfile | null = patient ? profileFromPatient(patient) : savedProfile;
+  const profile: CalculatorProfile | null = patient ? profileFromPatient(patient) : savedForAudience;
+
+  useEffect(() => {
+    if (savedProfile && hubStage && savedProfile.stage !== hubStage) void saveProfile({ ...savedProfile, stage: hubStage });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hubStage, savedProfile?.stage]);
 
   useEffect(() => {
     if (initialPatient) void selectPatient(initialPatient);
@@ -167,7 +178,8 @@ export default function CalculatorScreen() {
         <CalculatorProfileCard
           entry={entry}
           patient={patient}
-          saved={savedProfile}
+          saved={savedForAudience}
+          preferredStage={hubStage}
           onSave={saveProfile}
           onPickPatient={() => setPickerOpen(true)}
           onClearPatient={() => void selectPatient(null)}

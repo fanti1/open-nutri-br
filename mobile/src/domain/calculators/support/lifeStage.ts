@@ -29,6 +29,9 @@ export const LIFE_STAGE_SHORT_LABELS: Record<LifeStage, string> = {
   idoso: 'Idoso',
 };
 
+/** Cor de cada faixa na paleta do tema (child/adult/elderly). */
+export const STAGE_COLOR_KEY = { crianca: 'child', adulto: 'adult', idoso: 'elderly' } as const;
+
 export const LIFE_STAGE_PLURAL: Record<LifeStage, string> = {
   crianca: 'crianças e adolescentes',
   adulto: 'adultos',

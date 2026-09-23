@@ -7,6 +7,7 @@ import { relacaoCinturaEstaturaCalculator } from './ambulatorio/antropometria/re
 import { cunninghamCalculator } from './ambulatorio/metabolismo/cunningham';
 import { gorduraCorporalCalculator } from './ambulatorio/antropometria/gorduraCorporal';
 import { imcCalculator } from './ambulatorio/antropometria/imc';
+import { imcIdosoCalculator } from './ambulatorio/antropometria/imcIdoso';
 import { perdaDePesoCalculator } from './ambulatorio/antropometria/perdaDePeso';
 import { pesoIdealCalculator } from './ambulatorio/antropometria/pesoIdeal';
 import { distribuicaoMacrosCalculator } from './ambulatorio/metabolismo/distribuicaoMacros';
@@ -63,6 +64,7 @@ import type { Calculator } from './types';
  */
 export const CALCULATOR_REGISTRY: Record<string, Calculator<any>> = {
   imc: imcCalculator,
+  'imc-idoso': imcIdosoCalculator,
   'peso-ideal': pesoIdealCalculator,
   'perda-de-peso': perdaDePesoCalculator,
   'cintura-quadril': cinturaQuadrilCalculator,
