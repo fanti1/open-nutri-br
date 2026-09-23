@@ -6,3 +6,8 @@
 export function round2(value: number): number {
   return Math.round((value + Number.EPSILON) * 100) / 100;
 }
+
+/** Mesma regra com 4 casas — densidade corporal (g/mL) perde informação com 2. */
+export function round4(value: number): number {
+  return Math.round((value + Number.EPSILON) * 10000) / 10000;
+}

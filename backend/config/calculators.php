@@ -1,10 +1,16 @@
 <?php
 
 use App\Domain\Calculators\Ambulatorio\Antropometria\CinturaQuadril\CinturaQuadrilCalculator;
+use App\Domain\Calculators\Ambulatorio\Antropometria\DurninWomersley\DurninWomersleyCalculator;
 use App\Domain\Calculators\Ambulatorio\Antropometria\GorduraCorporal\GorduraCorporalCalculator;
 use App\Domain\Calculators\Ambulatorio\Antropometria\Imc\ImcCalculator;
+use App\Domain\Calculators\Ambulatorio\Antropometria\IndiceConicidade\IndiceConicidadeCalculator;
+use App\Domain\Calculators\Ambulatorio\Antropometria\JacksonPollock3\JacksonPollock3Calculator;
+use App\Domain\Calculators\Ambulatorio\Antropometria\JacksonPollock7\JacksonPollock7Calculator;
 use App\Domain\Calculators\Ambulatorio\Antropometria\PerdaDePeso\PerdaDePesoCalculator;
 use App\Domain\Calculators\Ambulatorio\Antropometria\PesoIdeal\PesoIdealCalculator;
+use App\Domain\Calculators\Ambulatorio\Antropometria\RelacaoCinturaEstatura\RelacaoCinturaEstaturaCalculator;
+use App\Domain\Calculators\Ambulatorio\Metabolismo\Cunningham\CunninghamCalculator;
 use App\Domain\Calculators\Ambulatorio\Metabolismo\DistribuicaoMacros\DistribuicaoMacrosCalculator;
 use App\Domain\Calculators\Ambulatorio\Metabolismo\FormulaDeBolso\FormulaDeBolsoCalculator;
 use App\Domain\Calculators\Ambulatorio\Metabolismo\HarrisBenedict\HarrisBenedictCalculator;
@@ -111,4 +117,12 @@ return [
     'perfil-lipidico' => PerfilLipidicoCalculator::class,
     'ckd-epi-2021' => CkdEpi2021Calculator::class,
     'cockcroft-gault' => CockcroftGaultCalculator::class,
+
+    // Fase 6 — Extensões de Consultório (adiposidade central, dobras cutâneas, massa magra)
+    'relacao-cintura-estatura' => RelacaoCinturaEstaturaCalculator::class,
+    'indice-conicidade' => IndiceConicidadeCalculator::class,
+    'jackson-pollock-3' => JacksonPollock3Calculator::class,
+    'jackson-pollock-7' => JacksonPollock7Calculator::class,
+    'durnin-womersley' => DurninWomersleyCalculator::class,
+    'cunningham' => CunninghamCalculator::class,
 ];

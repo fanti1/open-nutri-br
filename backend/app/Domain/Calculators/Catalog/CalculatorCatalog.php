@@ -67,6 +67,13 @@ final class CalculatorCatalog
         'perfil-lipidico' => ['short_description' => 'LDL (Friedewald), não-HDL e metas', 'icon_key' => 'heart-pulse', 'sort_order' => 640],
         'ckd-epi-2021' => ['short_description' => 'TFG estimada e estágio KDIGO', 'icon_key' => 'kidney', 'sort_order' => 650],
         'cockcroft-gault' => ['short_description' => 'Clearance de creatinina estimado', 'icon_key' => 'kidney', 'sort_order' => 660],
+
+        'relacao-cintura-estatura' => ['short_description' => 'Adiposidade central (NICE)', 'icon_key' => 'ruler', 'sort_order' => 42],
+        'indice-conicidade' => ['short_description' => 'Adiposidade abdominal e risco coronariano', 'icon_key' => 'circle', 'sort_order' => 44],
+        'jackson-pollock-3' => ['short_description' => '% de gordura por 3 dobras cutâneas', 'icon_key' => 'pinch', 'sort_order' => 52],
+        'jackson-pollock-7' => ['short_description' => '% de gordura por 7 dobras cutâneas', 'icon_key' => 'pinch', 'sort_order' => 54],
+        'durnin-womersley' => ['short_description' => '% de gordura por 4 dobras cutâneas', 'icon_key' => 'pinch', 'sort_order' => 56],
+        'cunningham' => ['short_description' => 'TMB pela massa magra', 'icon_key' => 'flame', 'sort_order' => 75],
     ];
 
     /**
@@ -122,6 +129,13 @@ final class CalculatorCatalog
         'perfil-lipidico' => 'Perfil Lipídico',
         'ckd-epi-2021' => 'CKD-EPI 2021',
         'cockcroft-gault' => 'Cockcroft-Gault',
+
+        'relacao-cintura-estatura' => 'Cintura-Estatura',
+        'indice-conicidade' => 'Índice de Conicidade',
+        'jackson-pollock-3' => 'Jackson-Pollock (3 dobras)',
+        'jackson-pollock-7' => 'Jackson-Pollock (7 dobras)',
+        'durnin-womersley' => 'Durnin-Womersley',
+        'cunningham' => 'Cunningham',
     ];
 
     public function __construct(

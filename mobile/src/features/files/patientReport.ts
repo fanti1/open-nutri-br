@@ -1,5 +1,5 @@
 import type { Consultation, Patient, Profile, SavedCalculation } from '../../data/models';
-import { classificationLabel, fieldLabel } from '../../domain/forms/fieldLabels';
+import { classificationLabel, fieldLabel, formatFieldValue } from '../../domain/forms/fieldLabels';
 import { formatAge, formatDate, formatDateTime, formatNumber } from '../../lib/format';
 import { sexLabel } from '../patients/patientHelpers';
 
@@ -59,7 +59,7 @@ export function buildPatientReportHtml(input: {
   const calculationRows = calculations
     .map((calc) => {
       const values = Object.entries(calc.values)
-        .map(([key, value]) => `${escape(fieldLabel(key))}: ${escape(formatNumber(value))}`)
+        .map(([key, value]) => `${escape(fieldLabel(key))}: ${escape(formatFieldValue(key, value))}`)
         .join('<br>');
       return `<tr><td>${escape(formatDate(calc.created_at))}</td><td>${escape(calc.calculator_name)}</td><td>${values}</td><td>${
         calc.classification ? escape(classificationLabel(calc.classification)) : '—'

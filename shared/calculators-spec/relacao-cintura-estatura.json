@@ -1,0 +1,9 @@
+{
+  "slug": "relacao-cintura-estatura",
+  "cases": [
+    { "inputs": { "waist_cm": 78, "height_cm": 164 }, "expected": { "values": { "waist_height_ratio": 0.48 }, "classification": "adiposidade_central_saudavel" } },
+    { "inputs": { "waist_cm": 81, "height_cm": 165 }, "expected": { "values": { "waist_height_ratio": 0.49 }, "classification": "adiposidade_central_saudavel" } },
+    { "inputs": { "waist_cm": 88, "height_cm": 170 }, "expected": { "values": { "waist_height_ratio": 0.52 }, "classification": "adiposidade_central_aumentada" } },
+    { "inputs": { "waist_cm": 105, "height_cm": 172 }, "expected": { "values": { "waist_height_ratio": 0.61 }, "classification": "adiposidade_central_alta" } }
+  ]
+}

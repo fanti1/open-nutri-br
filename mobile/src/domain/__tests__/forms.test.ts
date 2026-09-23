@@ -4,8 +4,8 @@ import { autofillFromPatient } from '../autofill';
 import { maskDate, parseTypedDate } from '../../ui/DateTimeField';
 import { classificationTone } from '../catalog';
 import { classificationLabel } from '../forms/fieldLabels';
-import { parseCalculatorForm } from '../forms/parseForm';
-import { schemaToFields } from '../forms/schemaToFields';
+import { missingFieldsMessage, parseCalculatorForm } from '../forms/parseForm';
+import { isFieldActive, schemaToFields } from '../forms/schemaToFields';
 
 const imcFields = schemaToFields({
   weight_kg: ['required', 'numeric', 'min:1', 'max:500'],
@@ -37,6 +37,27 @@ describe('parseCalculatorForm', () => {
 
     expect(parsed.errors.age_years).toBe('Digite um número inteiro.');
     expect(parsed.inputs.flag).toBe(true);
+  });
+});
+
+describe('conditional fields (required_if)', () => {
+  const fields = schemaToFields({
+    sex: ['required', 'in:male,female'],
+    skinfold_chest_mm: ['required_if:sex,male', 'nullable', 'numeric'],
+    skinfold_triceps_mm: ['required_if:sex,female', 'nullable', 'numeric'],
+  });
+
+  it('requires only the fields that apply to the chosen option', () => {
+    expect(parseCalculatorForm(fields, { sex: 'male', skinfold_chest_mm: '12' }).complete).toBe(true);
+    expect(parseCalculatorForm(fields, { sex: 'female', skinfold_chest_mm: '12' }).complete).toBe(false);
+    expect(missingFieldsMessage(fields, { sex: 'female' })).toBe('Falta preencher: Dobra tricipital (mm).');
+  });
+
+  it('drops values typed into a field that no longer applies', () => {
+    const parsed = parseCalculatorForm(fields, { sex: 'female', skinfold_chest_mm: '12', skinfold_triceps_mm: '18' });
+
+    expect(parsed.inputs).toEqual({ sex: 'female', skinfold_triceps_mm: 18 });
+    expect(isFieldActive(fields[1], { sex: 'female' })).toBe(false);
   });
 });
 

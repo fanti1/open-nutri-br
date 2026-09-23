@@ -1,0 +1,7 @@
+{
+  "slug": "jackson-pollock-7",
+  "cases": [
+    { "inputs": { "sex": "male", "age_years": 40, "skinfold_chest_mm": 10, "skinfold_midaxillary_mm": 12, "skinfold_triceps_mm": 9, "skinfold_subscapular_mm": 14, "skinfold_abdominal_mm": 20, "skinfold_suprailiac_mm": 15, "skinfold_thigh_mm": 13 }, "expected": { "values": { "body_fat_percent": 14.89, "body_density": 1.0648, "sum_skinfolds_mm": 93 }, "classification": null } },
+    { "inputs": { "sex": "female", "age_years": 35, "skinfold_chest_mm": 12, "skinfold_midaxillary_mm": 11, "skinfold_triceps_mm": 18, "skinfold_subscapular_mm": 15, "skinfold_abdominal_mm": 22, "skinfold_suprailiac_mm": 16, "skinfold_thigh_mm": 24 }, "expected": { "values": { "body_fat_percent": 23.74, "body_density": 1.0449, "sum_skinfolds_mm": 118 }, "classification": null } }
+  ]
+}

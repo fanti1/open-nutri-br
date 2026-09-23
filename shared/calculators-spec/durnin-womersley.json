@@ -1,0 +1,9 @@
+{
+  "slug": "durnin-womersley",
+  "cases": [
+    { "inputs": { "sex": "male", "age_years": 25, "skinfold_biceps_mm": 6, "skinfold_triceps_mm": 12, "skinfold_subscapular_mm": 15, "skinfold_suprailiac_mm": 14 }, "expected": { "values": { "body_fat_percent": 18.12, "body_density": 1.0574, "sum_skinfolds_mm": 47 }, "classification": null } },
+    { "inputs": { "sex": "male", "age_years": 45, "skinfold_biceps_mm": 8, "skinfold_triceps_mm": 14, "skinfold_subscapular_mm": 20, "skinfold_suprailiac_mm": 22 }, "expected": { "values": { "body_fat_percent": 28.00, "body_density": 1.0356, "sum_skinfolds_mm": 64 }, "classification": null } },
+    { "inputs": { "sex": "female", "age_years": 18, "skinfold_biceps_mm": 8, "skinfold_triceps_mm": 16, "skinfold_subscapular_mm": 12, "skinfold_suprailiac_mm": 12 }, "expected": { "values": { "body_fat_percent": 25.54, "body_density": 1.0409, "sum_skinfolds_mm": 48 }, "classification": null } },
+    { "inputs": { "sex": "female", "age_years": 55, "skinfold_biceps_mm": 10, "skinfold_triceps_mm": 22, "skinfold_subscapular_mm": 20, "skinfold_suprailiac_mm": 18 }, "expected": { "values": { "body_fat_percent": 37.74, "body_density": 1.0149, "sum_skinfolds_mm": 70 }, "classification": null } }
+  ]
+}

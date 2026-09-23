@@ -1,5 +1,5 @@
 import { fieldLabel } from './fieldLabels';
-import type { FieldDescriptor } from './schemaToFields';
+import { isFieldActive, type FieldDescriptor } from './schemaToFields';
 
 export interface ParsedForm {
   inputs: Record<string, unknown>;
@@ -18,6 +18,7 @@ export function parseCalculatorForm(fields: FieldDescriptor[], raw: Record<strin
   const errors: Record<string, string> = {};
 
   for (const field of fields) {
+    if (!isFieldActive(field, raw)) continue;
     const text = (raw[field.name] ?? '').trim();
     if (text === '') continue;
 
@@ -49,12 +50,16 @@ export function parseCalculatorForm(fields: FieldDescriptor[], raw: Record<strin
     }
   }
 
-  const complete = Object.keys(errors).length === 0 && fields.every((field) => !field.required || inputs[field.name] !== undefined);
+  const complete = Object.keys(errors).length === 0 && fields.every((field) => !isRequired(field, raw) || inputs[field.name] !== undefined);
 
   return { inputs, errors, complete };
 }
 
+function isRequired(field: FieldDescriptor, values: Record<string, unknown>): boolean {
+  return field.required || (field.requiredIf !== undefined && isFieldActive(field, values));
+}
+
 export function missingFieldsMessage(fields: FieldDescriptor[], inputs: Record<string, unknown>): string | null {
-  const missing = fields.filter((field) => field.required && inputs[field.name] === undefined).map((field) => fieldLabel(field.name));
+  const missing = fields.filter((field) => isRequired(field, inputs) && inputs[field.name] === undefined).map((field) => fieldLabel(field.name));
   return missing.length ? `Falta preencher: ${missing.join(', ')}.` : null;
 }

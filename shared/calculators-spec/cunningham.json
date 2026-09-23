@@ -1,0 +1,7 @@
+{
+  "slug": "cunningham",
+  "cases": [
+    { "inputs": { "weight_kg": 70, "body_fat_percent": 20 }, "expected": { "values": { "bmr_kcal": 1732, "lean_mass_kg": 56 }, "classification": null } },
+    { "inputs": { "weight_kg": 55, "body_fat_percent": 32 }, "expected": { "values": { "bmr_kcal": 1322.8, "lean_mass_kg": 37.4 }, "classification": null } }
+  ]
+}

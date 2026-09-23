@@ -1,3 +1,5 @@
+import { formatNumber } from '../../lib/format';
+
 /** Rótulos em português para os campos e opções dos formulários de calculadora. */
 const FIELD_LABELS: Record<string, string> = {
   weight_kg: 'Peso (kg)',
@@ -76,6 +78,15 @@ const FIELD_LABELS: Record<string, string> = {
   triglycerides_mg_dl: 'Triglicerídeos (mg/dL)',
   fasting: 'Coleta em jejum',
   creatinine_mg_dl: 'Creatinina sérica (mg/dL)',
+  skinfold_chest_mm: 'Dobra peitoral (mm)',
+  skinfold_midaxillary_mm: 'Dobra axilar média (mm)',
+  skinfold_triceps_mm: 'Dobra tricipital (mm)',
+  skinfold_biceps_mm: 'Dobra bicipital (mm)',
+  skinfold_subscapular_mm: 'Dobra subescapular (mm)',
+  skinfold_abdominal_mm: 'Dobra abdominal (mm)',
+  skinfold_suprailiac_mm: 'Dobra suprailíaca (mm)',
+  skinfold_thigh_mm: 'Dobra da coxa (mm)',
+  body_fat_percent: 'Gordura corporal (%)',
 
   // Campos de resultado
   value: 'Resultado',
@@ -109,6 +120,11 @@ const FIELD_LABELS: Record<string, string> = {
   non_hdl_mg_dl: 'Não-HDL-c (mg/dL)',
   egfr_ml_min_173m2: 'TFG estimada (mL/min/1,73 m²)',
   crcl_ml_min: 'Clearance de creatinina (mL/min)',
+  waist_height_ratio: 'Relação cintura/estatura',
+  conicity_index: 'Índice de conicidade',
+  body_density: 'Densidade corporal (g/mL)',
+  sum_skinfolds_mm: 'Soma das dobras (mm)',
+  lean_mass_kg: 'Massa magra (kg)',
 };
 
 const OPTION_LABELS: Record<string, string> = {
@@ -158,10 +174,22 @@ const FIELD_HINTS: Record<string, string> = {
   ferritin_ng_ml: 'ng/mL equivale a µg/L.',
   hba1c_percent: 'Os três exames são opcionais — preencha ao menos um.',
   triglycerides_mg_dl: 'Com TG ≥ 400 mg/dL o LDL por Friedewald não é calculado.',
+  body_fat_percent: 'Use o resultado de uma equação de dobras (Jackson-Pollock, Durnin-Womersley) ou da bioimpedância.',
+  skinfold_thigh_mm: 'Medidas do lado direito, com adipômetro, média de 2–3 leituras.',
 };
 
 export function fieldHint(name: string): string | undefined {
   return FIELD_HINTS[name];
+}
+
+/** Resultados que precisam de mais de 2 casas decimais para ter sentido clínico. */
+const FIELD_DECIMALS: Record<string, number> = {
+  body_density: 4,
+};
+
+/** Valor de resultado formatado em pt-BR com as casas decimais adequadas ao campo. */
+export function formatFieldValue(name: string, value: number): string {
+  return formatNumber(value, FIELD_DECIMALS[name] ?? 2);
 }
 
 export function fieldLabel(name: string): string {
@@ -190,6 +218,7 @@ const ACCENTED_WORDS: Record<string, string> = {
   desejavel: 'desejável',
   diminuida: 'diminuída',
   falencia: 'falência',
+  saudavel: 'saudável',
 };
 
 /** Transforma um código de classificação (ex.: "risco_de_sobrepeso") em texto legível. */

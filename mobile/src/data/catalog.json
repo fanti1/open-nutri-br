@@ -120,6 +120,72 @@
         "sort_order": 40
     },
     {
+        "slug": "relacao-cintura-estatura",
+        "module": "ambulatorio",
+        "category": "antropometria",
+        "name": "Cintura-Estatura",
+        "short_description": "Adiposidade central (NICE)",
+        "icon_key": "ruler",
+        "formula_reference": "NICE, Overweight and obesity management (NG246), 2025; Ashwell M, Gunn P, Gibson S, Waist-to-height ratio is a better screening tool than waist circumference and BMI for adult cardiometabolic risk factors, Obes Rev, 2012.",
+        "input_schema": {
+            "waist_cm": [
+                "required",
+                "numeric",
+                "min:20",
+                "max:300"
+            ],
+            "height_cm": [
+                "required",
+                "numeric",
+                "min:50",
+                "max:250"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 42
+    },
+    {
+        "slug": "indice-conicidade",
+        "module": "ambulatorio",
+        "category": "antropometria",
+        "name": "Índice de Conicidade",
+        "short_description": "Adiposidade abdominal e risco coronariano",
+        "icon_key": "circle",
+        "formula_reference": "Valdez R, A simple model-based index of abdominal adiposity, J Clin Epidemiol, 1991; pontos de corte: Pitanga FJG, Lessa I, Sensibilidade e especificidade do índice de conicidade como discriminador do risco coronariano de adultos em Salvador, Brasil, Rev Bras Epidemiol, 2004.",
+        "input_schema": {
+            "waist_cm": [
+                "required",
+                "numeric",
+                "min:20",
+                "max:300"
+            ],
+            "weight_kg": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:500"
+            ],
+            "height_cm": [
+                "required",
+                "numeric",
+                "min:50",
+                "max:250"
+            ],
+            "sex": [
+                "required",
+                "in:male,female"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 44
+    },
+    {
         "slug": "gordura-corporal",
         "module": "ambulatorio",
         "category": "antropometria",
@@ -156,6 +222,182 @@
             "idoso"
         ],
         "sort_order": 50
+    },
+    {
+        "slug": "jackson-pollock-3",
+        "module": "ambulatorio",
+        "category": "antropometria",
+        "name": "Jackson-Pollock (3 dobras)",
+        "short_description": "% de gordura por 3 dobras cutâneas",
+        "icon_key": "pinch",
+        "formula_reference": "Jackson AS, Pollock ML, Generalized equations for predicting body density of men, Br J Nutr, 1978; Jackson AS, Pollock ML, Ward A, Generalized equations for predicting body density of women, Med Sci Sports Exerc, 1980; Siri WE, 1961.",
+        "input_schema": {
+            "sex": [
+                "required",
+                "in:male,female"
+            ],
+            "age_years": [
+                "required",
+                "integer",
+                "min:18",
+                "max:61"
+            ],
+            "skinfold_chest_mm": [
+                "required_if:sex,male",
+                "nullable",
+                "numeric",
+                "min:1",
+                "max:100"
+            ],
+            "skinfold_abdominal_mm": [
+                "required_if:sex,male",
+                "nullable",
+                "numeric",
+                "min:1",
+                "max:100"
+            ],
+            "skinfold_triceps_mm": [
+                "required_if:sex,female",
+                "nullable",
+                "numeric",
+                "min:1",
+                "max:100"
+            ],
+            "skinfold_suprailiac_mm": [
+                "required_if:sex,female",
+                "nullable",
+                "numeric",
+                "min:1",
+                "max:100"
+            ],
+            "skinfold_thigh_mm": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:100"
+            ]
+        },
+        "life_stages": [
+            "adulto"
+        ],
+        "sort_order": 52
+    },
+    {
+        "slug": "jackson-pollock-7",
+        "module": "ambulatorio",
+        "category": "antropometria",
+        "name": "Jackson-Pollock (7 dobras)",
+        "short_description": "% de gordura por 7 dobras cutâneas",
+        "icon_key": "pinch",
+        "formula_reference": "Jackson AS, Pollock ML, Generalized equations for predicting body density of men, Br J Nutr, 1978; Jackson AS, Pollock ML, Ward A, Generalized equations for predicting body density of women, Med Sci Sports Exerc, 1980; Siri WE, 1961.",
+        "input_schema": {
+            "sex": [
+                "required",
+                "in:male,female"
+            ],
+            "age_years": [
+                "required",
+                "integer",
+                "min:18",
+                "max:61"
+            ],
+            "skinfold_chest_mm": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:100"
+            ],
+            "skinfold_midaxillary_mm": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:100"
+            ],
+            "skinfold_triceps_mm": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:100"
+            ],
+            "skinfold_subscapular_mm": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:100"
+            ],
+            "skinfold_abdominal_mm": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:100"
+            ],
+            "skinfold_suprailiac_mm": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:100"
+            ],
+            "skinfold_thigh_mm": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:100"
+            ]
+        },
+        "life_stages": [
+            "adulto"
+        ],
+        "sort_order": 54
+    },
+    {
+        "slug": "durnin-womersley",
+        "module": "ambulatorio",
+        "category": "antropometria",
+        "name": "Durnin-Womersley",
+        "short_description": "% de gordura por 4 dobras cutâneas",
+        "icon_key": "pinch",
+        "formula_reference": "Durnin JVGA, Womersley J, Body fat assessed from total body density and its estimation from skinfold thickness: measurements on 481 men and women aged from 16 to 72 years, Br J Nutr, 1974; Siri WE, 1961.",
+        "input_schema": {
+            "sex": [
+                "required",
+                "in:male,female"
+            ],
+            "age_years": [
+                "required",
+                "integer",
+                "min:17",
+                "max:72"
+            ],
+            "skinfold_biceps_mm": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:100"
+            ],
+            "skinfold_triceps_mm": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:100"
+            ],
+            "skinfold_subscapular_mm": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:100"
+            ],
+            "skinfold_suprailiac_mm": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:100"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 56
     },
     {
         "slug": "harris-benedict",
@@ -232,6 +474,33 @@
             "idoso"
         ],
         "sort_order": 70
+    },
+    {
+        "slug": "cunningham",
+        "module": "ambulatorio",
+        "category": "metabolismo",
+        "name": "Cunningham",
+        "short_description": "TMB pela massa magra",
+        "icon_key": "flame",
+        "formula_reference": "Cunningham JJ, A reanalysis of the factors influencing basal metabolic rate in normal adults, Am J Clin Nutr, 1980.",
+        "input_schema": {
+            "weight_kg": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:500"
+            ],
+            "body_fat_percent": [
+                "required",
+                "numeric",
+                "min:2",
+                "max:70"
+            ]
+        },
+        "life_stages": [
+            "adulto"
+        ],
+        "sort_order": 75
     },
     {
         "slug": "formula-de-bolso",

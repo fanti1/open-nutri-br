@@ -5,8 +5,8 @@ import { useData } from '../../../data/DataProvider';
 import type { Patient } from '../../../data/models';
 import { useLiveQuery } from '../../../data/useLiveQuery';
 import { classificationTone } from '../../../domain/catalog';
-import { classificationLabel, fieldLabel } from '../../../domain/forms/fieldLabels';
-import { formatDate, formatNumber } from '../../../lib/format';
+import { classificationLabel, fieldLabel, formatFieldValue } from '../../../domain/forms/fieldLabels';
+import { formatDate } from '../../../lib/format';
 import { useTheme } from '../../../theme/ThemeProvider';
 import { AppText } from '../../../ui/AppText';
 import { Badge } from '../../../ui/Badge';
@@ -60,7 +60,7 @@ export function CalculationsSection({ patient }: { patient: Patient }) {
             </View>
             {mainKey && (
               <AppText>
-                {fieldLabel(mainKey)}: <AppText variant="bodyStrong">{formatNumber(mainValue)}</AppText>
+                {fieldLabel(mainKey)}: <AppText variant="bodyStrong">{formatFieldValue(mainKey, mainValue)}</AppText>
               </AppText>
             )}
             {calc.classification && <Badge label={classificationLabel(calc.classification)} color={toneColor[classificationTone(calc.classification)]} />}

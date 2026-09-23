@@ -2,7 +2,7 @@
 
 App para nutricionistas brasileiros: calculadoras clínicas com método científico e referência, fichas de pacientes, agenda com lembretes e checklist de tarefas. Backend em Laravel, app mobile nativo em React Native/Expo.
 
-- **45 calculadoras**: Consultório (antropometria + metabolismo), Hospitalar/Terapia Intensiva (triagem, diagnóstico e suporte nutricional), Pediatria (curvas de crescimento OMS com classificação SISVAN, Gomez, Waterlow, Schofield, necessidade energética FAO) e Hematologia/Bioquímica (anemia e ferritina OMS, diagnóstico glicêmico SBD, HOMA-IR, perfil lipídico, CKD-EPI 2021, Cockcroft-Gault). Cada uma declara para quais fases da vida (criança/adulto/idoso) foi validada.
+- **51 calculadoras**: Consultório (antropometria — incluindo relação cintura-estatura, índice de conicidade e dobras cutâneas de Jackson-Pollock e Durnin-Womersley — e metabolismo, incluindo Cunningham), Hospitalar/Terapia Intensiva (triagem, diagnóstico e suporte nutricional), Pediatria (curvas de crescimento OMS com classificação SISVAN, Gomez, Waterlow, Schofield, necessidade energética FAO) e Hematologia/Bioquímica (anemia e ferritina OMS, diagnóstico glicêmico SBD, HOMA-IR, perfil lipídico, CKD-EPI 2021, Cockcroft-Gault). Cada uma declara para quais fases da vida (criança/adulto/idoso) foi validada.
 - **Tudo aberto a todos**, sem conta obrigatória.
 - **Dados no aparelho** (SQLite) com backup em arquivo para Drive/iCloud/e-mail.
 
@@ -10,7 +10,8 @@ Decisões e lacunas de cada fase em `docs/adr/`:
 [0001 Hospitalar/UTI](docs/adr/0001-fase-2-hospitalar-uti.md) ·
 [0002 Pediatria](docs/adr/0002-fase-3-pediatria.md) ·
 [0003 Dados locais e acesso aberto](docs/adr/0003-dados-locais-e-acesso-aberto.md) ·
-[0004 Hematologia e Bioquímica](docs/adr/0004-fase-4-hematologia-bioquimica.md).
+[0004 Hematologia e Bioquímica](docs/adr/0004-fase-4-hematologia-bioquimica.md) ·
+[0005 Extensões de Consultório](docs/adr/0005-fase-6-extensoes-consultorio.md).
 
 ## Estrutura
 
@@ -52,7 +53,7 @@ php artisan migrate --seed   # popula o catálogo de calculadoras
 php artisan serve --host=0.0.0.0   # necessário para o celular físico acessar via IP da LAN
 ```
 
-Testes (214: as 45 calculadoras com vetores científicos conhecidos, curvas OMS com gabarito da própria OMS, acesso público, catálogo, alimentos, LGPD):
+Testes (234: as 51 calculadoras com vetores científicos conhecidos, curvas OMS com gabarito da própria OMS, acesso público, catálogo, alimentos, LGPD):
 
 ```
 php artisan test
@@ -85,7 +86,7 @@ cp .env.example .env   # EXPO_PUBLIC_API_URL: backend usado pelas curvas OMS e p
 npm run android         # ou npm run ios (exige Mac) / npm run web
 ```
 
-Testes (183: a engine de cálculo contra os mesmos vetores do PHPUnit em `shared/calculators-spec/`, camada de dados sobre SQLite real, formulários e auto-preenchimento):
+Testes (202: a engine de cálculo contra os mesmos vetores do PHPUnit em `shared/calculators-spec/`, camada de dados sobre SQLite real, formulários e auto-preenchimento):
 
 ```
 npm test

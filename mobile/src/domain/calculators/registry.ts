@@ -1,4 +1,10 @@
 import { cinturaQuadrilCalculator } from './ambulatorio/antropometria/cinturaQuadril';
+import { durninWomersleyCalculator } from './ambulatorio/antropometria/durninWomersley';
+import { indiceConicidadeCalculator } from './ambulatorio/antropometria/indiceConicidade';
+import { jacksonPollock3Calculator } from './ambulatorio/antropometria/jacksonPollock3';
+import { jacksonPollock7Calculator } from './ambulatorio/antropometria/jacksonPollock7';
+import { relacaoCinturaEstaturaCalculator } from './ambulatorio/antropometria/relacaoCinturaEstatura';
+import { cunninghamCalculator } from './ambulatorio/metabolismo/cunningham';
 import { gorduraCorporalCalculator } from './ambulatorio/antropometria/gorduraCorporal';
 import { imcCalculator } from './ambulatorio/antropometria/imc';
 import { perdaDePesoCalculator } from './ambulatorio/antropometria/perdaDePeso';
@@ -82,6 +88,13 @@ export const CALCULATOR_REGISTRY: Record<string, Calculator<any>> = {
   'perfil-lipidico': perfilLipidicoCalculator,
   'ckd-epi-2021': ckdEpi2021Calculator,
   'cockcroft-gault': cockcroftGaultCalculator,
+
+  'relacao-cintura-estatura': relacaoCinturaEstaturaCalculator,
+  'indice-conicidade': indiceConicidadeCalculator,
+  'jackson-pollock-3': jacksonPollock3Calculator,
+  'jackson-pollock-7': jacksonPollock7Calculator,
+  'durnin-womersley': durninWomersleyCalculator,
+  cunningham: cunninghamCalculator,
 };
 
 export function getCalculator(slug: string): Calculator<any> | undefined {

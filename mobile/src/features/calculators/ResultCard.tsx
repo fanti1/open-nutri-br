@@ -1,8 +1,7 @@
 import { View } from 'react-native';
 import { classificationTone } from '../../domain/catalog';
 import type { CalculationOutcome } from '../../domain/calculators/types';
-import { classificationLabel, fieldLabel } from '../../domain/forms/fieldLabels';
-import { formatNumber } from '../../lib/format';
+import { classificationLabel, fieldLabel, formatFieldValue } from '../../domain/forms/fieldLabels';
 import { useTheme } from '../../theme/ThemeProvider';
 import { AppText } from '../../ui/AppText';
 import { Card } from '../../ui/Card';
@@ -24,7 +23,7 @@ export function ResultCard({ outcome }: { outcome: Pick<CalculationOutcome, 'val
           <AppText variant="caption" tone="muted">
             {fieldLabel(main[0])}
           </AppText>
-          <AppText variant="metric">{formatNumber(main[1])}</AppText>
+          <AppText variant="metric">{formatFieldValue(main[0], main[1])}</AppText>
         </View>
       )}
 
@@ -43,7 +42,7 @@ export function ResultCard({ outcome }: { outcome: Pick<CalculationOutcome, 'val
               <AppText variant="caption" tone="muted" style={{ flex: 1 }}>
                 {fieldLabel(key)}
               </AppText>
-              <AppText variant="bodyStrong">{formatNumber(value)}</AppText>
+              <AppText variant="bodyStrong">{formatFieldValue(key, value)}</AppText>
             </View>
           ))}
         </View>

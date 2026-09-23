@@ -1,0 +1,8 @@
+{
+  "slug": "indice-conicidade",
+  "cases": [
+    { "inputs": { "waist_cm": 100, "weight_kg": 85, "height_cm": 175, "sex": "male" }, "expected": { "values": { "conicity_index": 1.32 }, "classification": "risco_coronariano_elevado" } },
+    { "inputs": { "waist_cm": 80, "weight_kg": 60, "height_cm": 165, "sex": "male" }, "expected": { "values": { "conicity_index": 1.22 }, "classification": "sem_risco_coronariano_elevado" } },
+    { "inputs": { "waist_cm": 80, "weight_kg": 60, "height_cm": 165, "sex": "female" }, "expected": { "values": { "conicity_index": 1.22 }, "classification": "risco_coronariano_elevado" } }
+  ]
+}

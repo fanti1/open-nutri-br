@@ -8,6 +8,15 @@ export interface FieldDescriptor {
   min?: number;
   max?: number;
   integer?: boolean;
+  /** `required_if:sex,male` — o campo só se aplica (e só aparece) quando outro campo tem esse valor. */
+  requiredIf?: { field: string; value: string };
+}
+
+/** Campo condicional cuja condição não vale: não aparece, não é validado nem enviado. */
+export function isFieldActive(field: FieldDescriptor, values: Record<string, unknown>): boolean {
+  if (!field.requiredIf) return true;
+  const current = values[field.requiredIf.field];
+  return current !== undefined && String(current) === field.requiredIf.value;
 }
 
 /**
@@ -26,6 +35,8 @@ export function schemaToFields(schema: Record<string, unknown>): FieldDescriptor
     const inRule = rules.find((rule) => rule.startsWith('in:'));
     const minRule = rules.find((rule) => rule.startsWith('min:'));
     const maxRule = rules.find((rule) => rule.startsWith('max:'));
+    const requiredIfRule = rules.find((rule) => rule.startsWith('required_if:'));
+    const [conditionField, conditionValue] = requiredIfRule ? requiredIfRule.slice('required_if:'.length).split(',') : [];
 
     const type: FieldType = inRule
       ? 'select'
@@ -43,6 +54,7 @@ export function schemaToFields(schema: Record<string, unknown>): FieldDescriptor
       min: minRule ? Number(minRule.slice(4)) : undefined,
       max: maxRule ? Number(maxRule.slice(4)) : undefined,
       integer: rules.includes('integer'),
+      requiredIf: requiredIfRule ? { field: conditionField, value: conditionValue } : undefined,
     };
   });
 }

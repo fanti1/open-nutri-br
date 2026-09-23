@@ -13,7 +13,7 @@ import { catalogEntry, catalogIcon } from '../../src/domain/catalog';
 import { computeCalculation, computeLocally, isLocalCalculator } from '../../src/domain/computeCalculation';
 import { fieldHint, fieldLabel, optionLabel } from '../../src/domain/forms/fieldLabels';
 import { missingFieldsMessage, parseCalculatorForm } from '../../src/domain/forms/parseForm';
-import { schemaToFields, type FieldDescriptor } from '../../src/domain/forms/schemaToFields';
+import { isFieldActive, schemaToFields, type FieldDescriptor } from '../../src/domain/forms/schemaToFields';
 import { ResultCard } from '../../src/features/calculators/ResultCard';
 import { LifeStageBadges } from '../../src/features/common/LifeStageBadge';
 import { patientLifeStage } from '../../src/features/patients/patientHelpers';
@@ -180,7 +180,7 @@ export default function CalculatorScreen() {
       )}
 
       <View style={{ gap: 16 }}>
-        {fields.map((field) => (
+        {fields.filter((field) => isFieldActive(field, values)).map((field) => (
           <FieldInput
             key={field.name}
             field={field}
@@ -256,7 +256,8 @@ export default function CalculatorScreen() {
 function FieldInput({
   field, value, error, autofilled, onChange,
 }: { field: FieldDescriptor; value: string; error?: string; autofilled: boolean; onChange: (value: string) => void }) {
-  const label = `${fieldLabel(field.name)}${field.required ? ' *' : ''}`;
+  // Campos condicionais só são exibidos quando a condição vale — e aí são obrigatórios.
+  const label = `${fieldLabel(field.name)}${field.required || field.requiredIf ? ' *' : ''}`;
   const hint = autofilled ? 'Preenchido a partir da ficha' : fieldHint(field.name);
 
   if (field.type === 'select' || field.type === 'boolean') {

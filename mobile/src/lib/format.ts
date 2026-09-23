@@ -31,8 +31,9 @@ export function formatMonth(date: Date): string {
   return text.charAt(0).toUpperCase() + text.slice(1);
 }
 
-export function formatNumber(value: number): string {
-  return numberFormat.format(value);
+export function formatNumber(value: number, maxFractionDigits = 2): string {
+  if (maxFractionDigits === 2) return numberFormat.format(value);
+  return new Intl.NumberFormat('pt-BR', { maximumFractionDigits: maxFractionDigits }).format(value);
 }
 
 export function formatBytes(bytes: number): string {
