@@ -94,3 +94,31 @@ export interface Profile {
   crn_state: string;
   specialty: string;
 }
+
+export type MealPlanKind = 'plano' | 'recordatorio';
+
+/** Plano alimentar (prescrição) ou recordatório 24 h (o que o paciente comeu). */
+export interface MealPlan {
+  id: string;
+  patient_id: string | null;
+  kind: MealPlanKind;
+  title: string;
+  target_kcal: number | null;
+  reference_date: string | null;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+/** Um alimento da TACO numa refeição, em gramas (nome guardado para o histórico não mudar). */
+export interface MealPlanItem {
+  id: string;
+  plan_id: string;
+  meal: string;
+  food_id: number;
+  food_name: string;
+  quantity_g: number;
+  household_measure: string | null;
+  position: number;
+  created_at: string;
+}

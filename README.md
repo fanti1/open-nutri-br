@@ -1,11 +1,13 @@
 # OpenNutri BR
 
-App para nutricionistas brasileiros: calculadoras clínicas com método científico e referência, fichas de pacientes, agenda com lembretes e checklist de tarefas. App nativo em React Native/Expo que funciona inteiro offline; um backend Laravel serve de implementação de referência das fórmulas.
+App para nutricionistas brasileiros: calculadoras clínicas com método científico e referência, fichas de pacientes, plano alimentar e recordatório 24 h com a TACO, agenda com lembretes e checklist de tarefas. App nativo em React Native/Expo que funciona inteiro offline; um backend Laravel serve de implementação de referência das fórmulas.
 
 - **55 calculadoras**, organizadas por público (criança, adulto, idoso) e área: Consultório (antropometria — IMC do adulto e do idoso com os cortes do SISVAN, relação cintura-estatura, índice de conicidade, dobras cutâneas de Jackson-Pollock e Durnin-Womersley — e metabolismo — Harris-Benedict, Mifflin-St Jeor, Schofield, Cunningham…), Hospitalar/Terapia Intensiva (triagem, diagnóstico, suporte nutricional e gasto energético em ventilação mecânica e queimados — Penn State, Swinamer, Toronto), Pediatria (curvas de crescimento OMS com classificação SISVAN, Gomez, Waterlow, necessidade energética FAO) e Exames laboratoriais (anemia e ferritina OMS, diagnóstico glicêmico SBD, HOMA-IR, perfil lipídico, CKD-EPI 2021, Cockcroft-Gault). Cada uma declara para quais faixas etárias foi validada.
 - **100% offline**: todas as calculadoras (inclusive as curvas da OMS) e a tabela TACO completa rodam no celular, sem internet e sem servidor.
+- **Plano alimentar e recordatório 24 h** com os 597 alimentos da TACO: totais por refeição e do dia, macronutrientes (g e % da energia), fibras, sódio, proteína em g/kg, meta de energia a partir do VCT salvo na ficha e PDF.
 - **Tudo aberto a todos**, sem conta.
-- **Dados no aparelho** (SQLite), com backup opcional no Google Drive (ou e-mail, WhatsApp…).
+- **Dados no aparelho** (SQLite), com backup opcional no Google Drive (ou e-mail, WhatsApp…), protegido por senha (AES-256-GCM).
+- **Bloqueio do app** com PIN e digital/rosto, com espera crescente depois de erros seguidos.
 
 Decisões e lacunas de cada fase em `docs/adr/`:
 [0001 Hospitalar/UTI](docs/adr/0001-fase-2-hospitalar-uti.md) ·
@@ -14,7 +16,8 @@ Decisões e lacunas de cada fase em `docs/adr/`:
 [0004 Hematologia e Bioquímica](docs/adr/0004-fase-4-hematologia-bioquimica.md) ·
 [0005 Extensões de Consultório](docs/adr/0005-fase-6-extensoes-consultorio.md) ·
 [0006 App 100% offline](docs/adr/0006-app-100-offline.md) ·
-[0007 Calculadoras por público](docs/adr/0007-publico-primeiro.md).
+[0007 Calculadoras por público](docs/adr/0007-publico-primeiro.md) ·
+[0008 Plano alimentar e segurança](docs/adr/0008-plano-alimentar-e-seguranca.md).
 
 ## Estrutura
 
@@ -89,10 +92,16 @@ npm install
 npm run android         # ou npm run ios (exige Mac) / npm run web
 ```
 
-Testes (252: as 55 calculadoras contra os mesmos vetores do PHPUnit em `shared/calculators-spec/`, curvas OMS e TACO embarcadas, camada de dados sobre SQLite real, perfil do cálculo, formulários e auto-preenchimento):
+Testes (284: as 55 calculadoras contra os mesmos vetores do PHPUnit em `shared/calculators-spec/`, curvas OMS e TACO embarcadas, camada de dados sobre SQLite real, plano alimentar, criptografia do backup, bloqueio com PIN, perfil do cálculo, formulários e auto-preenchimento):
 
 ```
 npm test
+```
+
+Testes de ponta a ponta no app nativo (Android), com [Maestro](https://maestro.dev) e um emulador ou celular conectado via adb, sobre o APK instalado:
+
+```
+maestro test e2e/maestro/01-principal.yaml e2e/maestro/02-dieta-seguranca.yaml
 ```
 
 Build de QA para Android via EAS (não exige Mac) — gera um APK para instalar direto no celular:

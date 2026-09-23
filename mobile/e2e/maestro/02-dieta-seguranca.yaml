@@ -1,0 +1,93 @@
+appId: br.com.opennutri.app
+name: Plano alimentar, bloqueio com PIN e backup com senha (nativo)
+---
+- runFlow: _onboarding.yaml
+
+# Plano alimentar com a TACO do aparelho
+- tapOn: "Mais"
+- tapOn: "Planos alimentares"
+- tapOn: "Plano alimentar"
+- assertVisible: "Total do plano"
+- tapOn: "Adicionar alimento: Almoço"
+- tapOn: "Buscar na TACO.*"
+- inputText: "arroz integral cozido"
+- takeScreenshot: shots/n09-busca-com-teclado
+- tapOn: "Arroz, integral, cozido"
+# O campo já abre focado com o "100" sugerido selecionado: digitar substitui
+- inputText: "150"
+- hideKeyboard
+- assertVisible: "186 kcal nesta porção"
+- tapOn: "Adicionar"
+- assertVisible: "Almoço · 186 kcal"
+- tapOn:
+    below: 'Meta de energia \(kcal/dia\)'
+- inputText: "1800"
+- hideKeyboard
+- assertVisible: "meta 1.800 kcal.*"
+- takeScreenshot: shots/n10-plano
+# Volta sem tirar o foco de nada: a meta tem de continuar salva
+- back
+- assertVisible: "186 kcal"
+- takeScreenshot: shots/n11-lista-planos
+- back
+
+# Bloqueio com PIN
+- tapOn: "Segurança"
+- tapOn: "Ativar bloqueio com PIN"
+- tapOn:
+    id: "pin-2"
+- tapOn:
+    id: "pin-5"
+- tapOn:
+    id: "pin-8"
+- tapOn:
+    id: "pin-0"
+- tapOn: "Continuar"
+- tapOn:
+    id: "pin-2"
+- tapOn:
+    id: "pin-5"
+- tapOn:
+    id: "pin-8"
+- tapOn:
+    id: "pin-0"
+- assertVisible: "Bloqueio ativado"
+- takeScreenshot: shots/n12-seguranca
+- stopApp
+- launchApp
+- assertVisible: "OpenNutri BR bloqueado"
+- takeScreenshot: shots/n13-bloqueado
+- tapOn:
+    id: "pin-1"
+- tapOn:
+    id: "pin-1"
+- tapOn:
+    id: "pin-1"
+- tapOn:
+    id: "pin-1"
+- assertVisible: "PIN incorreto. Tente de novo."
+- tapOn:
+    id: "pin-2"
+- tapOn:
+    id: "pin-5"
+- tapOn:
+    id: "pin-8"
+- tapOn:
+    id: "pin-0"
+- extendedWaitUntil:
+    notVisible: "OpenNutri BR bloqueado"
+    timeout: 15000
+- assertVisible: ".*, Ana!"
+
+# Backup com senha: gera o arquivo e abre o compartilhamento do Android
+- tapOn: "Mais"
+- tapOn: "Backup.*"
+- tapOn:
+    below: "Senha do backup"
+- inputText: "minha-senha-123"
+- tapOn:
+    below: "Repita a senha"
+- inputText: "minha-senha-123"
+- hideKeyboard
+- tapOn: "Salvar backup no Google Drive"
+- takeScreenshot: shots/n14-compartilhar

@@ -50,7 +50,7 @@ export default function CalculatorScreen() {
 
   const [patient, setPatient] = useState<Patient | null>(null);
   const [pickerOpen, setPickerOpen] = useState(false);
-  const [values, setValues] = useState<Record<string, string>>({});
+  const [typed, setValues] = useState<Record<string, string>>({});
   const [autofilled, setAutofilled] = useState<Set<string>>(new Set());
   const [saving, setSaving] = useState(false);
   const [savedId, setSavedId] = useState<string | null>(null);
@@ -75,13 +75,14 @@ export default function CalculatorScreen() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialPatient?.id]);
 
-  // O perfil responde ao campo "sexo" do método (e a qualquer outro que ele cubra).
-  useEffect(() => {
-    if (!entry || !profile) return;
-    const injected = profileValues(entry.input_schema, profile);
-    setValues((current) => ({ ...current, ...injected }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [entry?.slug, profile?.stage, profile?.sex]);
+  // O perfil responde ao campo "sexo" do método (e a qualquer outro que ele cubra);
+  // esses campos ficam ocultos no formulário, então o perfil sempre prevalece.
+  const profileStage = profile?.stage;
+  const profileSex = profile?.sex;
+  const values = useMemo(
+    () => (entry && profileStage && profileSex ? { ...typed, ...profileValues(entry.input_schema, { stage: profileStage, sex: profileSex }) } : typed),
+    [entry, typed, profileStage, profileSex],
+  );
 
   const parsed = useMemo(() => parseCalculatorForm(fields, values), [fields, values]);
 

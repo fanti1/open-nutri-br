@@ -40,6 +40,7 @@ export default function MoreScreen() {
     {
       title: 'Consulta',
       items: [
+        { icon: 'restaurant-outline', title: 'Planos alimentares', subtitle: 'Plano e recordatório 24 h com a TACO', href: '/planos' },
         { icon: 'nutrition-outline', title: 'Tabela Nutricional', subtitle: 'Composição de alimentos (TACO)', href: '/alimentos' },
         { icon: 'library-outline', title: 'Referências científicas', subtitle: 'Método e publicação de cada calculadora', href: '/referencias' },
       ],
@@ -48,6 +49,7 @@ export default function MoreScreen() {
       title: 'Dados',
       items: [
         { icon: 'cloud-upload-outline', title: 'Backup e restauração', subtitle: 'Salvar no Google Drive, iCloud, e-mail…', href: '/backup' },
+        { icon: 'lock-closed-outline', title: 'Segurança', subtitle: appSettings?.app_lock ? 'Bloqueio com PIN ativado' : 'Bloquear o app com PIN e digital', href: '/seguranca' },
         { icon: 'shield-checkmark-outline', title: 'Privacidade e LGPD', subtitle: 'Como seus dados são guardados', href: '/privacidade' },
       ],
     },

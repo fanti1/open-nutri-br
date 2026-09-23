@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import type { ReactNode } from 'react';
-import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../theme/ThemeProvider';
 import { AppText } from './AppText';
@@ -57,7 +57,7 @@ export function Screen({ title, subtitle, back, right, children, scroll = true, 
   const contentPadding = { padding: spacing.lg, paddingBottom: spacing.xxl + (floating ? 72 : 0) + insets.bottom, gap: spacing.lg };
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1, backgroundColor: colors.background }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <KeyboardAvoidingView style={{ flex: 1, backgroundColor: colors.background }} behavior="padding">
       {header || <View style={{ height: insets.top }} />}
       {scroll ? (
         <ScrollView contentContainerStyle={contentPadding} keyboardShouldPersistTaps="handled">

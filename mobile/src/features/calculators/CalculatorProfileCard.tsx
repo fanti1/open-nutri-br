@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 import type { Patient } from '../../data/models';
 import {
@@ -47,9 +47,13 @@ export function CalculatorProfileCard({ entry, patient, saved, preferredStage, o
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState<Partial<CalculatorProfile>>(() => saved ?? { ...initialDraft(entry), ...(preferredStage ? { stage: preferredStage } : {}) });
 
-  useEffect(() => {
+  // Perfil salvo mudou (ex.: veio de outra tela): o rascunho acompanha.
+  const savedKey = saved ? `${saved.stage}|${saved.sex}` : null;
+  const [syncedKey, setSyncedKey] = useState(savedKey);
+  if (savedKey !== syncedKey) {
+    setSyncedKey(savedKey);
     if (saved) setDraft(saved);
-  }, [saved?.stage, saved?.sex]);
+  }
 
   if (patient) {
     const profile = profileFromPatient(patient);

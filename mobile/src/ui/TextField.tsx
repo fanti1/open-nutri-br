@@ -17,10 +17,16 @@ interface TextFieldProps {
   autoFocus?: boolean;
   onSubmitEditing?: () => void;
   autoCapitalize?: 'none' | 'sentences' | 'words';
+  /** Esconde o que é digitado (senhas, PIN). */
+  secureTextEntry?: boolean;
+  maxLength?: number;
+  onBlur?: () => void;
+  /** Seleciona o valor ao tocar: digitar substitui um valor sugerido (ex.: 100 g) em vez de somar dígitos. */
+  selectTextOnFocus?: boolean;
 }
 
 export function TextField({
-  label, value, onChangeText, placeholder, unit, hint, error, keyboardType, multiline, icon, autoFocus, onSubmitEditing, autoCapitalize,
+  label, value, onChangeText, placeholder, unit, hint, error, keyboardType, multiline, icon, autoFocus, onSubmitEditing, autoCapitalize, secureTextEntry, maxLength, onBlur, selectTextOnFocus,
 }: TextFieldProps) {
   const { colors, radius } = useTheme();
 
@@ -53,6 +59,11 @@ export function TextField({
           autoFocus={autoFocus}
           onSubmitEditing={onSubmitEditing}
           autoCapitalize={autoCapitalize}
+          secureTextEntry={secureTextEntry}
+          maxLength={maxLength}
+          onBlur={onBlur}
+          selectTextOnFocus={selectTextOnFocus}
+          accessibilityLabel={label ?? placeholder}
           returnKeyType={onSubmitEditing ? 'done' : undefined}
           style={[styles.input, { color: colors.text, minHeight: multiline ? 96 : undefined, textAlignVertical: multiline ? 'top' : 'center' }]}
         />

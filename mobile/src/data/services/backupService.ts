@@ -5,7 +5,18 @@ import type { SqlDatabase, SqlParam } from '../db/types';
 export const BACKUP_FORMAT = 'opennutri-br-backup';
 
 /** Ordem de inserção respeita as chaves estrangeiras (pacientes antes de atendimentos etc.). */
-const TABLES: Table[] = ['patients', 'consultations', 'calculations', 'attachments', 'tasks', 'appointments', 'favorites', 'settings'];
+const TABLES: Table[] = [
+  'patients',
+  'consultations',
+  'calculations',
+  'attachments',
+  'tasks',
+  'appointments',
+  'meal_plans',
+  'meal_plan_items',
+  'favorites',
+  'settings',
+];
 
 export interface BackupFile {
   format: typeof BACKUP_FORMAT;
@@ -15,6 +26,12 @@ export interface BackupFile {
 }
 
 export class InvalidBackupError extends Error {}
+
+/**
+ * Configurações que pertencem ao aparelho, não aos dados: o PIN do bloqueio não
+ * vai no backup (quem esqueceu o PIN reinstala e restaura sem ficar trancado).
+ */
+const DEVICE_ONLY_SETTINGS = ['app_lock'];
 
 /** Dias sem backup a partir dos quais o app passa a lembrar. */
 export const BACKUP_REMINDER_DAYS = 7;
@@ -36,7 +53,8 @@ export function backupService(db: SqlDatabase) {
       const data: BackupFile['data'] = {};
 
       for (const table of TABLES) {
-        data[table] = await db.getAllAsync<Record<string, SqlParam>>(`SELECT * FROM ${table}`);
+        const rows = await db.getAllAsync<Record<string, SqlParam>>(`SELECT * FROM ${table}`);
+        data[table] = table === 'settings' ? rows.filter((row) => !DEVICE_ONLY_SETTINGS.includes(String(row.key))) : rows;
       }
 
       return { format: BACKUP_FORMAT, schema_version: SCHEMA_VERSION, exported_at: new Date().toISOString(), data };
@@ -66,6 +84,11 @@ export function backupService(db: SqlDatabase) {
       const clearNotificationIds = (table: Table, row: Record<string, SqlParam>) =>
         table === 'tasks' || table === 'appointments' ? { ...row, notification_id: null } : row;
 
+      const deviceSettings = await db.getAllAsync<Record<string, SqlParam>>(
+        `SELECT * FROM settings WHERE key IN (${DEVICE_ONLY_SETTINGS.map(() => '?').join(', ')})`,
+        DEVICE_ONLY_SETTINGS,
+      );
+
       await db.execAsync('BEGIN;');
       try {
         for (const table of [...TABLES].reverse()) {
@@ -73,7 +96,10 @@ export function backupService(db: SqlDatabase) {
         }
 
         for (const table of TABLES) {
-          for (const original of backup.data[table] ?? []) {
+          const rows = table === 'settings'
+            ? [...(backup.data.settings ?? []).filter((row) => !DEVICE_ONLY_SETTINGS.includes(String(row.key))), ...deviceSettings]
+            : (backup.data[table] ?? []);
+          for (const original of rows) {
             const row = clearNotificationIds(table, original);
             const columns = Object.keys(row);
             await db.runAsync(

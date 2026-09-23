@@ -29,7 +29,13 @@
       "expo-status-bar",
       "expo-font",
       "expo-sqlite",
-      "expo-sharing"
+      "expo-sharing",
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "O OpenNutri BR usa o Face ID para desbloquear o app sem digitar o PIN."
+        }
+      ]
     ]
   }
 }

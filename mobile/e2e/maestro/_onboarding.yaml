@@ -1,0 +1,13 @@
+appId: br.com.opennutri.app
+---
+- clearState
+- launchApp
+- tapOn: "Começar"
+- tapOn:
+    below: "Como quer ser chamado(a)?"
+- inputText: "Ana"
+- hideKeyboard
+- tapOn: "Continuar"
+- tapOn: "Li e concordo com a política de privacidade."
+- tapOn: "Aceitar e entrar"
+- assertVisible: ".*, Ana!"

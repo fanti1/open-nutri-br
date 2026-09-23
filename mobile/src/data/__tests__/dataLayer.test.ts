@@ -5,6 +5,7 @@ import type { SqlDatabase } from '../db/types';
 import { attachmentsRepository, AttachmentTooLargeError, MAX_ATTACHMENT_BYTES } from '../repositories/attachments';
 import { calculationsRepository } from '../repositories/calculations';
 import { consultationsRepository } from '../repositories/consultations';
+import { mealPlansRepository } from '../repositories/mealPlans';
 import { patientsRepository } from '../repositories/patients';
 import { settingsRepository } from '../repositories/settings';
 import { tasksRepository } from '../repositories/tasks';
@@ -131,6 +132,35 @@ describe('attachments', () => {
   });
 });
 
+describe('meal plans', () => {
+  it('keeps foods per meal in order, duplicates a plan and is removed with the patient', async () => {
+    const db = await freshDb();
+    const patientId = await patientsRepository(db).create(maria);
+    const repo = mealPlansRepository(db);
+
+    const planId = await repo.create({ patient_id: patientId, kind: 'plano', title: 'Plano Maria', target_kcal: 1800 });
+    await repo.addItem(planId, { meal: 'almoco', food_id: 1, food_name: 'Arroz, integral, cozido', quantity_g: 150, household_measure: '4 col. sopa' });
+    await repo.addItem(planId, { meal: 'almoco', food_id: 561, food_name: 'Feijão, carioca, cozido', quantity_g: 100 });
+    await repo.addItem(planId, { meal: 'cafe_da_manha', food_id: 1, food_name: 'Arroz, integral, cozido', quantity_g: 50 });
+
+    const items = await repo.items(planId);
+    expect(items.filter((i) => i.meal === 'almoco').map((i) => i.position)).toEqual([0, 1]);
+    expect((await repo.list(patientId))[0]).toMatchObject({ title: 'Plano Maria', item_count: 3, patient_name: 'Maria Silva' });
+
+    const copyId = await repo.duplicate(planId, 'Plano Maria (retorno)');
+    expect((await repo.items(copyId)).map((i) => i.quantity_g).sort((a, b) => a - b)).toEqual([50, 100, 150]);
+    expect((await repo.get(copyId))?.target_kcal).toBe(1800);
+
+    const rice = items.find((i) => i.meal === 'almoco' && i.food_id === 1)!;
+    await repo.updateItem(rice.id, { quantity_g: 200 });
+    expect((await repo.items(planId)).find((i) => i.id === rice.id)?.quantity_g).toBe(200);
+
+    await patientsRepository(db).remove(patientId);
+    expect(await repo.list()).toEqual([]);
+    expect(await repo.items(planId)).toEqual([]);
+  });
+});
+
 describe('settings and favorites', () => {
   it('returns defaults, persists values and toggles favorites', async () => {
     const db = await freshDb();
@@ -227,6 +257,29 @@ describe('backup', () => {
     expect(backupOverdue(null, now)).toBe(true);
     expect(backupOverdue('2026-09-20T12:00:00Z', now)).toBe(false);
     expect(backupOverdue('2026-09-15T12:00:00Z', now)).toBe(true);
+  });
+
+  it('carries meal plans but never the device PIN (a forgotten PIN is fixed by reinstalling + restoring)', async () => {
+    const source = await freshDb();
+    const patientId = await patientsRepository(source).create(maria);
+    const planId = await mealPlansRepository(source).create({ patient_id: patientId, kind: 'plano', title: 'Plano' });
+    await mealPlansRepository(source).addItem(planId, { meal: 'almoco', food_id: 1, food_name: 'Arroz, integral, cozido', quantity_g: 100 });
+    const sourceLock = { pin_hash: 'hash-origem', salt: 's', pin_length: 4, biometrics: false, timeout_s: 60 };
+    await settingsRepository(source).set('app_lock', sourceLock);
+    await settingsRepository(source).set('theme', 'dark');
+
+    const file = await backupService(source).exportData();
+    expect(JSON.stringify(file)).not.toContain('hash-origem');
+
+    const target = await freshDb();
+    const targetLock = { ...sourceLock, pin_hash: 'hash-destino' };
+    await settingsRepository(target).set('app_lock', targetLock);
+    await backupService(target).restore(backupService(target).parse(JSON.stringify(file)));
+
+    expect((await mealPlansRepository(target).items(planId))[0].food_name).toBe('Arroz, integral, cozido');
+    const restored = await settingsRepository(target).all();
+    expect(restored.theme).toBe('dark');
+    expect(restored.app_lock).toEqual(targetLock);
   });
 
   it('round-trips every table into a fresh device and drops notification ids', async () => {

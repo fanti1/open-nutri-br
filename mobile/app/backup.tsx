@@ -2,17 +2,29 @@ import { useState } from 'react';
 import { View } from 'react-native';
 import { useData } from '../src/data/DataProvider';
 import { useSettings } from '../src/data/hooks';
+import {
+  decryptBackup,
+  encryptBackup,
+  isEncryptedBackup,
+  MIN_PASSWORD_LENGTH,
+  WrongPasswordError,
+  type EncryptedBackupFile,
+} from '../src/data/services/backupCrypto';
 import { backupOverdue, InvalidBackupError } from '../src/data/services/backupService';
 import { pickTextFile, shareTextFile } from '../src/features/files/fileService';
 import { formatDateTime, toDateOnly } from '../src/lib/format';
+import { secureRandomBytes } from '../src/lib/random';
 import { useTheme } from '../src/theme/ThemeProvider';
 import { AppText } from '../src/ui/AppText';
 import { Button } from '../src/ui/Button';
 import { Card } from '../src/ui/Card';
+import { CheckboxRow } from '../src/ui/Checkbox';
 import { confirm, inform } from '../src/ui/dialogs';
 import { Screen } from '../src/ui/Screen';
 import { IconTile } from '../src/ui/IconTile';
 import { Section } from '../src/ui/Section';
+import { Sheet } from '../src/ui/Sheet';
+import { TextField } from '../src/ui/TextField';
 import { toast } from '../src/ui/Toast';
 
 export default function BackupScreen() {
@@ -20,16 +32,59 @@ export default function BackupScreen() {
   const { backup, agenda, taskActions, settings } = useData();
   const { data: appSettings } = useSettings();
   const [busy, setBusy] = useState<'export' | 'import' | null>(null);
+  const [protect, setProtect] = useState(true);
+  const [password, setPassword] = useState('');
+  const [passwordAgain, setPasswordAgain] = useState('');
+  const [pendingEncrypted, setPendingEncrypted] = useState<EncryptedBackupFile | null>(null);
+  const [restorePassword, setRestorePassword] = useState('');
+  const [restoreError, setRestoreError] = useState<string | null>(null);
+
+  const passwordProblem = !protect
+    ? null
+    : password.length < MIN_PASSWORD_LENGTH
+      ? `A senha precisa ter pelo menos ${MIN_PASSWORD_LENGTH} caracteres.`
+      : password !== passwordAgain
+        ? 'As senhas não conferem.'
+        : null;
 
   const exportBackup = async () => {
+    if (passwordProblem) {
+      toast.error(passwordProblem);
+      return;
+    }
     setBusy('export');
     try {
       const file = await backup.exportData();
-      await shareTextFile(`opennutri-backup-${toDateOnly(new Date())}.json`, 'application/json', JSON.stringify(file));
+      const json = JSON.stringify(file);
+      const content = protect ? JSON.stringify(await encryptBackup(json, password, secureRandomBytes)) : json;
+      const name = `opennutri-backup-${toDateOnly(new Date())}${protect ? '-protegido' : ''}.json`;
+      await shareTextFile(name, 'application/json', content);
       await settings.set('last_backup_at', file.exported_at);
-      toast.success('Backup gerado');
+      toast.success(protect ? 'Backup protegido com senha gerado' : 'Backup gerado');
     } catch {
       toast.error('Não foi possível gerar o backup.');
+    } finally {
+      setBusy(null);
+    }
+  };
+
+  const restoreJson = async (json: string) => {
+    await backup.restore(backup.parse(json));
+    await agenda.rescheduleAll();
+    await taskActions.rescheduleAll();
+    toast.success('Backup restaurado');
+  };
+
+  const restoreEncrypted = async () => {
+    if (!pendingEncrypted) return;
+    setBusy('import');
+    setRestoreError(null);
+    try {
+      await restoreJson(await decryptBackup(pendingEncrypted, restorePassword));
+      setPendingEncrypted(null);
+      setRestorePassword('');
+    } catch (error) {
+      setRestoreError(error instanceof WrongPasswordError || error instanceof InvalidBackupError ? error.message : 'O arquivo não pôde ser lido.');
     } finally {
       setBusy(null);
     }
@@ -48,10 +103,17 @@ export default function BackupScreen() {
     try {
       const text = await pickTextFile();
       if (!text) return;
-      await backup.restore(backup.parse(text));
-      await agenda.rescheduleAll();
-      await taskActions.rescheduleAll();
-      toast.success('Backup restaurado');
+      let parsed: unknown = null;
+      try {
+        parsed = JSON.parse(text);
+      } catch {
+        // backup.parse explica o erro abaixo
+      }
+      if (isEncryptedBackup(parsed)) {
+        setPendingEncrypted(parsed); // pede a senha
+        return;
+      }
+      await restoreJson(text);
     } catch (error) {
       inform('Não foi possível restaurar', error instanceof InvalidBackupError ? error.message : 'O arquivo não pôde ser lido.');
     } finally {
@@ -75,7 +137,21 @@ export default function BackupScreen() {
           </View>
         </View>
 
-        <Button label="Salvar backup no Google Drive" icon="cloud-upload-outline" onPress={exportBackup} loading={busy === 'export'} fullWidth />
+        <CheckboxRow checked={protect} onToggle={() => setProtect((v) => !v)} label="Proteger o arquivo com senha (recomendado)" />
+        {protect && (
+          <View style={{ gap: 10 }}>
+            <TextField label="Senha do backup" value={password} onChangeText={setPassword} secureTextEntry autoCapitalize="none" hint={`Pelo menos ${MIN_PASSWORD_LENGTH} caracteres. Guarde bem: sem ela o backup não pode ser aberto.`} />
+            <TextField label="Repita a senha" value={passwordAgain} onChangeText={setPasswordAgain} secureTextEntry autoCapitalize="none" error={passwordAgain && password !== passwordAgain ? 'As senhas não conferem.' : null} />
+          </View>
+        )}
+        <Button
+          label="Salvar backup no Google Drive"
+          icon="cloud-upload-outline"
+          onPress={exportBackup}
+          loading={busy === 'export'}
+          disabled={!!passwordProblem}
+          fullWidth
+        />
         <Step number={1} text="Toque no botão acima: o app gera um arquivo com todos os seus dados." />
         <Step number={2} text="Na tela de compartilhar, escolha “Salvar no Drive” e confirme a pasta." />
 
@@ -106,6 +182,13 @@ export default function BackupScreen() {
           </AppText>
         </Card>
       </Section>
+      <Sheet visible={!!pendingEncrypted} onClose={() => setPendingEncrypted(null)} title="Backup protegido">
+        <View style={{ gap: 14 }}>
+          <AppText tone="muted">Digite a senha usada ao gerar este backup.</AppText>
+          <TextField label="Senha do backup" value={restorePassword} onChangeText={setRestorePassword} secureTextEntry autoCapitalize="none" autoFocus error={restoreError} onSubmitEditing={restoreEncrypted} />
+          <Button label="Restaurar" icon="cloud-download-outline" onPress={restoreEncrypted} loading={busy === 'import'} disabled={!restorePassword} fullWidth />
+        </View>
+      </Sheet>
     </Screen>
   );
 }

@@ -5,6 +5,7 @@ import { ActivityIndicator, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { DataProvider } from '../src/data/DataProvider';
 import { useSettings } from '../src/data/hooks';
+import { AppLockGate } from '../src/features/security/AppLockGate';
 import { ThemeProvider, useTheme } from '../src/theme/ThemeProvider';
 import { AppText } from '../src/ui/AppText';
 import { ToastHost } from '../src/ui/Toast';
@@ -72,7 +73,9 @@ export default function RootLayout() {
         }
       >
         <ThemedApp>
-          <OnboardingGate />
+          <AppLockGate>
+            <OnboardingGate />
+          </AppLockGate>
         </ThemedApp>
       </DataProvider>
     </SafeAreaProvider>

@@ -1,0 +1,39 @@
+appId: br.com.opennutri.app
+name: Fluxo principal no Android (nativo)
+---
+- clearState
+- launchApp
+- takeScreenshot: shots/n01-boas-vindas
+- tapOn: "Começar"
+- tapOn:
+    below: "Como quer ser chamado(a)?"
+- inputText: "Ana"
+- hideKeyboard
+- tapOn: "Continuar"
+- tapOn: "Li e concordo com a política de privacidade."
+- tapOn: "Aceitar e entrar"
+- assertVisible: ".*, Ana!"
+- takeScreenshot: shots/n02-inicio
+
+# Calculadoras por público (banco nativo guarda a escolha)
+- tapOn: "Calculadoras"
+- assertVisible: "Para quem é o cálculo?"
+- tapOn: "Idoso.*"
+- assertVisible: "40 métodos validados para idosos.*"
+- tapOn: "Consultório"
+- tapOn: "IMC do Idoso"
+- assertVisible: "Para quem é o cálculo\\?"
+- tapOn: "Feminino"
+- tapOn: "Usar este perfil"
+- tapOn:
+    below: "Peso \\(kg\\) \\*"
+- inputText: "64"
+- hideKeyboard
+- tapOn:
+    below: "Altura \\(m\\) \\*"
+- inputText: "1.6"
+- hideKeyboard
+- assertVisible: "Eutrofia"
+- takeScreenshot: shots/n03-imc-idoso
+- tapOn: "Salvar no histórico"
+- assertVisible: "Salvo ✓"

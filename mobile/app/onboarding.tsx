@@ -7,7 +7,7 @@ import { PRIVACY_VERSION } from '../src/lib/constants';
 import { AppText } from '../src/ui/AppText';
 import { Button } from '../src/ui/Button';
 import { Card } from '../src/ui/Card';
-import { Checkbox } from '../src/ui/Checkbox';
+import { CheckboxRow } from '../src/ui/Checkbox';
 import { IconTile, type IconName } from '../src/ui/IconTile';
 import { Screen } from '../src/ui/Screen';
 import { TextField } from '../src/ui/TextField';
@@ -97,10 +97,7 @@ export default function OnboardingScreen() {
       }
     >
       <PrivacyNotice />
-      <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
-        <Checkbox checked={accepted} onToggle={() => setAccepted((v) => !v)} label="Li e concordo" />
-        <AppText style={{ flex: 1 }}>Li e concordo com a política de privacidade.</AppText>
-      </View>
+      <CheckboxRow checked={accepted} onToggle={() => setAccepted((v) => !v)} label="Li e concordo com a política de privacidade." />
     </Screen>
   );
 }

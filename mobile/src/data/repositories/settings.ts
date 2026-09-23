@@ -4,6 +4,7 @@ import { nowIso } from '../ids';
 import type { CalculatorProfile, CalculatorProfiles } from '../../domain/calculatorProfile';
 import type { LifeStage } from '../../domain/calculators/types';
 import type { Profile } from '../models';
+import type { AppLockConfig } from '../services/appLock';
 
 export type ThemePreference = 'system' | 'light' | 'dark';
 
@@ -17,6 +18,8 @@ export interface AppSettings {
   calculator_profiles: CalculatorProfiles;
   /** Público escolhido na aba Calculadoras (criança, adulto ou idoso). */
   calculator_audience: LifeStage;
+  /** Bloqueio por PIN/digital (null = desligado). */
+  app_lock: AppLockConfig | null;
 }
 
 const DEFAULTS: AppSettings = {
@@ -27,6 +30,7 @@ const DEFAULTS: AppSettings = {
   last_backup_at: null,
   calculator_profiles: {},
   calculator_audience: 'adulto',
+  app_lock: null,
 };
 
 /** Preferências e perfil do profissional (chave → JSON) e calculadoras favoritas. */

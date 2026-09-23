@@ -54,7 +54,7 @@ export function TabBar<T extends string>({ tabs, value, onChange }: { tabs: TabI
                 </View>
               )}
             </View>
-            <AppText style={{ fontSize: 11, fontWeight: active ? '700' : '500' }} color={color} numberOfLines={1}>
+            <AppText style={{ fontSize: tabs.length > 4 ? 10 : 11, fontWeight: active ? '700' : '500' }} color={color} numberOfLines={1}>
               {tab.label}
             </AppText>
             <View

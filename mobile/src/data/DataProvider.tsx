@@ -5,6 +5,7 @@ import { attachmentsRepository } from './repositories/attachments';
 import { appointmentsRepository } from './repositories/appointments';
 import { calculationsRepository } from './repositories/calculations';
 import { consultationsRepository } from './repositories/consultations';
+import { mealPlansRepository } from './repositories/mealPlans';
 import { patientsRepository } from './repositories/patients';
 import { settingsRepository } from './repositories/settings';
 import { tasksRepository } from './repositories/tasks';
@@ -22,6 +23,7 @@ function createAppData(db: SqlDatabase) {
     attachments: attachmentsRepository(db),
     tasks: tasksRepository(db),
     appointments: appointmentsRepository(db),
+    mealPlans: mealPlansRepository(db),
     settings: settingsRepository(db),
     agenda: agendaService(db, deviceReminderScheduler),
     taskActions: taskService(db, deviceReminderScheduler),

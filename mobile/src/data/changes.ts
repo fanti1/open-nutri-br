@@ -6,7 +6,9 @@ export type Table =
   | 'tasks'
   | 'appointments'
   | 'favorites'
-  | 'settings';
+  | 'settings'
+  | 'meal_plans'
+  | 'meal_plan_items';
 
 type Listener = (changed: ReadonlySet<Table>) => void;
 

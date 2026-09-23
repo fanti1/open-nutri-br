@@ -15,7 +15,10 @@ interface LiveQuery<T> {
 export function useLiveQuery<T>(tables: Table[], query: () => Promise<T>, deps: DependencyList = []): LiveQuery<T> {
   const [state, setState] = useState<LiveQuery<T>>({ data: undefined, loading: true, error: null });
   const queryRef = useRef(query);
-  queryRef.current = query;
+  // Antes do efeito da consulta: ele já lê a versão nova ao rodar de novo.
+  useEffect(() => {
+    queryRef.current = query;
+  });
   const tablesKey = tables.join(',');
 
   useEffect(() => {

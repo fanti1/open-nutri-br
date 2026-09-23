@@ -104,6 +104,34 @@ export const MIGRATIONS: string[] = [
     value TEXT NOT NULL
   );
   `,
+  // 2 — Planos alimentares e recordatórios 24 h (alimentos da TACO embarcada).
+  `
+  CREATE TABLE meal_plans (
+    id TEXT PRIMARY KEY NOT NULL,
+    patient_id TEXT REFERENCES patients(id) ON DELETE CASCADE,
+    kind TEXT NOT NULL DEFAULT 'plano' CHECK (kind IN ('plano', 'recordatorio')),
+    title TEXT NOT NULL,
+    target_kcal REAL,
+    reference_date TEXT,
+    notes TEXT,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+  );
+  CREATE INDEX idx_meal_plans_patient ON meal_plans(patient_id, updated_at);
+
+  CREATE TABLE meal_plan_items (
+    id TEXT PRIMARY KEY NOT NULL,
+    plan_id TEXT NOT NULL REFERENCES meal_plans(id) ON DELETE CASCADE,
+    meal TEXT NOT NULL,
+    food_id INTEGER NOT NULL,
+    food_name TEXT NOT NULL,
+    quantity_g REAL NOT NULL CHECK (quantity_g > 0),
+    household_measure TEXT,
+    position INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT NOT NULL
+  );
+  CREATE INDEX idx_meal_plan_items_plan ON meal_plan_items(plan_id, meal, position);
+  `,
 ];
 
 export const SCHEMA_VERSION = MIGRATIONS.length;

@@ -7,6 +7,7 @@ import { usePatient, useSettings } from '../../src/data/hooks';
 import { useLiveQuery } from '../../src/data/useLiveQuery';
 import { LifeStageBadge } from '../../src/features/common/LifeStageBadge';
 import { buildPatientReportHtml } from '../../src/features/files/patientReport';
+import { MealPlanList } from '../../src/features/mealPlans/MealPlanList';
 import { exportPdf } from '../../src/features/files/printService';
 import { patientLifeStage, sexLabel } from '../../src/features/patients/patientHelpers';
 import { AgendaSection } from '../../src/features/patients/sections/AgendaSection';
@@ -28,22 +29,22 @@ import { Sheet } from '../../src/ui/Sheet';
 import { TabBar } from '../../src/ui/TabBar';
 import { toast } from '../../src/ui/Toast';
 
-type Tab = 'resumo' | 'atendimentos' | 'calculos' | 'arquivos';
+type Tab = 'resumo' | 'atendimentos' | 'dieta' | 'calculos' | 'arquivos';
 
 /** Ficha do paciente: tudo sobre ele em um só lugar. */
 export default function PatientRecordScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const { colors } = useTheme();
-  const { patients, consultations, calculations, attachments } = useData();
+  const { patients, consultations, calculations, attachments, mealPlans } = useData();
   const { data: patient, loading } = usePatient(id);
   const { data: settings } = useSettings();
   const [tab, setTab] = useState<Tab>('resumo');
   const [menuOpen, setMenuOpen] = useState(false);
-  const { data: counts } = useLiveQuery(['consultations', 'calculations', 'attachments'], async () => {
+  const { data: counts } = useLiveQuery(['consultations', 'calculations', 'attachments', 'meal_plans'], async () => {
     if (!id) return undefined;
-    const [c, k, a] = await Promise.all([consultations.listByPatient(id), calculations.listByPatient(id), attachments.listByPatient(id)]);
-    return { consultations: c.length, calculations: k.length, attachments: a.length };
+    const [c, k, a, m] = await Promise.all([consultations.listByPatient(id), calculations.listByPatient(id), attachments.listByPatient(id), mealPlans.list(id)]);
+    return { consultations: c.length, calculations: k.length, attachments: a.length, mealPlans: m.length };
   }, [id]);
 
   if (!patient) {
@@ -119,6 +120,7 @@ export default function PatientRecordScreen() {
         tabs={[
           { value: 'resumo', label: 'Resumo', icon: 'pulse-outline' },
           { value: 'atendimentos', label: 'Atendimentos', icon: 'document-text-outline', count: counts?.consultations },
+          { value: 'dieta', label: 'Dieta', icon: 'restaurant-outline', count: counts?.mealPlans },
           { value: 'calculos', label: 'Cálculos', icon: 'calculator-outline', count: counts?.calculations },
           { value: 'arquivos', label: 'Arquivos', icon: 'attach-outline', count: counts?.attachments },
         ]}
@@ -133,6 +135,7 @@ export default function PatientRecordScreen() {
         </>
       )}
       {tab === 'atendimentos' && <ConsultationsSection patient={patient} />}
+      {tab === 'dieta' && <MealPlanList patientId={patient.id} />}
       {tab === 'calculos' && <CalculationsSection patient={patient} />}
       {tab === 'arquivos' && <FilesSection patient={patient} />}
 
