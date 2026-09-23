@@ -75,6 +75,7 @@ const ICONS: Record<string, IconName> = {
   glucose: 'cube-outline',
   kidney: 'filter-outline',
   pinch: 'hand-left-outline',
+  lungs: 'fitness-outline',
 };
 
 export function catalogIcon(entry: CatalogEntry): IconName {
@@ -102,6 +103,8 @@ const EXPLICIT_TONES: Record<string, ResultTone> = {
   adiposidade_central_aumentada: 'warning',
   adiposidade_central_alta: 'danger',
   risco_coronariano_elevado: 'danger',
+  equacao_2003b: 'info',
+  equacao_2010_idoso_com_obesidade: 'info',
 };
 
 /**

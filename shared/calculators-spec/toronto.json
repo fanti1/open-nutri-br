@@ -1,0 +1,7 @@
+{
+  "slug": "toronto",
+  "cases": [
+    { "inputs": { "burned_body_surface_percent": 40, "caloric_intake_kcal": 2000, "harris_benedict_kcal": 1600, "temperature_c": 38, "post_burn_day": 5 }, "expected": { "values": { "ree_kcal": 2190.50 }, "classification": null } },
+    { "inputs": { "burned_body_surface_percent": 60, "caloric_intake_kcal": 2500, "harris_benedict_kcal": 1450, "temperature_c": 38.6, "post_burn_day": 12 }, "expected": { "values": { "ree_kcal": 2426.40 }, "classification": null } }
+  ]
+}

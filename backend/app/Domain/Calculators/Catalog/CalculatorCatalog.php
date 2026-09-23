@@ -46,6 +46,9 @@ final class CalculatorCatalog
         'holliday-segar' => ['short_description' => 'Necessidade hídrica (Holliday-Segar)', 'icon_key' => 'droplet', 'sort_order' => 310],
         'nutricao-parenteral' => ['short_description' => 'Relação kcal não-proteica : nitrogênio', 'icon_key' => 'droplets', 'sort_order' => 320],
         'dieta-enteral' => ['short_description' => 'Taxa de infusão enteral', 'icon_key' => 'droplets', 'sort_order' => 330],
+        'penn-state' => ['short_description' => 'Gasto energético em ventilação mecânica', 'icon_key' => 'lungs', 'sort_order' => 285],
+        'swinamer' => ['short_description' => 'Gasto energético em ventilação mecânica', 'icon_key' => 'lungs', 'sort_order' => 286],
+        'toronto' => ['short_description' => 'Gasto energético de repouso em queimados', 'icon_key' => 'flame', 'sort_order' => 295],
 
         'oms-peso-idade-0-5' => ['short_description' => 'Escore-Z e classificação SISVAN (0–5 anos)', 'icon_key' => 'scale', 'sort_order' => 400],
         'oms-comprimento-idade-0-5' => ['short_description' => 'Escore-Z e classificação SISVAN (0–5 anos)', 'icon_key' => 'ruler', 'sort_order' => 410],
@@ -108,6 +111,9 @@ final class CalculatorCatalog
         'holliday-segar' => 'Holliday-Segar',
         'nutricao-parenteral' => 'Nutrição Parenteral',
         'dieta-enteral' => 'Dieta Enteral',
+        'penn-state' => 'Penn State',
+        'swinamer' => 'Swinamer',
+        'toronto' => 'Toronto (Queimados)',
 
         'oms-peso-idade-0-5' => 'Peso/Idade (OMS)',
         'oms-comprimento-idade-0-5' => 'Comprimento/Idade (OMS)',

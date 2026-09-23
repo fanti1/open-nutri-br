@@ -25,6 +25,9 @@ use App\Domain\Calculators\Bioquimica\Glicemia\HomaIr\HomaIrCalculator;
 use App\Domain\Calculators\Bioquimica\Hematologia\AnemiaOms\AnemiaOmsCalculator;
 use App\Domain\Calculators\Bioquimica\Hematologia\FerritinaOms\FerritinaOmsCalculator;
 use App\Domain\Calculators\Bioquimica\PerfilLipidico\PerfilLipidico\PerfilLipidicoCalculator;
+use App\Domain\Calculators\Hospitalar\GastoEnergetico\PennState\PennStateCalculator;
+use App\Domain\Calculators\Hospitalar\GastoEnergetico\Swinamer\SwinamerCalculator;
+use App\Domain\Calculators\Hospitalar\GastoEnergetico\Toronto\TorontoCalculator;
 use App\Domain\Calculators\Hospitalar\SuporteNutricional\BalancoNitrogenado\BalancoNitrogenadoCalculator;
 use App\Domain\Calculators\Hospitalar\SuporteNutricional\Curreri\CurreriCalculator;
 use App\Domain\Calculators\Hospitalar\SuporteNutricional\DietaEnteral\DietaEnteralCalculator;
@@ -92,6 +95,11 @@ return [
     'holliday-segar' => HollidaySegarCalculator::class,
     'nutricao-parenteral' => NutricaoParenteralCalculator::class,
     'dieta-enteral' => DietaEnteralCalculator::class,
+
+    // Fase 2 (complemento) — Hospitalar/UTI / Gasto energético em ventilação e queimados
+    'penn-state' => PennStateCalculator::class,
+    'swinamer' => SwinamerCalculator::class,
+    'toronto' => TorontoCalculator::class,
 
     // Fase 3 — Pediatria / Curvas de crescimento OMS (0–5: 2006; 5–19: 2007)
     'oms-peso-idade-0-5' => PesoIdade0a5Calculator::class,

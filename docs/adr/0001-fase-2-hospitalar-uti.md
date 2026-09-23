@@ -1,7 +1,8 @@
-# ADR 0001 — Fase 2 (Hospitalar/UTI): 14 de 18 calculadoras implementadas
+# ADR 0001 — Fase 2 (Hospitalar/UTI): 17 de 18 calculadoras implementadas
 
 ## Status
-Implementado (parcial, por decisão deliberada).
+Implementado. Ireton-Jones segue fora por falta de fonte primária verificável
+(ver "Atualização").
 
 ## Contexto
 O catálogo científico do plano listava 18 métodos para a Fase 2 (Hospitalar/UTI),
@@ -36,11 +37,27 @@ instrumentos de pontuação/julgamento estruturado — e foram implementados com
 a devida ressalva no código sobre serem simplificações de apoio à decisão,
 não substitutos do julgamento clínico.
 
-## Próximos passos
-Antes de implementar Penn State/Ireton-Jones/Swinamer/Toronto, verificar os
-coeficientes exatos contra a publicação original (não contra fontes
-secundárias) e adicionar ao catálogo com o mesmo padrão SRP + testes das
-demais calculadoras.
+## Atualização (set/2026): 3 das 4 implementadas após conferência
+Os coeficientes foram conferidos nos resumos originais (PubMed, via NCBI
+E-utilities) e adicionados com `category: 'gasto_energetico'`:
+
+- **Swinamer** (`swinamer`) — Crit Care Med 1990 (PMID 2344758):
+  945·SC − 6,4·idade + 108·T + 24,2·f + 817·VC − 4349.
+- **Toronto** (`toronto`) — Allard et al., JPEN 1990 (PMID 2112617):
+  −4343 + 10,5·%SCQ + 0,23·ingestão + 0,84·Harris-Benedict + 114·T − 4,5·dias.
+  A ingestão e o Harris-Benedict são informados pelo profissional: o resumo não
+  diz qual versão de Harris-Benedict foi usada, e o app não presume.
+- **Penn State** (`penn-state`) — escolhe a versão automaticamente:
+  2003b (0,96·Mifflin + 31·Ve + 167·Tmax − 6212; transcrita da revisão
+  PMC7520823) ou 2010 para ≥ 60 anos **e** IMC ≥ 30
+  (0,71·Mifflin + 85·Tmax + 64·Ve − 3085; resumo original PMID 19011147,
+  validada em PMID 21378256). A classificação informa qual versão foi usada.
+
+**Ireton-Jones continua de fora.** A equação de 1992 (PMID 1618877) teve um
+erro estatístico reconhecido e foi revista (Nutr Clin Pract 2002,
+PMID 16214963), mas a revisão não tem resumo publicado e as transcrições
+secundárias divergem no coeficiente de queimadura (804 × 840). Sem a fonte
+primária para desempatar, não publicamos.
 
 ## Outras decisões desta fase
 - Todas as novas calculadoras usam `module: 'hospitalar'` e

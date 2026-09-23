@@ -23,6 +23,9 @@ import { homaIrCalculator } from './bioquimica/glicemia/homaIr';
 import { anemiaOmsCalculator } from './bioquimica/hematologia/anemiaOms';
 import { ferritinaOmsCalculator } from './bioquimica/hematologia/ferritinaOms';
 import { perfilLipidicoCalculator } from './bioquimica/perfilLipidico/perfilLipidico';
+import { pennStateCalculator } from './hospitalar/gastoEnergetico/pennState';
+import { swinamerCalculator } from './hospitalar/gastoEnergetico/swinamer';
+import { torontoCalculator } from './hospitalar/gastoEnergetico/toronto';
 import { balancoNitrogenadoCalculator } from './hospitalar/suporteNutricional/balancoNitrogenado';
 import { curreriCalculator } from './hospitalar/suporteNutricional/curreri';
 import { dietaEnteralCalculator } from './hospitalar/suporteNutricional/dietaEnteral';
@@ -75,6 +78,9 @@ export const CALCULATOR_REGISTRY: Record<string, Calculator<any>> = {
   'holliday-segar': hollidaySegarCalculator,
   'nutricao-parenteral': nutricaoParenteralCalculator,
   'dieta-enteral': dietaEnteralCalculator,
+  'penn-state': pennStateCalculator,
+  swinamer: swinamerCalculator,
+  toronto: torontoCalculator,
 
   schofield: schofieldCalculator,
   'necessidade-energetica-infantil': necessidadeEnergeticaInfantilCalculator,

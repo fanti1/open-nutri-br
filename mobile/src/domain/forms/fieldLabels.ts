@@ -87,6 +87,15 @@ const FIELD_LABELS: Record<string, string> = {
   skinfold_suprailiac_mm: 'Dobra suprailíaca (mm)',
   skinfold_thigh_mm: 'Dobra da coxa (mm)',
   body_fat_percent: 'Gordura corporal (%)',
+  minute_ventilation_l_min: 'Ventilação-minuto (L/min)',
+  max_temperature_c: 'Temperatura máxima nas últimas 24 h (°C)',
+  body_surface_area_m2: 'Superfície corporal (m²)',
+  temperature_c: 'Temperatura (°C)',
+  respiratory_rate: 'Frequência respiratória (irpm)',
+  tidal_volume_l: 'Volume corrente (L)',
+  caloric_intake_kcal: 'Ingestão calórica nas últimas 24 h (kcal)',
+  harris_benedict_kcal: 'Gasto basal por Harris-Benedict (kcal/dia)',
+  post_burn_day: 'Dias após a queimadura',
 
   // Campos de resultado
   value: 'Resultado',
@@ -125,6 +134,8 @@ const FIELD_LABELS: Record<string, string> = {
   body_density: 'Densidade corporal (g/mL)',
   sum_skinfolds_mm: 'Soma das dobras (mm)',
   lean_mass_kg: 'Massa magra (kg)',
+  ree_kcal: 'Gasto energético de repouso (kcal/dia)',
+  mifflin_kcal: 'Mifflin-St Jeor (kcal/dia)',
 };
 
 const OPTION_LABELS: Record<string, string> = {
@@ -176,6 +187,10 @@ const FIELD_HINTS: Record<string, string> = {
   triglycerides_mg_dl: 'Com TG ≥ 400 mg/dL o LDL por Friedewald não é calculado.',
   body_fat_percent: 'Use o resultado de uma equação de dobras (Jackson-Pollock, Durnin-Womersley) ou da bioimpedância.',
   skinfold_thigh_mm: 'Medidas do lado direito, com adipômetro, média de 2–3 leituras.',
+  minute_ventilation_l_min: 'Do ventilador, no momento da avaliação. Para ≥ 60 anos com IMC ≥ 30 é usada a versão 2010.',
+  tidal_volume_l: 'Em litros (ex.: 500 mL = 0,5).',
+  body_surface_area_m2: 'Ex.: DuBois ou Mosteller.',
+  harris_benedict_kcal: 'Use a calculadora Harris-Benedict com o peso do paciente.',
 };
 
 export function fieldHint(name: string): string | undefined {
@@ -219,6 +234,7 @@ const ACCENTED_WORDS: Record<string, string> = {
   diminuida: 'diminuída',
   falencia: 'falência',
   saudavel: 'saudável',
+  equacao: 'equação',
 };
 
 /** Transforma um código de classificação (ex.: "risco_de_sobrepeso") em texto legível. */

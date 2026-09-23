@@ -2,7 +2,7 @@
 
 App para nutricionistas brasileiros: calculadoras clínicas com método científico e referência, fichas de pacientes, agenda com lembretes e checklist de tarefas. Backend em Laravel, app mobile nativo em React Native/Expo.
 
-- **51 calculadoras**: Consultório (antropometria — incluindo relação cintura-estatura, índice de conicidade e dobras cutâneas de Jackson-Pollock e Durnin-Womersley — e metabolismo, incluindo Cunningham), Hospitalar/Terapia Intensiva (triagem, diagnóstico e suporte nutricional), Pediatria (curvas de crescimento OMS com classificação SISVAN, Gomez, Waterlow, Schofield, necessidade energética FAO) e Hematologia/Bioquímica (anemia e ferritina OMS, diagnóstico glicêmico SBD, HOMA-IR, perfil lipídico, CKD-EPI 2021, Cockcroft-Gault). Cada uma declara para quais fases da vida (criança/adulto/idoso) foi validada.
+- **54 calculadoras**: Consultório (antropometria — incluindo relação cintura-estatura, índice de conicidade e dobras cutâneas de Jackson-Pollock e Durnin-Womersley — e metabolismo, incluindo Cunningham), Hospitalar/Terapia Intensiva (triagem, diagnóstico, suporte nutricional e gasto energético em ventilação mecânica e queimados — Penn State, Swinamer, Toronto), Pediatria (curvas de crescimento OMS com classificação SISVAN, Gomez, Waterlow, Schofield, necessidade energética FAO) e Hematologia/Bioquímica (anemia e ferritina OMS, diagnóstico glicêmico SBD, HOMA-IR, perfil lipídico, CKD-EPI 2021, Cockcroft-Gault). Cada uma declara para quais fases da vida (criança/adulto/idoso) foi validada.
 - **Tudo aberto a todos**, sem conta obrigatória.
 - **Dados no aparelho** (SQLite) com backup em arquivo para Drive/iCloud/e-mail.
 
@@ -53,7 +53,7 @@ php artisan migrate --seed   # popula o catálogo de calculadoras
 php artisan serve --host=0.0.0.0   # necessário para o celular físico acessar via IP da LAN
 ```
 
-Testes (234: as 51 calculadoras com vetores científicos conhecidos, curvas OMS com gabarito da própria OMS, acesso público, catálogo, alimentos, LGPD):
+Testes (241: as 54 calculadoras com vetores científicos conhecidos, curvas OMS com gabarito da própria OMS, acesso público, catálogo, alimentos, LGPD):
 
 ```
 php artisan test
@@ -86,19 +86,31 @@ cp .env.example .env   # EXPO_PUBLIC_API_URL: backend usado pelas curvas OMS e p
 npm run android         # ou npm run ios (exige Mac) / npm run web
 ```
 
-Testes (202: a engine de cálculo contra os mesmos vetores do PHPUnit em `shared/calculators-spec/`, camada de dados sobre SQLite real, formulários e auto-preenchimento):
+Testes (209: a engine de cálculo contra os mesmos vetores do PHPUnit em `shared/calculators-spec/`, camada de dados sobre SQLite real, formulários e auto-preenchimento):
 
 ```
 npm test
 ```
 
-Build de QA para Android via EAS (não exige Mac):
+Build de QA para Android via EAS (não exige Mac) — gera um APK para instalar direto no celular:
 
 ```
 npm install -g eas-cli
 eas login
 eas build --profile preview --platform android
 ```
+
+As curvas OMS e a tabela de alimentos usam o backend. O build do EAS roda na nuvem e não lê o `.env` (ele está no `.gitignore`), então defina o endereço no perfil `preview` do `eas.json`, com um host que o celular alcance (IP da LAN ou servidor publicado):
+
+```json
+"preview": {
+  "distribution": "internal",
+  "android": { "buildType": "apk" },
+  "env": { "EXPO_PUBLIC_API_URL": "http://SEU-IP:8001/api/v1" }
+}
+```
+
+Sem isso, o app funciona normalmente e só as curvas OMS e os alimentos avisam que estão sem conexão.
 
 Build iOS via EAS exige conta Apple Developer (US$99/ano) — sem atalho, mas também não exige Mac local.
 

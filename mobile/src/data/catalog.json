@@ -1007,6 +1007,102 @@
         "sort_order": 280
     },
     {
+        "slug": "penn-state",
+        "module": "hospitalar",
+        "category": "gasto_energetico",
+        "name": "Penn State",
+        "short_description": "Gasto energético em ventilação mecânica",
+        "icon_key": "lungs",
+        "formula_reference": "Frankenfield D, Smith JS, Cooney RN, Validation of 2 approaches to predicting resting metabolic rate in critically ill patients, JPEN, 2004; Frankenfield DC et al., JPEN, 2009; Frankenfield D, Validation of an equation for resting metabolic rate in older obese, critically ill patients, JPEN, 2011.",
+        "input_schema": {
+            "weight_kg": [
+                "required",
+                "numeric",
+                "min:20",
+                "max:500"
+            ],
+            "height_cm": [
+                "required",
+                "numeric",
+                "min:100",
+                "max:250"
+            ],
+            "age_years": [
+                "required",
+                "integer",
+                "min:18",
+                "max:120"
+            ],
+            "sex": [
+                "required",
+                "in:male,female"
+            ],
+            "minute_ventilation_l_min": [
+                "required",
+                "numeric",
+                "min:1",
+                "max:40"
+            ],
+            "max_temperature_c": [
+                "required",
+                "numeric",
+                "min:33",
+                "max:43"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 285
+    },
+    {
+        "slug": "swinamer",
+        "module": "hospitalar",
+        "category": "gasto_energetico",
+        "name": "Swinamer",
+        "short_description": "Gasto energético em ventilação mecânica",
+        "icon_key": "lungs",
+        "formula_reference": "Swinamer DL et al., Predictive equation for assessing energy expenditure in mechanically ventilated critically ill patients, Crit Care Med, 1990.",
+        "input_schema": {
+            "body_surface_area_m2": [
+                "required",
+                "numeric",
+                "min:0.5",
+                "max:3.5"
+            ],
+            "age_years": [
+                "required",
+                "integer",
+                "min:18",
+                "max:120"
+            ],
+            "temperature_c": [
+                "required",
+                "numeric",
+                "min:33",
+                "max:43"
+            ],
+            "respiratory_rate": [
+                "required",
+                "numeric",
+                "min:4",
+                "max:60"
+            ],
+            "tidal_volume_l": [
+                "required",
+                "numeric",
+                "min:0.1",
+                "max:2"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 286
+    },
+    {
         "slug": "curreri",
         "module": "hospitalar",
         "category": "suporte_nutricional",
@@ -1033,6 +1129,52 @@
             "idoso"
         ],
         "sort_order": 290
+    },
+    {
+        "slug": "toronto",
+        "module": "hospitalar",
+        "category": "gasto_energetico",
+        "name": "Toronto (Queimados)",
+        "short_description": "Gasto energético de repouso em queimados",
+        "icon_key": "flame",
+        "formula_reference": "Allard JP et al., Validation of a new formula for calculating the energy requirements of burn patients, JPEN, 1990.",
+        "input_schema": {
+            "burned_body_surface_percent": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:100"
+            ],
+            "caloric_intake_kcal": [
+                "required",
+                "numeric",
+                "min:0",
+                "max:10000"
+            ],
+            "harris_benedict_kcal": [
+                "required",
+                "numeric",
+                "min:300",
+                "max:5000"
+            ],
+            "temperature_c": [
+                "required",
+                "numeric",
+                "min:33",
+                "max:43"
+            ],
+            "post_burn_day": [
+                "required",
+                "integer",
+                "min:0",
+                "max:365"
+            ]
+        },
+        "life_stages": [
+            "adulto",
+            "idoso"
+        ],
+        "sort_order": 295
     },
     {
         "slug": "balanco-nitrogenado",
