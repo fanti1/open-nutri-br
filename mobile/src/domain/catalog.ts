@@ -26,12 +26,42 @@ export function catalogEntry(slug: string): CatalogEntry | undefined {
   return BY_SLUG.get(slug);
 }
 
-export const MODULES: Array<{ key: string; label: string; icon: IconName }> = [
-  { key: 'ambulatorio', label: 'Consultório', icon: 'medkit-outline' },
-  { key: 'hospitalar', label: 'Hospitalar / Terapia Intensiva', icon: 'business-outline' },
-  { key: 'pediatria', label: 'Pediatria', icon: 'happy-outline' },
-  { key: 'bioquimica', label: 'Hematologia e Bioquímica', icon: 'flask-outline' },
+export interface ModuleInfo {
+  key: string;
+  label: string;
+  description: string;
+  icon: IconName;
+  colorKey: 'primary' | 'info' | 'child' | 'elderly';
+}
+
+/** Áreas de atuação — a porta de entrada das calculadoras. */
+export const MODULES: ModuleInfo[] = [
+  { key: 'ambulatorio', label: 'Consultório', description: 'Antropometria, composição corporal e gasto energético', icon: 'body-outline', colorKey: 'primary' },
+  { key: 'hospitalar', label: 'Hospitalar e Terapia Intensiva', description: 'Triagem, suporte nutricional e ventilação mecânica', icon: 'medkit-outline', colorKey: 'info' },
+  { key: 'pediatria', label: 'Pediatria', description: 'Curvas de crescimento da OMS e necessidades', icon: 'happy-outline', colorKey: 'child' },
+  { key: 'bioquimica', label: 'Exames laboratoriais', description: 'Anemia, glicemia, lipídios e função renal', icon: 'flask-outline', colorKey: 'elderly' },
 ];
+
+export function moduleInfo(key: string): ModuleInfo | undefined {
+  return MODULES.find((module) => module.key === key);
+}
+
+/** Calculadoras de uma área agrupadas por categoria, na ordem do catálogo. */
+export function categoriesOf(entries: CatalogEntry[]): Array<{ category: string; label: string; entries: CatalogEntry[] }> {
+  const groups = new Map<string, CatalogEntry[]>();
+  for (const entry of entries) groups.set(entry.category, [...(groups.get(entry.category) ?? []), entry]);
+  return [...groups.entries()].map(([category, list]) => ({ category, label: CATEGORY_LABELS[category] ?? category, entries: list }));
+}
+
+export function normalizeSearch(text: string): string {
+  return text.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+}
+
+export function searchCatalog(term: string, entries: CatalogEntry[] = CATALOG): CatalogEntry[] {
+  const needle = normalizeSearch(term.trim());
+  if (!needle) return entries;
+  return entries.filter((entry) => normalizeSearch(`${entry.name} ${entry.short_description} ${entry.slug}`).includes(needle));
+}
 
 export const CATEGORY_LABELS: Record<string, string> = {
   antropometria: 'Antropometria',

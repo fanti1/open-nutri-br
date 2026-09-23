@@ -145,6 +145,22 @@ describe('settings and favorites', () => {
     expect(await repo.toggleFavorite('imc')).toBe(false);
     expect(await repo.favoriteSlugs()).toEqual([]);
   });
+
+  it('remembers the profile chosen for each calculator separately', async () => {
+    const db = await freshDb();
+    const repo = settingsRepository(db);
+
+    expect((await repo.all()).calculator_profiles).toEqual({});
+
+    await repo.setCalculatorProfile('harris-benedict', { stage: 'adulto', sex: 'female' });
+    await repo.setCalculatorProfile('mna-sf', { stage: 'idoso', sex: 'male' });
+    await repo.setCalculatorProfile('harris-benedict', { stage: 'idoso', sex: 'female' });
+
+    expect((await repo.all()).calculator_profiles).toEqual({
+      'harris-benedict': { stage: 'idoso', sex: 'female' },
+      'mna-sf': { stage: 'idoso', sex: 'male' },
+    });
+  });
 });
 
 describe('agenda service', () => {

@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { View } from 'react-native';
 import { useData } from '../../../data/DataProvider';
@@ -19,42 +20,57 @@ const CHARTABLE: Array<{ value: MeasurementField; label: string; unit: string }>
 ];
 
 export function SummarySection({ patient }: { patient: Patient }) {
+  const router = useRouter();
+  const { colors } = useTheme();
   const { consultations } = useData();
   const [chartField, setChartField] = useState<MeasurementField>('weight_kg');
 
   const { data: latest } = useLiveQuery(['consultations'], () => consultations.latestMeasurements(patient.id), [patient.id]);
   const { data: series = [] } = useLiveQuery(['consultations'], () => consultations.measurementSeries(patient.id, chartField), [patient.id, chartField]);
 
+  const hasMeasures = latest?.weight_kg !== undefined || latest?.height_cm !== undefined || latest?.waist_cm !== undefined;
   const bmi = latest?.weight_kg && latest?.height_cm ? latest.weight_kg / (latest.height_cm / 100) ** 2 : null;
   const unit = CHARTABLE.find((c) => c.value === chartField)!.unit;
 
   return (
     <View style={{ gap: 16 }}>
-      <View style={{ flexDirection: 'row', gap: 10 }}>
-        <Metric label="Peso" value={latest?.weight_kg} unit="kg" />
-        <Metric label="Estatura" value={latest?.height_cm} unit="cm" />
-        <Metric label="IMC" value={bmi ?? undefined} unit="kg/m²" />
-      </View>
-
-      <Section title="Evolução">
-        <Card style={{ gap: 12 }}>
-          <Segmented options={CHARTABLE} value={chartField} onChange={setChartField} />
-          {series.length ? (
-            <>
-              <LineChart points={series.map((p) => ({ date: p.occurred_at, value: p.value }))} unit={unit} />
-              {series.length === 1 && (
-                <AppText variant="caption" tone="subtle" align="center">
-                  A linha de evolução aparece a partir do segundo atendimento com esta medida.
-                </AppText>
-              )}
-            </>
-          ) : (
-            <AppText tone="muted" align="center" style={{ paddingVertical: 24 }}>
-              Registre medidas nos atendimentos para ver a evolução.
-            </AppText>
-          )}
+      {!hasMeasures ? (
+        <Card tone="alt" onPress={() => router.push(`/atendimento/novo?patientId=${patient.id}`)} style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+          <Ionicons name="scale-outline" size={22} color={colors.primary} />
+          <AppText variant="caption" tone="muted" style={{ flex: 1 }}>
+            Sem medidas ainda. Registre um atendimento com peso e estatura para ver o IMC e a evolução aqui.
+          </AppText>
+          <Ionicons name="chevron-forward" size={18} color={colors.textSubtle} />
         </Card>
-      </Section>
+      ) : (
+        <View style={{ flexDirection: 'row', gap: 10 }}>
+          <Metric label="Peso" value={latest?.weight_kg} unit="kg" />
+          <Metric label="Estatura" value={latest?.height_cm} unit="cm" />
+          <Metric label="IMC" value={bmi ?? undefined} unit="kg/m²" />
+        </View>
+      )}
+
+      {hasMeasures && (
+        <Section title="Evolução">
+          <Card style={{ gap: 12 }}>
+            <Segmented options={CHARTABLE} value={chartField} onChange={setChartField} />
+            {series.length ? (
+              <>
+                <LineChart points={series.map((p) => ({ date: p.occurred_at, value: p.value }))} unit={unit} />
+                {series.length === 1 && (
+                  <AppText variant="caption" tone="subtle" align="center">
+                    A linha de evolução aparece a partir do segundo atendimento com esta medida.
+                  </AppText>
+                )}
+              </>
+            ) : (
+              <AppText tone="muted" align="center" style={{ paddingVertical: 24 }}>
+                Registre medidas nos atendimentos para ver a evolução.
+              </AppText>
+            )}
+          </Card>
+        </Section>
+      )}
 
       {patient.notes && (
         <Section title="Observações">

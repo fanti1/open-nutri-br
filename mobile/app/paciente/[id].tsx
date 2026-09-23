@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { useData } from '../../src/data/DataProvider';
 import { usePatient, useSettings } from '../../src/data/hooks';
+import { useLiveQuery } from '../../src/data/useLiveQuery';
 import { LifeStageBadge } from '../../src/features/common/LifeStageBadge';
 import { buildPatientReportHtml } from '../../src/features/files/patientReport';
 import { exportPdf } from '../../src/features/files/printService';
@@ -17,36 +18,33 @@ import { formatAge, formatDate } from '../../src/lib/format';
 import { useTheme } from '../../src/theme/ThemeProvider';
 import { AppText } from '../../src/ui/AppText';
 import { Avatar } from '../../src/ui/Avatar';
-import { Card } from '../../src/ui/Card';
-import { ChipGroup } from '../../src/ui/Chips';
+import { Button } from '../../src/ui/Button';
 import { confirm } from '../../src/ui/dialogs';
 import { EmptyState } from '../../src/ui/EmptyState';
-import { IconTile, type IconName } from '../../src/ui/IconTile';
+import { IconTile } from '../../src/ui/IconTile';
 import { ListItem } from '../../src/ui/ListItem';
 import { Screen } from '../../src/ui/Screen';
 import { Sheet } from '../../src/ui/Sheet';
+import { TabBar } from '../../src/ui/TabBar';
 import { toast } from '../../src/ui/Toast';
 
-type Tab = 'resumo' | 'atendimentos' | 'calculos' | 'arquivos' | 'agenda';
-
-const TABS: Array<{ value: Tab; label: string }> = [
-  { value: 'resumo', label: 'Resumo' },
-  { value: 'atendimentos', label: 'Atendimentos' },
-  { value: 'calculos', label: 'Cálculos' },
-  { value: 'arquivos', label: 'Arquivos' },
-  { value: 'agenda', label: 'Agenda' },
-];
+type Tab = 'resumo' | 'atendimentos' | 'calculos' | 'arquivos';
 
 /** Ficha do paciente: tudo sobre ele em um só lugar. */
 export default function PatientRecordScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const { colors } = useTheme();
-  const { patients, consultations, calculations } = useData();
+  const { patients, consultations, calculations, attachments } = useData();
   const { data: patient, loading } = usePatient(id);
   const { data: settings } = useSettings();
   const [tab, setTab] = useState<Tab>('resumo');
   const [menuOpen, setMenuOpen] = useState(false);
+  const { data: counts } = useLiveQuery(['consultations', 'calculations', 'attachments'], async () => {
+    if (!id) return undefined;
+    const [c, k, a] = await Promise.all([consultations.listByPatient(id), calculations.listByPatient(id), attachments.listByPatient(id)]);
+    return { consultations: c.length, calculations: k.length, attachments: a.length };
+  }, [id]);
 
   if (!patient) {
     return (
@@ -96,38 +94,47 @@ export default function PatientRecordScreen() {
         </Pressable>
       }
     >
-      <Card style={{ gap: 14 }}>
-        <View style={{ flexDirection: 'row', gap: 14, alignItems: 'center' }}>
-          <Avatar name={patient.name} size={60} />
-          <View style={{ flex: 1, gap: 4 }}>
-            <AppText variant="title">{patient.name}</AppText>
-            <AppText tone="muted">
-              {formatAge(patient.birth_date)} · {sexLabel(patient.sex)}
+      <View style={{ flexDirection: 'row', gap: 14, alignItems: 'center' }}>
+        <Avatar name={patient.name} size={56} />
+        <View style={{ flex: 1, gap: 4 }}>
+          <AppText variant="title" numberOfLines={2}>
+            {patient.name}
+          </AppText>
+          <View style={{ flexDirection: 'row', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+            <LifeStageBadge stage={patientLifeStage(patient)} />
+            <AppText variant="caption" tone="muted">
+              {formatAge(patient.birth_date)} · {sexLabel(patient.sex)} · nasc. {formatDate(patient.birth_date)}
             </AppText>
-            <View style={{ flexDirection: 'row', gap: 6, alignItems: 'center' }}>
-              <LifeStageBadge stage={patientLifeStage(patient)} />
-              <AppText variant="small" tone="subtle">
-                nasc. {formatDate(patient.birth_date)}
-              </AppText>
-            </View>
           </View>
         </View>
+      </View>
 
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Action icon="document-text-outline" label="Atendimento" onPress={() => router.push(`/atendimento/novo?patientId=${patient.id}`)} />
-          <Action icon="calculator-outline" label="Calcular" onPress={() => router.push(`/paciente/calcular/${patient.id}`)} />
-          <Action icon="calendar-outline" label="Agendar" onPress={() => router.push(`/compromisso/novo?patientId=${patient.id}`)} />
-          <Action icon="share-outline" label="PDF" onPress={exportRecord} />
-        </View>
-      </Card>
+      <View style={{ flexDirection: 'row', gap: 8 }}>
+        <Button label="Atendimento" icon="add" size="sm" onPress={() => router.push(`/atendimento/novo?patientId=${patient.id}`)} style={{ flex: 1.2 }} />
+        <Button label="Calcular" icon="calculator-outline" size="sm" variant="secondary" onPress={() => router.push(`/paciente/calcular/${patient.id}`)} style={{ flex: 1 }} />
+        <Button label="Agendar" icon="calendar-outline" size="sm" variant="secondary" onPress={() => router.push(`/compromisso/novo?patientId=${patient.id}`)} style={{ flex: 1 }} />
+      </View>
 
-      <ChipGroup scroll options={TABS} value={tab} onChange={setTab} />
+      <TabBar
+        tabs={[
+          { value: 'resumo', label: 'Resumo', icon: 'pulse-outline' },
+          { value: 'atendimentos', label: 'Atendimentos', icon: 'document-text-outline', count: counts?.consultations },
+          { value: 'calculos', label: 'Cálculos', icon: 'calculator-outline', count: counts?.calculations },
+          { value: 'arquivos', label: 'Arquivos', icon: 'attach-outline', count: counts?.attachments },
+        ]}
+        value={tab}
+        onChange={setTab}
+      />
 
-      {tab === 'resumo' && <SummarySection patient={patient} />}
+      {tab === 'resumo' && (
+        <>
+          <SummarySection patient={patient} />
+          <AgendaSection patient={patient} />
+        </>
+      )}
       {tab === 'atendimentos' && <ConsultationsSection patient={patient} />}
       {tab === 'calculos' && <CalculationsSection patient={patient} />}
       {tab === 'arquivos' && <FilesSection patient={patient} />}
-      {tab === 'agenda' && <AgendaSection patient={patient} />}
 
       <Sheet visible={menuOpen} onClose={() => setMenuOpen(false)} title={patient.name}>
         <ListItem title="Editar dados" left={<IconTile name="create-outline" size={36} />} onPress={() => { setMenuOpen(false); router.push(`/paciente/editar/${patient.id}`); }} divider />
@@ -135,16 +142,5 @@ export default function PatientRecordScreen() {
         <ListItem title="Excluir paciente" danger left={<IconTile name="trash-outline" size={36} color={colors.danger} />} onPress={remove} />
       </Sheet>
     </Screen>
-  );
-}
-
-function Action({ icon, label, onPress }: { icon: IconName; label: string; onPress: () => void }) {
-  return (
-    <Pressable accessibilityRole="button" onPress={onPress} style={({ pressed }) => ({ alignItems: 'center', gap: 6, flex: 1, opacity: pressed ? 0.7 : 1 })}>
-      <IconTile name={icon} size={44} />
-      <AppText variant="small" tone="muted">
-        {label}
-      </AppText>
-    </Pressable>
   );
 }

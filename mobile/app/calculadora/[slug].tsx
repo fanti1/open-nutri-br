@@ -4,30 +4,35 @@ import { useEffect, useMemo, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { ApiError } from '../../src/api/client';
 import { useData } from '../../src/data/DataProvider';
-import { useFavorites, usePatient } from '../../src/data/hooks';
+import { useCalculatorProfile, useFavorites, usePatient } from '../../src/data/hooks';
 import type { Patient } from '../../src/data/models';
 import { autofillFromPatient } from '../../src/domain/autofill';
-import { LIFE_STAGE_LABELS } from '../../src/domain/calculators/support/lifeStage';
+import {
+  ageMatchesStage,
+  fieldsAnsweredByProfile,
+  profileFromPatient,
+  profileValues,
+  stageAgeRangeLabel,
+  type CalculatorProfile,
+} from '../../src/domain/calculatorProfile';
+import { LIFE_STAGE_LABELS, LIFE_STAGE_PLURAL } from '../../src/domain/calculators/support/lifeStage';
 import { IncompleteInputsError, type CalculationOutcome } from '../../src/domain/calculators/types';
-import { catalogEntry, catalogIcon } from '../../src/domain/catalog';
+import { catalogEntry, catalogIcon, moduleInfo } from '../../src/domain/catalog';
 import { computeCalculation, computeLocally, isLocalCalculator } from '../../src/domain/computeCalculation';
 import { fieldHint, fieldLabel, optionLabel } from '../../src/domain/forms/fieldLabels';
 import { missingFieldsMessage, parseCalculatorForm } from '../../src/domain/forms/parseForm';
 import { isFieldActive, schemaToFields, type FieldDescriptor } from '../../src/domain/forms/schemaToFields';
+import { CalculatorProfileCard } from '../../src/features/calculators/CalculatorProfileCard';
 import { ResultCard } from '../../src/features/calculators/ResultCard';
 import { LifeStageBadges } from '../../src/features/common/LifeStageBadge';
-import { patientLifeStage } from '../../src/features/patients/patientHelpers';
 import { PatientPicker } from '../../src/features/patients/PatientPicker';
-import { formatAge } from '../../src/lib/format';
 import { useTheme } from '../../src/theme/ThemeProvider';
 import { AppText } from '../../src/ui/AppText';
-import { Avatar } from '../../src/ui/Avatar';
 import { Button } from '../../src/ui/Button';
 import { Card } from '../../src/ui/Card';
 import { ChipGroup } from '../../src/ui/Chips';
 import { EmptyState } from '../../src/ui/EmptyState';
 import { IconTile } from '../../src/ui/IconTile';
-import { ListItem } from '../../src/ui/ListItem';
 import { Screen } from '../../src/ui/Screen';
 import { TextField } from '../../src/ui/TextField';
 import { toast } from '../../src/ui/Toast';
@@ -39,6 +44,7 @@ export default function CalculatorScreen() {
   const { consultations, calculations, settings } = useData();
   const { data: favoriteSlugs = [] } = useFavorites();
   const { data: initialPatient } = usePatient(patientId);
+  const { profile: savedProfile, loading: profileLoading, save: saveProfile } = useCalculatorProfile(slug);
 
   const entry = catalogEntry(slug);
   const fields = useMemo(() => (entry ? schemaToFields(entry.input_schema) : []), [entry]);
@@ -53,11 +59,23 @@ export default function CalculatorScreen() {
   const [calculating, setCalculating] = useState(false);
   const [saving, setSaving] = useState(false);
   const [savedId, setSavedId] = useState<string | null>(null);
+  const [aboutOpen, setAboutOpen] = useState(false);
+
+  // Com paciente, o perfil vem da ficha; sem paciente, do perfil guardado desta calculadora.
+  const profile: CalculatorProfile | null = patient ? profileFromPatient(patient) : savedProfile;
 
   useEffect(() => {
     if (initialPatient) void selectPatient(initialPatient);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialPatient?.id]);
+
+  // O perfil responde ao campo "sexo" do método (e a qualquer outro que ele cubra).
+  useEffect(() => {
+    if (!entry || !profile) return;
+    const injected = profileValues(entry.input_schema, profile);
+    setValues((current) => ({ ...current, ...injected }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [entry?.slug, profile?.stage, profile?.sex]);
 
   const parsed = useMemo(() => parseCalculatorForm(fields, values), [fields, values]);
 
@@ -84,7 +102,9 @@ export default function CalculatorScreen() {
   async function selectPatient(selected: Patient | null) {
     setPatient(selected);
     setSavedId(null);
+    setServerOutcome(null);
     if (!selected) {
+      setValues({});
       setAutofilled(new Set());
       return;
     }
@@ -146,106 +166,139 @@ export default function CalculatorScreen() {
   };
 
   const favorite = favoriteSlugs.includes(slug);
-  const stage = patient ? patientLifeStage(patient) : null;
-  const notValidatedForPatient = stage !== null && !entry.life_stages.includes(stage);
+  const module = moduleInfo(entry.module);
+  const answeredByProfile = fieldsAnsweredByProfile(entry.input_schema);
+  const visibleFields = fields.filter((field) => isFieldActive(field, values) && !(profile && answeredByProfile.includes(field.name)));
+  const patientOutsideStages = patient && profile && !entry.life_stages.includes(profile.stage);
+
+  const ageWarning = (field: FieldDescriptor): string | undefined => {
+    if (field.name !== 'age_years' || !profile) return undefined;
+    const age = parsed.inputs.age_years;
+    if (typeof age !== 'number') return `${LIFE_STAGE_LABELS[profile.stage]}: ${stageAgeRangeLabel(profile.stage)}.`;
+    return ageMatchesStage(age, profile.stage)
+      ? undefined
+      : `Atenção: fora da faixa escolhida (${LIFE_STAGE_LABELS[profile.stage]}, ${stageAgeRangeLabel(profile.stage)}). Confira o perfil.`;
+  };
 
   return (
     <Screen
       back
       title={entry.name}
-      subtitle={entry.short_description}
+      subtitle={`${module?.label ?? ''} · ${entry.short_description}`}
       right={
         <Pressable accessibilityLabel="Favoritar" onPress={() => settings.toggleFavorite(slug)} hitSlop={12}>
           <Ionicons name={favorite ? 'star' : 'star-outline'} size={24} color={favorite ? colors.accent : colors.textSubtle} />
         </Pressable>
       }
     >
-      <Card padded={false} style={{ paddingHorizontal: 16 }}>
-        <ListItem
-          title={patient ? patient.name : 'Calcular para um paciente'}
-          subtitle={patient ? `${formatAge(patient.birth_date)} · dados da ficha preenchidos` : 'Opcional — preenche idade, sexo e últimas medidas'}
-          left={patient ? <Avatar name={patient.name} size={38} /> : <IconTile name="person-add-outline" size={38} />}
-          onPress={() => setPickerOpen(true)}
+      {!profileLoading && (
+        <CalculatorProfileCard
+          entry={entry}
+          patient={patient}
+          saved={savedProfile}
+          onSave={saveProfile}
+          onPickPatient={() => setPickerOpen(true)}
+          onClearPatient={() => void selectPatient(null)}
         />
-      </Card>
+      )}
 
-      {notValidatedForPatient && (
+      {patientOutsideStages && (
         <Card style={{ backgroundColor: colors.warningSoft, borderColor: colors.warning, flexDirection: 'row', gap: 10 }}>
           <Ionicons name="warning-outline" size={22} color={colors.warning} />
           <AppText style={{ flex: 1 }} color={colors.warning}>
-            Este método é validado para {entry.life_stages.map((s) => LIFE_STAGE_LABELS[s].toLowerCase()).join(' e ')}, e o paciente é{' '}
-            {LIFE_STAGE_LABELS[stage!].toLowerCase()}. Considere outro método.
+            Este método é validado para {entry.life_stages.map((s) => LIFE_STAGE_PLURAL[s]).join(' e ')}, e o paciente é{' '}
+            {LIFE_STAGE_LABELS[profile!.stage].toLowerCase()}. Considere outro método.
           </AppText>
         </Card>
       )}
 
-      <View style={{ gap: 16 }}>
-        {fields.filter((field) => isFieldActive(field, values)).map((field) => (
-          <FieldInput
-            key={field.name}
-            field={field}
-            value={values[field.name] ?? ''}
-            error={parsed.errors[field.name]}
-            autofilled={autofilled.has(field.name)}
-            onChange={(value) => setValue(field.name, value)}
-          />
-        ))}
-      </View>
-
-      {!local && (
-        <View style={{ gap: 8 }}>
-          <Button label="Calcular" icon="calculator" onPress={calculateOnServer} loading={calculating} fullWidth />
-          <AppText variant="small" tone="subtle" align="center">
-            Usa as tabelas oficiais da OMS no servidor — requer internet. Só as medidas são enviadas.
-          </AppText>
-        </View>
-      )}
-
-      {serverError && (
-        <Card style={{ backgroundColor: colors.dangerSoft, borderColor: colors.danger }}>
-          <AppText color={colors.danger}>{serverError}</AppText>
-        </Card>
-      )}
-
-      {outcome ? (
-        <View style={{ gap: 12 }}>
-          <ResultCard outcome={outcome} />
-          <View style={{ flexDirection: 'row', gap: 10 }}>
-            <Button
-              label={savedId ? 'Salvo ✓' : patient ? 'Salvar na ficha' : 'Salvar no histórico'}
-              icon="save-outline"
-              onPress={save}
-              loading={saving}
-              disabled={!!savedId}
-              style={{ flex: 1 }}
-            />
-            {savedId && patient && (
-              <Button label="Ver ficha" variant="secondary" onPress={() => router.push(`/paciente/${patient.id}`)} style={{ flex: 1 }} />
-            )}
-          </View>
-        </View>
-      ) : (
-        local && (
-          <Card tone="alt">
-            <AppText tone="muted" align="center">
-              {missingFieldsMessage(fields, parsed.inputs) ?? localProblem ?? 'Corrija os campos destacados para ver o resultado.'}
+      {profile && (
+        <>
+          <Card style={{ gap: 16 }}>
+            <AppText variant="overline" tone="muted">
+              Dados do cálculo
             </AppText>
+            {visibleFields.map((field) => (
+              <FieldInput
+                key={field.name}
+                field={field}
+                value={values[field.name] ?? ''}
+                error={parsed.errors[field.name]}
+                note={ageWarning(field)}
+                autofilled={autofilled.has(field.name)}
+                onChange={(value) => setValue(field.name, value)}
+              />
+            ))}
+
+            {!local && (
+              <View style={{ gap: 8 }}>
+                <Button label="Calcular" icon="calculator" onPress={calculateOnServer} loading={calculating} fullWidth />
+                <AppText variant="small" tone="subtle" align="center">
+                  Usa as tabelas oficiais da OMS no servidor — requer internet. Só as medidas são enviadas.
+                </AppText>
+              </View>
+            )}
           </Card>
-        )
+
+          {serverError && (
+            <Card style={{ backgroundColor: colors.dangerSoft, borderColor: colors.danger }}>
+              <AppText color={colors.danger}>{serverError}</AppText>
+            </Card>
+          )}
+
+          {outcome ? (
+            <View style={{ gap: 12 }}>
+              <ResultCard outcome={outcome} />
+              <View style={{ flexDirection: 'row', gap: 10 }}>
+                <Button
+                  label={savedId ? 'Salvo ✓' : patient ? 'Salvar na ficha' : 'Salvar no histórico'}
+                  icon="save-outline"
+                  onPress={save}
+                  loading={saving}
+                  disabled={!!savedId}
+                  style={{ flex: 1 }}
+                />
+                {savedId && patient && (
+                  <Button label="Ver ficha" variant="secondary" onPress={() => router.push(`/paciente/${patient.id}`)} style={{ flex: 1 }} />
+                )}
+              </View>
+            </View>
+          ) : (
+            local && (
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 4 }}>
+                <Ionicons name="information-circle-outline" size={18} color={colors.textSubtle} />
+                <AppText variant="caption" tone="muted" style={{ flex: 1 }}>
+                  {missingFieldsMessage(fields, parsed.inputs) ?? localProblem ?? 'Corrija os campos destacados para ver o resultado.'} O
+                  resultado aparece sozinho.
+                </AppText>
+              </View>
+            )
+          )}
+        </>
       )}
 
-      <Card style={{ gap: 8 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+      <Card padded={false}>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityState={{ expanded: aboutOpen }}
+          onPress={() => setAboutOpen((open) => !open)}
+          style={{ flexDirection: 'row', alignItems: 'center', gap: 12, padding: 16 }}
+        >
           <IconTile name={catalogIcon(entry)} size={32} />
-          <AppText variant="overline" tone="muted">
-            Referência científica
+          <AppText variant="bodyStrong" style={{ flex: 1 }}>
+            Sobre o método e referência
           </AppText>
-        </View>
-        <AppText variant="caption">{entry.formula_reference}</AppText>
-        <AppText variant="small" tone="subtle">
-          Validado para:
-        </AppText>
-        <LifeStageBadges stages={entry.life_stages} />
+          <Ionicons name={aboutOpen ? 'chevron-up' : 'chevron-down'} size={18} color={colors.textSubtle} />
+        </Pressable>
+        {aboutOpen && (
+          <View style={{ paddingHorizontal: 16, paddingBottom: 16, gap: 10 }}>
+            <AppText variant="caption">{entry.formula_reference}</AppText>
+            <AppText variant="small" tone="subtle">
+              Validado para:
+            </AppText>
+            <LifeStageBadges stages={entry.life_stages} />
+          </View>
+        )}
       </Card>
 
       <PatientPicker visible={pickerOpen} onClose={() => setPickerOpen(false)} onSelect={selectPatient} />
@@ -254,11 +307,11 @@ export default function CalculatorScreen() {
 }
 
 function FieldInput({
-  field, value, error, autofilled, onChange,
-}: { field: FieldDescriptor; value: string; error?: string; autofilled: boolean; onChange: (value: string) => void }) {
+  field, value, error, note, autofilled, onChange,
+}: { field: FieldDescriptor; value: string; error?: string; note?: string; autofilled: boolean; onChange: (value: string) => void }) {
   // Campos condicionais só são exibidos quando a condição vale — e aí são obrigatórios.
   const label = `${fieldLabel(field.name)}${field.required || field.requiredIf ? ' *' : ''}`;
-  const hint = autofilled ? 'Preenchido a partir da ficha' : fieldHint(field.name);
+  const hint = [autofilled ? 'Preenchido a partir da ficha' : fieldHint(field.name), note].filter(Boolean).join(' ') || undefined;
 
   if (field.type === 'select' || field.type === 'boolean') {
     const options =

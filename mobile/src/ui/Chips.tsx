@@ -6,6 +6,8 @@ export interface ChipOption<T extends string> {
   value: T;
   label: string;
   color?: string;
+  /** Visível, mas não selecionável (ex.: faixa etária em que o método não é validado). */
+  disabled?: boolean;
 }
 
 interface ChipGroupProps<T extends string> {
@@ -27,7 +29,8 @@ export function ChipGroup<T extends string>({ options, value, onChange, scroll =
       <Pressable
         key={option.value}
         accessibilityRole="button"
-        accessibilityState={{ selected: active }}
+        accessibilityState={{ selected: active, disabled: option.disabled }}
+        disabled={option.disabled}
         onPress={() => onChange(option.value)}
         style={{
           paddingHorizontal: 14,
@@ -36,6 +39,7 @@ export function ChipGroup<T extends string>({ options, value, onChange, scroll =
           borderWidth: 1,
           borderColor: active ? tint : colors.border,
           backgroundColor: active ? tint : colors.surface,
+          opacity: option.disabled ? 0.4 : 1,
         }}
       >
         <AppText variant="caption" color={active ? colors.onPrimary : colors.text}>
@@ -56,29 +60,43 @@ export function ChipGroup<T extends string>({ options, value, onChange, scroll =
   return <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>{chips}</View>;
 }
 
-/** Controle segmentado (abas internas de uma tela). */
-export function Segmented<T extends string>({ options, value, onChange }: { options: ChipOption<T>[]; value: T; onChange: (v: T) => void }) {
+/** Controle segmentado (abas internas de uma tela ou escolha entre poucas opções). */
+export function Segmented<T extends string>({
+  options,
+  value,
+  onChange,
+}: {
+  options: ChipOption<T>[];
+  value: T | null;
+  onChange: (v: T) => void;
+}) {
   const { colors, radius } = useTheme();
 
   return (
     <View style={{ flexDirection: 'row', backgroundColor: colors.surfaceAlt, borderRadius: radius.md, padding: 3 }}>
       {options.map((option) => {
         const active = option.value === value;
+        const tint = option.color ?? colors.primary;
         return (
           <Pressable
             key={option.value}
             accessibilityRole="tab"
-            accessibilityState={{ selected: active }}
+            accessibilityState={{ selected: active, disabled: option.disabled }}
+            accessibilityLabel={option.label}
+            disabled={option.disabled}
             onPress={() => onChange(option.value)}
             style={{
               flex: 1,
               alignItems: 'center',
-              paddingVertical: 8,
+              paddingVertical: 9,
               borderRadius: radius.md - 3,
               backgroundColor: active ? colors.surface : 'transparent',
+              borderWidth: active ? 1 : 0,
+              borderColor: active ? tint : 'transparent',
+              opacity: option.disabled ? 0.35 : 1,
             }}
           >
-            <AppText variant="caption" tone={active ? 'default' : 'muted'} numberOfLines={1}>
+            <AppText variant="caption" color={active ? tint : undefined} tone={active ? 'default' : 'muted'} numberOfLines={1}>
               {option.label}
             </AppText>
           </Pressable>

@@ -4,13 +4,12 @@ import { useData } from '../../../data/DataProvider';
 import type { Patient } from '../../../data/models';
 import { useLiveQuery } from '../../../data/useLiveQuery';
 import { AppText } from '../../../ui/AppText';
-import { Button } from '../../../ui/Button';
 import { Card } from '../../../ui/Card';
 import { Section } from '../../../ui/Section';
 import { AppointmentRow } from '../../agenda/AppointmentRow';
 import { TaskRow } from '../../tasks/TaskRow';
 
-/** Compromissos e tarefas ligados a este paciente. */
+/** Compromissos e tarefas ligados a este paciente (exibido dentro do Resumo da ficha). */
 export function AgendaSection({ patient }: { patient: Patient }) {
   const router = useRouter();
   const { appointments, tasks, taskActions } = useData();
@@ -18,13 +17,8 @@ export function AgendaSection({ patient }: { patient: Patient }) {
   const { data: patientTasks = [] } = useLiveQuery(['tasks'], () => tasks.listByPatient(patient.id), [patient.id]);
 
   return (
-    <View style={{ gap: 18 }}>
-      <View style={{ flexDirection: 'row', gap: 10 }}>
-        <Button label="Agendar" icon="calendar" variant="secondary" onPress={() => router.push(`/compromisso/novo?patientId=${patient.id}`)} style={{ flex: 1 }} />
-        <Button label="Nova tarefa" icon="checkbox" variant="secondary" onPress={() => router.push(`/tarefa/novo?patientId=${patient.id}`)} style={{ flex: 1 }} />
-      </View>
-
-      <Section title="Compromissos">
+    <>
+      <Section title="Compromissos" action="Agendar" onAction={() => router.push(`/compromisso/novo?patientId=${patient.id}`)}>
         {patientAppointments.length ? (
           <View style={{ gap: 10 }}>
             {patientAppointments.map((appointment) => (
@@ -32,11 +26,13 @@ export function AgendaSection({ patient }: { patient: Patient }) {
             ))}
           </View>
         ) : (
-          <AppText tone="muted">Nenhum compromisso com este paciente.</AppText>
+          <AppText variant="caption" tone="muted">
+            Nenhum compromisso com este paciente.
+          </AppText>
         )}
       </Section>
 
-      <Section title="Tarefas">
+      <Section title="Tarefas" action="Nova tarefa" onAction={() => router.push(`/tarefa/novo?patientId=${patient.id}`)}>
         {patientTasks.length ? (
           <Card padded={false} style={{ paddingHorizontal: 16 }}>
             {patientTasks.map((task) => (
@@ -44,9 +40,11 @@ export function AgendaSection({ patient }: { patient: Patient }) {
             ))}
           </Card>
         ) : (
-          <AppText tone="muted">Nenhuma tarefa relacionada.</AppText>
+          <AppText variant="caption" tone="muted">
+            Nenhuma tarefa relacionada.
+          </AppText>
         )}
       </Section>
-    </View>
+    </>
   );
 }

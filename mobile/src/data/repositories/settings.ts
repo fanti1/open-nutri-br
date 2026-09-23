@@ -1,6 +1,7 @@
 import { notifyChange } from '../changes';
 import type { SqlDatabase } from '../db/types';
 import { nowIso } from '../ids';
+import type { CalculatorProfile, CalculatorProfiles } from '../../domain/calculatorProfile';
 import type { Profile } from '../models';
 
 export type ThemePreference = 'system' | 'light' | 'dark';
@@ -11,6 +12,8 @@ export interface AppSettings {
   privacy_accepted_version: string | null;
   theme: ThemePreference;
   last_backup_at: string | null;
+  /** Perfil (faixa etária + sexo) escolhido em cada calculadora, por slug. */
+  calculator_profiles: CalculatorProfiles;
 }
 
 const DEFAULTS: AppSettings = {
@@ -19,6 +22,7 @@ const DEFAULTS: AppSettings = {
   privacy_accepted_version: null,
   theme: 'system',
   last_backup_at: null,
+  calculator_profiles: {},
 };
 
 /** Preferências e perfil do profissional (chave → JSON) e calculadoras favoritas. */
@@ -36,6 +40,12 @@ export function settingsRepository(db: SqlDatabase) {
         [key, JSON.stringify(value)],
       );
       notifyChange('settings');
+    },
+
+    /** Guarda o perfil de uma calculadora (fica salvo para as próximas vezes). */
+    async setCalculatorProfile(slug: string, profile: CalculatorProfile): Promise<void> {
+      const current = await this.all();
+      await this.set('calculator_profiles', { ...current.calculator_profiles, [slug]: profile });
     },
 
     favoriteSlugs(): Promise<string[]> {

@@ -21,3 +21,16 @@ export const LIFE_STAGE_LABELS: Record<LifeStage, string> = {
   adulto: 'Adulto',
   idoso: 'Idoso',
 };
+
+/** Para controles estreitos (seletor de faixa etária). */
+export const LIFE_STAGE_SHORT_LABELS: Record<LifeStage, string> = {
+  crianca: 'Criança',
+  adulto: 'Adulto',
+  idoso: 'Idoso',
+};
+
+export const LIFE_STAGE_PLURAL: Record<LifeStage, string> = {
+  crianca: 'crianças e adolescentes',
+  adulto: 'adultos',
+  idoso: 'idosos',
+};

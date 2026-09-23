@@ -1,3 +1,4 @@
+import type { CalculatorProfile } from '../domain/calculatorProfile';
 import { useData } from './DataProvider';
 import { useLiveQuery } from './useLiveQuery';
 
@@ -5,6 +6,17 @@ import { useLiveQuery } from './useLiveQuery';
 export function useSettings() {
   const { settings } = useData();
   return useLiveQuery(['settings'], () => settings.all());
+}
+
+/** Perfil guardado de uma calculadora (null enquanto nunca foi escolhido) e a função para salvá-lo. */
+export function useCalculatorProfile(slug: string) {
+  const { settings } = useData();
+  const { data, loading } = useSettings();
+  return {
+    profile: data?.calculator_profiles[slug] ?? null,
+    loading: loading && !data,
+    save: (profile: CalculatorProfile) => settings.setCalculatorProfile(slug, profile),
+  };
 }
 
 export function useFavorites() {
