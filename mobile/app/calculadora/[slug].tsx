@@ -2,7 +2,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import { Pressable, View } from 'react-native';
-import { ApiError } from '../../src/api/client';
 import { useData } from '../../src/data/DataProvider';
 import { useCalculatorProfile, useFavorites, usePatient } from '../../src/data/hooks';
 import type { Patient } from '../../src/data/models';
@@ -16,9 +15,9 @@ import {
   type CalculatorProfile,
 } from '../../src/domain/calculatorProfile';
 import { LIFE_STAGE_LABELS, LIFE_STAGE_PLURAL } from '../../src/domain/calculators/support/lifeStage';
-import { IncompleteInputsError, type CalculationOutcome } from '../../src/domain/calculators/types';
+import { IncompleteInputsError } from '../../src/domain/calculators/types';
 import { catalogEntry, catalogIcon, moduleInfo } from '../../src/domain/catalog';
-import { computeCalculation, computeLocally, isLocalCalculator } from '../../src/domain/computeCalculation';
+import { computeLocally } from '../../src/domain/computeCalculation';
 import { fieldHint, fieldLabel, optionLabel } from '../../src/domain/forms/fieldLabels';
 import { missingFieldsMessage, parseCalculatorForm } from '../../src/domain/forms/parseForm';
 import { isFieldActive, schemaToFields, type FieldDescriptor } from '../../src/domain/forms/schemaToFields';
@@ -48,15 +47,11 @@ export default function CalculatorScreen() {
 
   const entry = catalogEntry(slug);
   const fields = useMemo(() => (entry ? schemaToFields(entry.input_schema) : []), [entry]);
-  const local = isLocalCalculator(slug);
 
   const [patient, setPatient] = useState<Patient | null>(null);
   const [pickerOpen, setPickerOpen] = useState(false);
   const [values, setValues] = useState<Record<string, string>>({});
   const [autofilled, setAutofilled] = useState<Set<string>>(new Set());
-  const [serverOutcome, setServerOutcome] = useState<CalculationOutcome | null>(null);
-  const [serverError, setServerError] = useState<string | null>(null);
-  const [calculating, setCalculating] = useState(false);
   const [saving, setSaving] = useState(false);
   const [savedId, setSavedId] = useState<string | null>(null);
   const [aboutOpen, setAboutOpen] = useState(false);
@@ -79,17 +74,15 @@ export default function CalculatorScreen() {
 
   const parsed = useMemo(() => parseCalculatorForm(fields, values), [fields, values]);
 
-  // Calculadoras locais: resultado em tempo real, a cada tecla.
-  const { localOutcome, localProblem } = useMemo(() => {
-    if (!local || !parsed.complete) return { localOutcome: null, localProblem: null };
+  // Tudo é calculado no aparelho, em tempo real, a cada tecla — sem internet.
+  const { outcome, problem } = useMemo(() => {
+    if (!parsed.complete) return { outcome: null, problem: null };
     try {
-      return { localOutcome: computeLocally(slug, parsed.inputs), localProblem: null };
+      return { outcome: computeLocally(slug, parsed.inputs), problem: null };
     } catch (error) {
-      return { localOutcome: null, localProblem: error instanceof IncompleteInputsError ? error.message : null };
+      return { outcome: null, problem: error instanceof IncompleteInputsError ? error.message : null };
     }
-  }, [local, parsed, slug]);
-
-  const outcome = local ? localOutcome : serverOutcome;
+  }, [parsed, slug]);
 
   if (!entry) {
     return (
@@ -102,7 +95,6 @@ export default function CalculatorScreen() {
   async function selectPatient(selected: Patient | null) {
     setPatient(selected);
     setSavedId(null);
-    setServerOutcome(null);
     if (!selected) {
       setValues({});
       setAutofilled(new Set());
@@ -121,27 +113,7 @@ export default function CalculatorScreen() {
       next.delete(name);
       return next;
     });
-    setServerOutcome(null);
-    setServerError(null);
     setSavedId(null);
-  };
-
-  const calculateOnServer = async () => {
-    const missing = missingFieldsMessage(fields, parsed.inputs);
-    if (missing || !parsed.complete) {
-      setServerError(missing ?? 'Corrija os campos destacados.');
-      return;
-    }
-    setCalculating(true);
-    setServerError(null);
-    try {
-      setServerOutcome(await computeCalculation(slug, parsed.inputs));
-    } catch (error) {
-      setServerOutcome(null);
-      setServerError(error instanceof ApiError ? error.message : 'Não foi possível calcular.');
-    } finally {
-      setCalculating(false);
-    }
   };
 
   const save = async () => {
@@ -230,21 +202,7 @@ export default function CalculatorScreen() {
               />
             ))}
 
-            {!local && (
-              <View style={{ gap: 8 }}>
-                <Button label="Calcular" icon="calculator" onPress={calculateOnServer} loading={calculating} fullWidth />
-                <AppText variant="small" tone="subtle" align="center">
-                  Usa as tabelas oficiais da OMS no servidor — requer internet. Só as medidas são enviadas.
-                </AppText>
-              </View>
-            )}
           </Card>
-
-          {serverError && (
-            <Card style={{ backgroundColor: colors.dangerSoft, borderColor: colors.danger }}>
-              <AppText color={colors.danger}>{serverError}</AppText>
-            </Card>
-          )}
 
           {outcome ? (
             <View style={{ gap: 12 }}>
@@ -264,15 +222,13 @@ export default function CalculatorScreen() {
               </View>
             </View>
           ) : (
-            local && (
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 4 }}>
-                <Ionicons name="information-circle-outline" size={18} color={colors.textSubtle} />
-                <AppText variant="caption" tone="muted" style={{ flex: 1 }}>
-                  {missingFieldsMessage(fields, parsed.inputs) ?? localProblem ?? 'Corrija os campos destacados para ver o resultado.'} O
-                  resultado aparece sozinho.
-                </AppText>
-              </View>
-            )
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 4 }}>
+              <Ionicons name={problem ? 'alert-circle-outline' : 'information-circle-outline'} size={18} color={problem ? colors.warning : colors.textSubtle} />
+              <AppText variant="caption" color={problem ? colors.warning : undefined} tone="muted" style={{ flex: 1 }}>
+                {problem ?? missingFieldsMessage(fields, parsed.inputs) ?? 'Corrija os campos destacados.'}
+                {problem ? '' : ' O resultado aparece sozinho.'}
+              </AppText>
+            </View>
           )}
         </>
       )}

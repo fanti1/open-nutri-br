@@ -1,6 +1,5 @@
 {
   "slug": "oms-peso-idade-5-10",
-  "server_only": true,
   "source": "Escores calculados pela própria OMS: anthroplus/data-raw/survey_who2007_z.csv (ids 6, 21, 28).",
   "cases": [
     { "inputs": { "age_months": 80.65, "sex": "male", "weight_kg": 18.8 }, "expected": { "values": { "z_score": -1.26 }, "classification": "peso_adequado_para_idade" } },

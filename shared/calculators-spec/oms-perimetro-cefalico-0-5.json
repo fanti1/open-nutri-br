@@ -1,6 +1,5 @@
 {
   "slug": "oms-perimetro-cefalico-0-5",
-  "server_only": true,
   "cases": [
     { "inputs": { "age_months": 6, "sex": "female", "head_circumference_cm": 42 }, "expected": { "values": { "z_score": -0.16 }, "classification": "adequado_para_idade" } }
   ]

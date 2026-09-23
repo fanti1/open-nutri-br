@@ -1,4 +1,3 @@
-import { QueryClientProvider } from '@tanstack/react-query';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, type ReactNode } from 'react';
@@ -6,7 +5,6 @@ import { ActivityIndicator, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { DataProvider } from '../src/data/DataProvider';
 import { useSettings } from '../src/data/hooks';
-import { queryClient } from '../src/state/queryClient';
 import { ThemeProvider, useTheme } from '../src/theme/ThemeProvider';
 import { AppText } from '../src/ui/AppText';
 import { ToastHost } from '../src/ui/Toast';
@@ -66,19 +64,17 @@ function OnboardingGate() {
 export default function RootLayout() {
   return (
     <SafeAreaProvider>
-      <QueryClientProvider client={queryClient}>
-        <DataProvider
-          fallback={
-            <ThemeProvider>
-              <Splash />
-            </ThemeProvider>
-          }
-        >
-          <ThemedApp>
-            <OnboardingGate />
-          </ThemedApp>
-        </DataProvider>
-      </QueryClientProvider>
+      <DataProvider
+        fallback={
+          <ThemeProvider>
+            <Splash />
+          </ThemeProvider>
+        }
+      >
+        <ThemedApp>
+          <OnboardingGate />
+        </ThemedApp>
+      </DataProvider>
     </SafeAreaProvider>
   );
 }

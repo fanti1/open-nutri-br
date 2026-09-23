@@ -15,12 +15,12 @@ export function PrivacyNotice() {
         <AppText variant="heading">Os dados ficam no seu aparelho</AppText>
       </View>
       <AppText tone="muted">
-        Pacientes, atendimentos, cálculos, arquivos, agenda e tarefas são salvos só neste dispositivo, em um banco de dados local. Nada é enviado
-        para servidores do OpenNutri BR.
+        Pacientes, atendimentos, cálculos, arquivos, agenda e tarefas são salvos só neste dispositivo, em um banco de dados local. O app
+        funciona 100% sem internet e não envia nada para servidor algum — todas as calculadoras, inclusive as curvas da OMS, e a tabela TACO
+        estão dentro do app.
       </AppText>
       <AppText tone="muted">
-        As calculadoras de curvas da OMS e a tabela de alimentos consultam nosso servidor enviando apenas as medidas do cálculo, sem nome ou
-        qualquer dado que identifique o paciente.
+        A única saída de dados é o backup, e só quando você pede: o arquivo vai para onde você escolher (Google Drive, e-mail…).
       </AppText>
       <AppText tone="muted">
         Você é o controlador dos dados dos seus pacientes (LGPD). Faça backups periódicos (Mais → Backup): se o aparelho for perdido ou o app

@@ -1,14 +1,13 @@
 import fs from 'fs';
 import path from 'path';
+import { CATALOG } from '../../catalog';
 import { CALCULATOR_REGISTRY } from '../registry';
 
 /**
- * Runs every locally-implemented calculator against the test vectors in
- * shared/calculators-spec/*.json — the same files backend/tests/Unit/Domain/
- * Calculators/CalculatorSpecTest.php reads, so the PHP and TypeScript
- * implementations are proven to agree on every case. Specs flagged
- * "server_only" (WHO growth curves, backed by large reference tables) are
- * computed only by the backend and must not have a local implementation.
+ * Runs every calculator against the test vectors in shared/calculators-spec/*.json
+ * — the same files backend/tests/Unit/Domain/Calculators/CalculatorSpecTest.php
+ * reads, so the PHP and TypeScript implementations are proven to agree on
+ * every case, including the WHO growth curves (official tables embedded in the app).
  */
 
 const SPEC_DIR = path.resolve(__dirname, '../../../../../shared/calculators-spec');
@@ -20,7 +19,6 @@ interface SpecCase {
 
 interface Spec {
   slug: string;
-  server_only?: boolean;
   cases: SpecCase[];
 }
 
@@ -33,12 +31,10 @@ function loadSpecs(): Spec[] {
 
 describe('calculator spec conformance', () => {
   const specs = loadSpecs();
-  const localSpecs = specs.filter((spec) => !spec.server_only);
-  const serverOnlySpecs = specs.filter((spec) => spec.server_only);
+  const localSpecs = specs;
 
   it('found the shared spec fixtures', () => {
-    expect(localSpecs.length).toBeGreaterThanOrEqual(28);
-    expect(serverOnlySpecs.length).toBeGreaterThanOrEqual(10);
+    expect(localSpecs.length).toBeGreaterThanOrEqual(54);
   });
 
   it.each(localSpecs.flatMap((spec) => spec.cases.map((c, i) => [spec.slug, i, spec, c] as const)))(
@@ -76,9 +72,9 @@ describe('calculator spec conformance', () => {
     }
   });
 
-  it('server-only calculators have no (possibly divergent) local implementation', () => {
-    for (const spec of serverOnlySpecs) {
-      expect(CALCULATOR_REGISTRY[spec.slug]).toBeUndefined();
+  it('every catalog calculator runs on the device (no server needed)', () => {
+    for (const entry of CATALOG) {
+      expect(CALCULATOR_REGISTRY[entry.slug]).toBeDefined();
     }
   });
 });

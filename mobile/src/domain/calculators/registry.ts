@@ -40,14 +40,26 @@ import { mustCalculator } from './hospitalar/triagemRisco/must';
 import { nrs2002Calculator } from './hospitalar/triagemRisco/nrs2002';
 import { pgSgaSfCalculator } from './hospitalar/triagemRisco/pgSgaSf';
 import { pniCalculator } from './hospitalar/triagemRisco/pni';
+import {
+  comprimentoIdade0a5Calculator,
+  estaturaIdade5a19Calculator,
+  gomezCalculator,
+  imcIdade0a5Calculator,
+  imcIdade5a19Calculator,
+  perimetroCefalico0a5Calculator,
+  pesoComprimento0a5Calculator,
+  pesoIdade0a5Calculator,
+  pesoIdade5a10Calculator,
+  waterlowCalculator,
+} from './pediatria/curvasCrescimento';
 import { necessidadeEnergeticaInfantilCalculator } from './pediatria/gastoEnergetico/necessidadeEnergeticaInfantil';
 import { schofieldCalculator } from './pediatria/gastoEnergetico/schofield';
 import type { Calculator } from './types';
 
 /**
  * Mirrors backend config/calculators.php — the single place mapping a slug to
- * its local implementation, used for the instant-preview calculation. Slugs
- * missing here are computed by the server (POST /calculators/{slug}/calculate).
+ * its implementation. Every calculator runs on the device: the app never needs
+ * a server or an internet connection to calculate.
  */
 export const CALCULATOR_REGISTRY: Record<string, Calculator<any>> = {
   imc: imcCalculator,
@@ -84,8 +96,17 @@ export const CALCULATOR_REGISTRY: Record<string, Calculator<any>> = {
 
   schofield: schofieldCalculator,
   'necessidade-energetica-infantil': necessidadeEnergeticaInfantilCalculator,
-  // As curvas OMS (oms-*, gomez, waterlow) dependem de ~18 mil linhas de
-  // tabela e são calculadas só no servidor — ver spec "server_only".
+  // Curvas OMS: tabelas oficiais embarcadas no app (src/data/who), sem internet.
+  'oms-peso-idade-0-5': pesoIdade0a5Calculator,
+  'oms-comprimento-idade-0-5': comprimentoIdade0a5Calculator,
+  'oms-peso-comprimento-0-5': pesoComprimento0a5Calculator,
+  'oms-imc-idade-0-5': imcIdade0a5Calculator,
+  'oms-perimetro-cefalico-0-5': perimetroCefalico0a5Calculator,
+  'oms-imc-idade-5-19': imcIdade5a19Calculator,
+  'oms-estatura-idade-5-19': estaturaIdade5a19Calculator,
+  'oms-peso-idade-5-10': pesoIdade5a10Calculator,
+  gomez: gomezCalculator,
+  waterlow: waterlowCalculator,
 
   'anemia-oms': anemiaOmsCalculator,
   'ferritina-oms': ferritinaOmsCalculator,

@@ -1,6 +1,5 @@
 {
   "slug": "oms-imc-idade-5-19",
-  "server_only": true,
   "source": "Escores calculados pela própria OMS: anthroplus/data-raw/survey_who2007_z.csv (ids 6, 17, 21, 28, 5, 230).",
   "cases": [
     { "inputs": { "age_months": 80.65, "sex": "male", "weight_kg": 18.8, "height_cm": 114.6 }, "expected": { "values": { "z_score": -0.87 }, "classification": "eutrofia" } },

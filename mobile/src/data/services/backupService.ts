@@ -16,6 +16,15 @@ export interface BackupFile {
 
 export class InvalidBackupError extends Error {}
 
+/** Dias sem backup a partir dos quais o app passa a lembrar. */
+export const BACKUP_REMINDER_DAYS = 7;
+
+/** Nunca fez backup, ou o último tem mais de BACKUP_REMINDER_DAYS dias. */
+export function backupOverdue(lastBackupAt: string | null, now = new Date()): boolean {
+  if (!lastBackupAt) return true;
+  return now.getTime() - new Date(lastBackupAt).getTime() > BACKUP_REMINDER_DAYS * 24 * 60 * 60 * 1000;
+}
+
 /**
  * Cópia de segurança completa do banco local num único arquivo JSON, que o
  * usuário guarda onde quiser (Google Drive, iCloud, e-mail...). Restaurar

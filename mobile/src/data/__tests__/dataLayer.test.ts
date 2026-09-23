@@ -9,7 +9,7 @@ import { patientsRepository } from '../repositories/patients';
 import { settingsRepository } from '../repositories/settings';
 import { tasksRepository } from '../repositories/tasks';
 import { agendaService } from '../services/agendaService';
-import { backupService, InvalidBackupError } from '../services/backupService';
+import { backupOverdue, backupService, InvalidBackupError } from '../services/backupService';
 import type { ReminderScheduler } from '../services/reminders';
 import { taskService } from '../services/taskService';
 
@@ -222,6 +222,13 @@ describe('task service', () => {
 });
 
 describe('backup', () => {
+  it('reminds when there was never a backup or the last one is older than 7 days', () => {
+    const now = new Date('2026-09-23T12:00:00Z');
+    expect(backupOverdue(null, now)).toBe(true);
+    expect(backupOverdue('2026-09-20T12:00:00Z', now)).toBe(false);
+    expect(backupOverdue('2026-09-15T12:00:00Z', now)).toBe(true);
+  });
+
   it('round-trips every table into a fresh device and drops notification ids', async () => {
     const source = await freshDb();
     const { scheduler } = fakeScheduler();

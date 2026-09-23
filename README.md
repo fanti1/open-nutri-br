@@ -1,23 +1,25 @@
 # OpenNutri BR
 
-App para nutricionistas brasileiros: calculadoras clínicas com método científico e referência, fichas de pacientes, agenda com lembretes e checklist de tarefas. Backend em Laravel, app mobile nativo em React Native/Expo.
+App para nutricionistas brasileiros: calculadoras clínicas com método científico e referência, fichas de pacientes, agenda com lembretes e checklist de tarefas. App nativo em React Native/Expo que funciona inteiro offline; um backend Laravel serve de implementação de referência das fórmulas.
 
 - **54 calculadoras**: Consultório (antropometria — incluindo relação cintura-estatura, índice de conicidade e dobras cutâneas de Jackson-Pollock e Durnin-Womersley — e metabolismo, incluindo Cunningham), Hospitalar/Terapia Intensiva (triagem, diagnóstico, suporte nutricional e gasto energético em ventilação mecânica e queimados — Penn State, Swinamer, Toronto), Pediatria (curvas de crescimento OMS com classificação SISVAN, Gomez, Waterlow, Schofield, necessidade energética FAO) e Hematologia/Bioquímica (anemia e ferritina OMS, diagnóstico glicêmico SBD, HOMA-IR, perfil lipídico, CKD-EPI 2021, Cockcroft-Gault). Cada uma declara para quais fases da vida (criança/adulto/idoso) foi validada.
-- **Tudo aberto a todos**, sem conta obrigatória.
-- **Dados no aparelho** (SQLite) com backup em arquivo para Drive/iCloud/e-mail.
+- **100% offline**: todas as calculadoras (inclusive as curvas da OMS) e a tabela TACO completa rodam no celular, sem internet e sem servidor.
+- **Tudo aberto a todos**, sem conta.
+- **Dados no aparelho** (SQLite), com backup opcional no Google Drive (ou e-mail, WhatsApp…).
 
 Decisões e lacunas de cada fase em `docs/adr/`:
 [0001 Hospitalar/UTI](docs/adr/0001-fase-2-hospitalar-uti.md) ·
 [0002 Pediatria](docs/adr/0002-fase-3-pediatria.md) ·
 [0003 Dados locais e acesso aberto](docs/adr/0003-dados-locais-e-acesso-aberto.md) ·
 [0004 Hematologia e Bioquímica](docs/adr/0004-fase-4-hematologia-bioquimica.md) ·
-[0005 Extensões de Consultório](docs/adr/0005-fase-6-extensoes-consultorio.md).
+[0005 Extensões de Consultório](docs/adr/0005-fase-6-extensoes-consultorio.md) ·
+[0006 App 100% offline](docs/adr/0006-app-100-offline.md).
 
 ## Estrutura
 
 ```
-backend/    API Laravel: engine de cálculo, catálogo, curvas OMS, alimentos (TACO)
-mobile/     App Expo/React Native (Android/iOS/web)
+mobile/     App Expo/React Native (Android/iOS/web) — o produto, 100% offline
+backend/    Laravel: implementação de referência das fórmulas e geração do catálogo (o app não depende dele)
 shared/     Vetores de teste usados tanto pelo PHPUnit quanto pelo Jest
 docs/       Decisões de arquitetura e documentação de dados (importação TACO)
 ```
@@ -28,20 +30,22 @@ docs/       Decisões de arquitetura e documentação de dados (importação TAC
 mobile/
 ├── app/                   Telas (expo-router): abas Início, Calculadoras, Pacientes, Agenda, Mais
 └── src/
-    ├── data/              Banco local: migrações, repositórios, serviços (agenda, tarefas, backup, lembretes)
-    ├── domain/            Engine de cálculo (espelho do backend), catálogo, auto-preenchimento, formulários
+    ├── data/              Banco local (migrações, repositórios, serviços) e tabelas oficiais embarcadas: who/ (OMS) e taco.json
+    ├── domain/            Engine de cálculo (espelho do backend), curvas OMS, TACO, perfil do cálculo, formulários
     ├── features/          Componentes por funcionalidade (pacientes, calculadoras, agenda, tarefas, arquivos)
-    ├── ui/                Design system (tema claro/escuro, campos, cartões, calendário, gráfico)
-    └── api/               Cliente HTTP — só para cálculos que rodam no servidor (curvas OMS) e alimentos
+    └── ui/                Design system (tema claro/escuro, campos, cartões, abas, calendário, gráfico)
 ```
 
 - **Local-first**: pacientes, atendimentos, cálculos salvos, anexos, agenda e tarefas ficam no SQLite do aparelho. Cada escrita notifica as telas inscritas (`useLiveQuery`), então a interface atualiza em tempo real.
-- **Cálculo instantâneo**: as calculadoras de fórmula pura rodam no aparelho, inclusive offline. As curvas OMS usam as tabelas oficiais no servidor, que recebe só as medidas.
+- **Cálculo instantâneo e offline**: todas as calculadoras rodam no aparelho, em tempo real. As curvas da OMS usam as tabelas oficiais embarcadas no app.
+- **Perfil do cálculo**: cada calculadora pergunta uma vez "para quem é" (faixa etária + sexo) e guarda a escolha; com paciente, o perfil vem da ficha.
 - **Auto-preenchimento**: ao calcular para um paciente, idade, sexo e as últimas medidas da ficha preenchem o formulário.
 - **Lembretes**: notificações locais do aparelho, sem servidor de push.
-- **Backup**: um arquivo JSON com tudo; restaurar reagenda os lembretes.
+- **Backup**: um arquivo JSON com tudo, salvo no Google Drive pela tela de compartilhar do Android; restaurar reagenda os lembretes.
 
-## Backend (Laravel)
+## Backend (Laravel) — referência das fórmulas
+
+Não é necessário para usar o app. Serve para validar as fórmulas (os mesmos vetores de teste rodam no PHPUnit e no Jest) e gerar o catálogo embarcado.
 
 ```
 cd backend
@@ -50,7 +54,6 @@ cp .env.example .env   # já vem configurado para SQLite
 php artisan key:generate
 touch database/database.sqlite
 php artisan migrate --seed   # popula o catálogo de calculadoras
-php artisan serve --host=0.0.0.0   # necessário para o celular físico acessar via IP da LAN
 ```
 
 Testes (241: as 54 calculadoras com vetores científicos conhecidos, curvas OMS com gabarito da própria OMS, acesso público, catálogo, alimentos, LGPD):
@@ -82,11 +85,10 @@ php artisan db:seed --class=DemoFoodSeeder
 ```
 cd mobile
 npm install
-cp .env.example .env   # EXPO_PUBLIC_API_URL: backend usado pelas curvas OMS e pelos alimentos
 npm run android         # ou npm run ios (exige Mac) / npm run web
 ```
 
-Testes (209: a engine de cálculo contra os mesmos vetores do PHPUnit em `shared/calculators-spec/`, camada de dados sobre SQLite real, formulários e auto-preenchimento):
+Testes (247: as 54 calculadoras contra os mesmos vetores do PHPUnit em `shared/calculators-spec/`, curvas OMS e TACO embarcadas, camada de dados sobre SQLite real, perfil do cálculo, formulários e auto-preenchimento):
 
 ```
 npm test
@@ -100,17 +102,11 @@ eas login
 eas build --profile preview --platform android
 ```
 
-As curvas OMS e a tabela de alimentos usam o backend. O build do EAS roda na nuvem e não lê o `.env` (ele está no `.gitignore`), então defina o endereço no perfil `preview` do `eas.json`, com um host que o celular alcance (IP da LAN ou servidor publicado):
+Nenhuma configuração de servidor é necessária: o APK funciona inteiro offline.
 
-```json
-"preview": {
-  "distribution": "internal",
-  "android": { "buildType": "apk" },
-  "env": { "EXPO_PUBLIC_API_URL": "http://SEU-IP:8001/api/v1" }
-}
-```
+APK local, sem conta no EAS (exige Android SDK): `npx expo prebuild --platform android` e depois `cd android && ./gradlew assembleRelease`. O arquivo sai em `android/app/build/outputs/apk/release/app-release.apk`.
 
-Sem isso, o app funciona normalmente e só as curvas OMS e os alimentos avisam que estão sem conexão.
+Tabelas embarcadas: `node scripts/build-who-tables.mjs` (curvas OMS) e `node scripts/build-taco.mjs <planilha>` (TACO, ver `docs/data/taco-import.md`).
 
 Build iOS via EAS exige conta Apple Developer (US$99/ano) — sem atalho, mas também não exige Mac local.
 

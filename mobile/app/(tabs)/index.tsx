@@ -3,6 +3,7 @@ import { useRouter } from 'expo-router';
 import { Pressable, View } from 'react-native';
 import { useData } from '../../src/data/DataProvider';
 import { useFavorites, useSettings } from '../../src/data/hooks';
+import { backupOverdue } from '../../src/data/services/backupService';
 import { useLiveQuery } from '../../src/data/useLiveQuery';
 import { catalogEntry, type CatalogEntry } from '../../src/domain/catalog';
 import { AppointmentRow } from '../../src/features/agenda/AppointmentRow';
@@ -57,6 +58,8 @@ export default function HomeScreen() {
   const firstName = profileName.split(' ')[0];
   const scheduledToday = dashboard?.todayAppointments.filter((a) => a.status === 'agendado') ?? [];
   const next = dashboard?.upcoming[0];
+  // Só lembra do backup quando já existe algo a perder.
+  const backupDue = !!dashboard?.recentPatients.length && backupOverdue(settings?.last_backup_at ?? null);
 
   return (
     <Screen
@@ -86,6 +89,21 @@ export default function HomeScreen() {
           </AppText>
         </View>
       </Card>
+
+      {backupDue && (
+        <Card onPress={() => router.push('/backup')} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, borderColor: colors.warning, backgroundColor: colors.warningSoft }}>
+          <Ionicons name="cloud-upload-outline" size={22} color={colors.warning} />
+          <View style={{ flex: 1 }}>
+            <AppText variant="bodyStrong" color={colors.warning}>
+              {settings?.last_backup_at ? 'Faça um novo backup' : 'Faça seu primeiro backup'}
+            </AppText>
+            <AppText variant="caption" color={colors.warning}>
+              Seus dados ficam só neste celular. Salve uma cópia no Google Drive.
+            </AppText>
+          </View>
+          <Ionicons name="chevron-forward" size={18} color={colors.warning} />
+        </Card>
+      )}
 
       <View style={{ gap: 10 }}>
         <View style={{ flexDirection: 'row', gap: 10 }}>

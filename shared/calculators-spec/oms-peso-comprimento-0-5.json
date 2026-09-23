@@ -1,6 +1,5 @@
 {
   "slug": "oms-peso-comprimento-0-5",
-  "server_only": true,
   "cases": [
     { "inputs": { "age_months": 12, "sex": "male", "weight_kg": 9.5, "length_cm": 75.35, "measurement_position": "deitado" }, "expected": { "values": { "z_score": -0.09, "reference_median": 9.57 }, "classification": "eutrofia" } },
     { "inputs": { "age_months": 36, "sex": "female", "weight_kg": 14, "length_cm": 95, "measurement_position": "em_pe" }, "expected": { "values": { "z_score": 0.09, "reference_median": 13.89 }, "classification": "eutrofia" } }
