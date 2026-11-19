@@ -1,0 +1,27 @@
+# Finais de linha normalizados (LF no repositório) para quem clona no Windows, macOS ou Linux.
+* text=auto eol=lf
+
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+*.png binary
+*.jpg binary
+*.ico binary
+*.ttf binary
+*.otf binary
+*.apk binary
+*.jks binary
+
+# Arquivos gerados: ficam fora das estatísticas de linguagem e recolhidos nos diffs do GitHub.
+mobile/src/data/catalog.json linguist-generated
+mobile/src/data/changelog.json linguist-generated
+mobile/src/data/licenses.json linguist-generated
+mobile/src/data/help.json linguist-generated
+mobile/src/data/taco.json linguist-generated
+mobile/src/data/who/** linguist-generated
+mobile/package-lock.json linguist-generated
+backend/composer.lock linguist-generated
+
+# Documentação conta como documentação, não como código.
+docs/** linguist-documentation
+shared/auditoria/** linguist-documentation

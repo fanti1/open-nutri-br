@@ -1,0 +1,43 @@
+# Atualizações de dependências. Mensais e agrupadas, para não inundar o repositório.
+# O Expo fixa versões compatíveis entre si: atualizações maiores do Expo/React Native
+# são feitas à mão (npx expo install --fix), por isso ficam de fora aqui.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns: ['*']
+
+  - package-ecosystem: npm
+    directory: /mobile
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 5
+    ignore:
+      - dependency-name: 'expo*'
+      - dependency-name: '@expo/*'
+      - dependency-name: 'react'
+      - dependency-name: 'react-dom'
+      - dependency-name: 'react-native*'
+      - dependency-name: '@react-native/*'
+      - dependency-name: 'jest-expo'
+      - dependency-name: 'eslint-config-expo'
+    groups:
+      dev:
+        dependency-type: development
+        update-types: [minor, patch]
+      prod:
+        dependency-type: production
+        update-types: [minor, patch]
+
+  - package-ecosystem: composer
+    directory: /backend
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 3
+    groups:
+      composer:
+        update-types: [minor, patch]

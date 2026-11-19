@@ -1,0 +1,118 @@
+name: Release
+
+# Ao enviar uma tag vX.Y.Z: roda todas as verificações, gera o APK assinado e publica a
+# GitHub Release com as notas do CHANGELOG.md. Passo a passo em docs/RELEASE.md.
+#
+# Também dá para rodar à mão (aba Actions → Release → Run workflow): gera o APK como
+# artefato do workflow, sem criar release. Útil para testar o build.
+
+on:
+  push:
+    tags: ['v*.*.*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  checks:
+    name: Verificações
+    uses: ./.github/workflows/ci.yml
+
+  android:
+    name: APK Android
+    needs: checks
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    defaults:
+      run:
+        working-directory: mobile
+    env:
+      IS_TAG: ${{ startsWith(github.ref, 'refs/tags/v') }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - run: npm ci
+
+      - name: Versão da tag = versão do app
+        if: env.IS_TAG == 'true'
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          APP="$(node -p "require('./app.json').expo.version")"
+          if [ "$TAG" != "$APP" ]; then
+            echo "::error::A tag é v$TAG, mas o mobile/app.json está em $APP."
+            exit 1
+          fi
+          echo "VERSION=$APP" >> "$GITHUB_ENV"
+
+      - name: Chave de assinatura
+        env:
+          KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          if [ -z "$KEYSTORE_BASE64" ]; then
+            if [ "$IS_TAG" = "true" ]; then
+              echo "::error::Faltam os secrets da chave Android (ANDROID_KEYSTORE_BASE64 etc.). Veja docs/RELEASE.md."
+              exit 1
+            fi
+            echo "::warning::Sem chave de release: o APK de teste sai assinado com a chave de debug."
+            exit 0
+          fi
+          KEYSTORE="$RUNNER_TEMP/release.jks"
+          echo "$KEYSTORE_BASE64" | base64 --decode > "$KEYSTORE"
+          {
+            echo "ANDROID_KEYSTORE_FILE=$KEYSTORE"
+            echo "ANDROID_KEYSTORE_PASSWORD=$KEYSTORE_PASSWORD"
+            echo "ANDROID_KEY_ALIAS=$KEY_ALIAS"
+            echo "ANDROID_KEY_PASSWORD=$KEY_PASSWORD"
+          } >> "$GITHUB_ENV"
+
+      - name: Gerar projeto Android
+        run: npx expo prebuild --platform android --no-install
+
+      - name: Compilar APK
+        working-directory: mobile/android
+        run: ./gradlew assembleRelease --no-daemon
+
+      - name: Localizar APK
+        run: |
+          APK="$(ls android/app/build/outputs/apk/release/*.apk | head -n 1)"
+          echo "APK=$PWD/$APK" >> "$GITHUB_ENV"
+          ls -lh "$APK"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apk-android
+          path: ${{ env.APK }}
+          retention-days: 30
+
+      - name: Publicar a release
+        if: env.IS_TAG == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          node scripts/release-notes.mjs "$VERSION" "$APK" > "$RUNNER_TEMP/notes.md"
+          gh release create "$GITHUB_REF_NAME" "$APK" \
+            --title "OpenNutri BR $VERSION" \
+            --notes-file "$RUNNER_TEMP/notes.md" \
+            --verify-tag
