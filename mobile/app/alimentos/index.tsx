@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useDeferredValue, useMemo, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { formatTacoValue, searchTaco, tacoGroups } from '../../src/domain/foods';
 import { useTheme } from '../../src/theme/ThemeProvider';
@@ -20,17 +20,20 @@ export default function FoodsScreen() {
   const [search, setSearch] = useState('');
   const [group, setGroup] = useState<string | null>(null);
 
+  // A filtragem dos ~600 alimentos e o redesenho da lista ficam para logo depois da tecla: o campo nunca trava.
+  const query = useDeferredValue(search);
   const groups = useMemo(() => tacoGroups(), []);
-  const browsing = !search.trim() && !group;
-  const results = useMemo(() => (browsing ? [] : searchTaco(search, group ?? undefined)), [browsing, search, group]);
+  const browsing = !query.trim() && !group;
+  const results = useMemo(() => (browsing ? [] : searchTaco(query, group ?? undefined)), [browsing, query, group]);
 
   return (
     <Screen back title="Tabela Nutricional" subtitle="TACO 4ª edição · valores por 100 g · funciona sem internet">
-      <TextField value={search} onChangeText={setSearch} placeholder="Buscar alimento (ex.: feijão cozido)" icon="search" />
+      <TextField value={search} onChangeText={setSearch} placeholder="Buscar alimento (ex.: feijão cozido)" icon="search" clearable />
 
       {group && (
         <Pressable
           accessibilityRole="button"
+          accessibilityLabel={`Remover filtro: ${group}`}
           onPress={() => setGroup(null)}
           style={{ flexDirection: 'row', alignItems: 'center', gap: 6, alignSelf: 'flex-start', backgroundColor: colors.primarySoft, borderRadius: 999, paddingHorizontal: 12, paddingVertical: 6 }}
         >
@@ -48,6 +51,7 @@ export default function FoodsScreen() {
               <Pressable
                 key={item.name}
                 accessibilityRole="button"
+                accessibilityLabel={`${item.name}, ${item.count} alimentos`}
                 onPress={() => setGroup(item.name)}
                 style={({ pressed }) => ({
                   flexDirection: 'row',

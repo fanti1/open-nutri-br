@@ -11,7 +11,7 @@ export interface DurninWomersleyInputs {
 }
 
 /** [idade mínima, c, m] por sexo — Durnin & Womersley, 1974. */
-const COEFFICIENTS: Record<DurninWomersleyInputs['sex'], Array<[number, number, number]>> = {
+const COEFFICIENTS: Record<DurninWomersleyInputs['sex'], [number, number, number][]> = {
   male: [
     [17, 1.162, 0.063],
     [20, 1.1631, 0.0632],

@@ -1,5 +1,5 @@
 import * as DocumentPicker from 'expo-document-picker';
-import { File, Paths } from 'expo-file-system';
+import { Directory, File, Paths } from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import { Platform } from 'react-native';
 
@@ -50,6 +50,19 @@ function downloadOnWeb(blob: Blob, name: string): void {
   setTimeout(() => URL.revokeObjectURL(url), 10_000);
 }
 
+/**
+ * Arquivo temporário entregue ao "Compartilhar". A pasta é esvaziada a cada
+ * novo envio: backups e exames não se acumulam no cache do aparelho — um
+ * backup sem senha é uma cópia completa dos dados dos pacientes (LGPD,
+ * minimização).
+ */
+function shareableFile(name: string): File {
+  const folder = new Directory(Paths.cache, 'compartilhar');
+  if (folder.exists) folder.delete();
+  folder.create({ intermediates: true });
+  return new File(folder, name);
+}
+
 function base64ToBytes(base64: string): Uint8Array {
   const binary = atob(base64);
   const bytes = new Uint8Array(binary.length);
@@ -67,7 +80,7 @@ export async function shareBase64File(name: string, mimeType: string | null, bas
     return;
   }
 
-  const file = new File(Paths.cache, name);
+  const file = shareableFile(name);
   file.write(base64, { encoding: 'base64' });
   await Sharing.shareAsync(file.uri, { mimeType: mimeType ?? undefined, dialogTitle: name });
 }
@@ -78,7 +91,7 @@ export async function shareTextFile(name: string, mimeType: string, text: string
     return;
   }
 
-  const file = new File(Paths.cache, name);
+  const file = shareableFile(name);
   file.write(text);
   await Sharing.shareAsync(file.uri, { mimeType, dialogTitle: name });
 }

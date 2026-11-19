@@ -1,8 +1,8 @@
 {
   "slug": "pni",
   "cases": [
-    { "inputs": { "albumin_g_dl": 4.0, "triceps_skinfold_mm": 15, "transferrin_mg_dl": 250, "delayed_hypersensitivity": "maior_igual_5mm" }, "expected": { "values": { "pni_percent": 18.3 }, "classification": "risco_baixo" } },
-    { "inputs": { "albumin_g_dl": 3.0, "triceps_skinfold_mm": 10, "transferrin_mg_dl": 180, "delayed_hypersensitivity": "menor_5mm" }, "expected": { "values": { "pni_percent": 58.6 }, "classification": "risco_intermediario" } },
-    { "inputs": { "albumin_g_dl": 2.0, "triceps_skinfold_mm": 5, "transferrin_mg_dl": 100, "delayed_hypersensitivity": "anergico" }, "expected": { "values": { "pni_percent": 100.9 }, "classification": "risco_alto" } }
+    { "inputs": { "albumin_g_dl": 4.0, "triceps_skinfold_mm": 15, "transferrin_mg_dl": 250, "delayed_hypersensitivity": "maior_igual_5mm" }, "expected": { "values": { "pni_percent": 18.3 }, "classification": null } },
+    { "inputs": { "albumin_g_dl": 3.0, "triceps_skinfold_mm": 10, "transferrin_mg_dl": 180, "delayed_hypersensitivity": "menor_5mm" }, "expected": { "values": { "pni_percent": 58.6 }, "classification": null } },
+    { "inputs": { "albumin_g_dl": 2.0, "triceps_skinfold_mm": 5, "transferrin_mg_dl": 100, "delayed_hypersensitivity": "anergico" }, "expected": { "values": { "pni_percent": 100.9 }, "classification": null } }
   ]
 }

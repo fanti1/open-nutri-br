@@ -1,7 +1,7 @@
 <?php
 
 use App\Domain\Calculators\CalculatorNotFoundException;
-use App\Domain\Growth\OutOfReferenceRangeException;
+use App\Domain\Calculators\IncompleteInputsException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -26,7 +26,8 @@ return Application::configure(basePath: dirname(__DIR__))
             return response()->json(['message' => $e->getMessage()], 404);
         });
 
-        $exceptions->render(function (OutOfReferenceRangeException $e, Request $request) {
+        // Inclui OutOfReferenceRangeException (medida fora da curva da OMS).
+        $exceptions->render(function (IncompleteInputsException $e, Request $request) {
             return response()->json(['message' => $e->getMessage()], 422);
         });
     })->create();

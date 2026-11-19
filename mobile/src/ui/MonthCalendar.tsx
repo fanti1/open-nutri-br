@@ -5,6 +5,7 @@ import { useTheme } from '../theme/ThemeProvider';
 import { AppText } from './AppText';
 
 const WEEKDAYS = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
+const DAY_LABEL = new Intl.DateTimeFormat('pt-BR', { day: 'numeric', month: 'long', weekday: 'long' });
 
 interface MonthCalendarProps {
   month: Date;
@@ -15,10 +16,10 @@ interface MonthCalendarProps {
   markedDays?: Set<string>;
 }
 
-function monthGrid(month: Date): Array<Date | null> {
+function monthGrid(month: Date): (Date | null)[] {
   const first = new Date(month.getFullYear(), month.getMonth(), 1);
   const daysInMonth = new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate();
-  const cells: Array<Date | null> = Array.from({ length: first.getDay() }, () => null);
+  const cells: (Date | null)[] = Array.from({ length: first.getDay() }, () => null);
 
   for (let day = 1; day <= daysInMonth; day++) {
     cells.push(new Date(month.getFullYear(), month.getMonth(), day));
@@ -37,11 +38,11 @@ export function MonthCalendar({ month, selected, onSelect, onMonthChange, marked
   return (
     <View style={{ gap: 8 }}>
       <View style={styles.header}>
-        <Pressable accessibilityLabel="Mês anterior" onPress={() => shift(-1)} hitSlop={10} style={styles.nav}>
+        <Pressable accessibilityRole="button" accessibilityLabel="Mês anterior" onPress={() => shift(-1)} hitSlop={10} style={styles.nav}>
           <Ionicons name="chevron-back" size={20} color={colors.text} />
         </Pressable>
         <AppText variant="heading">{formatMonth(month)}</AppText>
-        <Pressable accessibilityLabel="Próximo mês" onPress={() => shift(1)} hitSlop={10} style={styles.nav}>
+        <Pressable accessibilityRole="button" accessibilityLabel="Próximo mês" onPress={() => shift(1)} hitSlop={10} style={styles.nav}>
           <Ionicons name="chevron-forward" size={20} color={colors.text} />
         </Pressable>
       </View>
@@ -65,7 +66,15 @@ export function MonthCalendar({ month, selected, onSelect, onMonthChange, marked
           const marked = markedDays?.has(toDateOnly(date));
 
           return (
-            <Pressable key={index} style={styles.cell} onPress={() => onSelect(date)} accessibilityLabel={toDateOnly(date)}>
+            <Pressable
+              key={index}
+              style={styles.cell}
+              onPress={() => onSelect(date)}
+              accessibilityRole="button"
+              accessibilityState={{ selected: isSelected }}
+              // "12 de novembro, quinta-feira, hoje, com compromissos" — e não "2026-11-12".
+              accessibilityLabel={[DAY_LABEL.format(date), isToday && 'hoje', marked && 'com compromissos'].filter(Boolean).join(', ')}
+            >
               <View
                 style={[
                   styles.day,

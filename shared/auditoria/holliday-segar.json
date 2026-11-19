@@ -1,0 +1,31 @@
+{
+  "slug": "holliday-segar",
+  "status": "conferido_com_ressalvas",
+  "verified_at": "2026-09-24",
+  "summary": "Regra 100 / 50 / 20 mL/kg conferida em revisão aberta; o artigo original (1957) não foi acessado.",
+  "formula": "Até 10 kg: 100 mL/kg · 10–20 kg: 1.000 mL + 50 mL/kg acima de 10 kg · > 20 kg: 1.500 mL + 20 mL/kg acima de 20 kg.",
+  "sources": [
+    {
+      "citation": "Holliday MA, Segar WE. The maintenance need for water in parenteral fluid therapy. Pediatrics. 1957;19(5):823-32.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/13431307/",
+      "pmid": "13431307",
+      "evidence": "nao_acessado",
+      "checked": "Artigo original; não acessado."
+    },
+    {
+      "citation": "AlQahtani SN, AlGubaisi S, AlHaffaf FA et al. Nutrition support therapy for hospitalized children with malnutrition: a narrative review. Healthcare (Basel). 2025;13(5):497.",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11899272/",
+      "pmid": "40077059",
+      "evidence": "reproducao",
+      "checked": "Holliday-Segar: 100 mL/kg nos primeiros 10 kg; 50 mL/kg nos 10 kg seguintes; 20 mL/kg por kg acima de 20 kg."
+    }
+  ],
+  "notes": [
+    "A mesma revisão lembra que recém-nascidos e lactentes pequenos costumam precisar de volumes individualizados, e que o resultado é um ponto de partida a ajustar pelo estado de hidratação e pela doença."
+  ],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "8 kg × 100 mL = 800 mL/dia."
+  }
+}

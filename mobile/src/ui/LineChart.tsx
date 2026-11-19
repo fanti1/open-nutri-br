@@ -1,19 +1,24 @@
 import { useState } from 'react';
-import { Platform, View } from 'react-native';
+import { View } from 'react-native';
 import Svg, { Circle, Line, Path, Text as SvgText } from 'react-native-svg';
+import { chartSummary } from '../lib/chartSummary';
 import { formatNumber, formatShortDate } from '../lib/format';
+import { fontFamilies } from '../theme/tokens';
 import { useTheme } from '../theme/ThemeProvider';
 
-// No navegador o <text> do SVG cairia na fonte serifada padrão; usa a mesma fonte do sistema do restante da UI.
-const FONT_FAMILY = Platform.OS === 'web' ? 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif' : undefined;
+// Mesma fonte do restante da interface (no navegador, sem ela o <text> do SVG cairia numa serifada).
+const FONT_FAMILY = fontFamilies[700];
 
 export interface ChartPoint {
   date: string;
   value: number;
 }
 
-/** Gráfico de linha simples para evolução de uma medida ao longo dos atendimentos. */
-export function LineChart({ points, unit, height = 170 }: { points: ChartPoint[]; unit: string; height?: number }) {
+/**
+ * Gráfico de linha simples para evolução de uma medida ao longo dos atendimentos.
+ * Para o leitor de tela, é uma imagem com o resumo do que ela mostra (`label` é o nome da medida).
+ */
+export function LineChart({ points, unit, label, height = 170 }: { points: ChartPoint[]; unit: string; label: string; height?: number }) {
   const { colors } = useTheme();
   const [width, setWidth] = useState(0);
 
@@ -31,7 +36,13 @@ export function LineChart({ points, unit, height = 170 }: { points: ChartPoint[]
   const area = `${path} L ${x(points.length - 1)} ${height - padding.bottom} L ${x(0)} ${height - padding.bottom} Z`;
 
   return (
-    <View onLayout={(event) => setWidth(event.nativeEvent.layout.width)} style={{ height }}>
+    <View
+      onLayout={(event) => setWidth(event.nativeEvent.layout.width)}
+      style={{ height }}
+      accessible
+      accessibilityRole="image"
+      accessibilityLabel={`Gráfico. ${chartSummary(label, points, unit)}`}
+    >
       {width > 0 && (
         <Svg width={width} height={height}>
           <Line x1={padding.left} x2={width - padding.right} y1={height - padding.bottom} y2={height - padding.bottom} stroke={colors.border} />
@@ -48,7 +59,6 @@ export function LineChart({ points, unit, height = 170 }: { points: ChartPoint[]
                 y={y(point.value) - 10}
                 fontSize={11}
                 fontFamily={FONT_FAMILY}
-                fontWeight="600"
                 fill={colors.text}
                 textAnchor={points.length === 1 ? 'middle' : index === 0 ? 'start' : 'end'}
               >

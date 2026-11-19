@@ -1,0 +1,27 @@
+{
+  "slug": "oms-estatura-idade-5-19",
+  "status": "conferido",
+  "verified_at": "2026-09-24",
+  "summary": "Tabela oficial da OMS 2007 e algoritmo do pacote anthroplus; classificação do SISVAN (Quadro 14).",
+  "formula": "Escore-Z pelo método LMS: z = ((medida/M)^L − 1) / (L × S). Nos indicadores de peso, além de ±3 DP usa-se o escore restrito da OMS (distância entre 2 e 3 DP). < −3 muito baixa estatura · −3 a < −2 baixa estatura · ≥ −2 adequada.",
+  "sources": [
+    {
+      "citation": "de Onis M, Onyango AW, Borghi E et al. Development of a WHO growth reference for school-aged children and adolescents. Bull World Health Organ. 2007;85(9):660-7: tabelas LMS oficiais do pacote anthroplus.",
+      "url": "https://www.who.int/tools/growth-reference-data-for-5to19-years",
+      "evidence": "documento_oficial",
+      "checked": "Tabelas LMS copiadas sem alteração dos pacotes oficiais; algoritmo portado do código-fonte dos pacotes (idade em dias arredondada, correção de ±0,7 cm deitado/em pé, interpolação). Gabarito da própria OMS nos testes."
+    },
+    {
+      "citation": "Ministério da Saúde. Orientações para a coleta e análise de dados antropométricos em serviços de saúde: Norma Técnica do SISVAN. Brasília, 2011.",
+      "url": "https://bvsms.saude.gov.br/bvs/publicacoes/orientacoes_coleta_analise_dados_antropometricos.pdf",
+      "evidence": "documento_oficial",
+      "checked": "Quadro 14: pontos de corte de estatura-para-idade de adolescentes."
+    }
+  ],
+  "notes": [],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "Menino, 80,65 meses, 114,6 cm: L = 1, M = 120,1411, S = 0,04316. z = (114,6 ÷ 120,1411 − 1) ÷ 0,04316 = −1,07 → estatura adequada."
+  }
+}

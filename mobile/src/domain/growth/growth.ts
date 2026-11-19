@@ -29,10 +29,10 @@ export type WhoTableName =
 
 interface WhoTable {
   scale: number;
-  sexes: Record<string, { start: number; rows: Array<[number, number, number]> }>;
+  sexes: Record<string, { start: number; rows: [number, number, number][] }>;
 }
 
-/* eslint-disable @typescript-eslint/no-require-imports */
+ 
 // Carregadas sob demanda: só a tabela usada é lida da memória do app.
 const LOADERS: Record<WhoTableName, () => WhoTable> = {
   weianthro: () => require('../../data/who/weianthro.json'),
@@ -45,7 +45,7 @@ const LOADERS: Record<WhoTableName, () => WhoTable> = {
   hfawho2007: () => require('../../data/who/hfawho2007.json'),
   bfawho2007: () => require('../../data/who/bfawho2007.json'),
 };
-/* eslint-enable @typescript-eslint/no-require-imports */
+ 
 
 const cache = new Map<WhoTableName, WhoTable>();
 

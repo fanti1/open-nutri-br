@@ -20,7 +20,7 @@ final class CalculatorCatalog
     private const PRESENTATION = [
         'imc' => ['short_description' => 'Índice de Massa Corporal (adulto)', 'icon_key' => 'scale', 'sort_order' => 10],
         'imc-idoso' => ['short_description' => 'IMC com pontos de corte para idosos (SISVAN)', 'icon_key' => 'scale', 'sort_order' => 11],
-        'peso-ideal' => ['short_description' => 'Peso ideal pelo IMC (Devine)', 'icon_key' => 'target', 'sort_order' => 20],
+        'peso-ideal' => ['short_description' => 'Peso ideal pela estatura (Devine)', 'icon_key' => 'target', 'sort_order' => 20],
         'perda-de-peso' => ['short_description' => '% de perda de peso e significância clínica', 'icon_key' => 'trend-down', 'sort_order' => 30],
         'cintura-quadril' => ['short_description' => 'Relação cintura-quadril (RCQ)', 'icon_key' => 'circle', 'sort_order' => 40],
         'gordura-corporal' => ['short_description' => '% de gordura corporal (Deurenberg)', 'icon_key' => 'pie-chart', 'sort_order' => 50],
@@ -68,7 +68,7 @@ final class CalculatorCatalog
         'ferritina-oms' => ['short_description' => 'Deficiência de ferro pela ferritina', 'icon_key' => 'blood', 'sort_order' => 610],
         'glicemia-diagnostico' => ['short_description' => 'Glicemia, HbA1c e TOTG (SBD)', 'icon_key' => 'glucose', 'sort_order' => 620],
         'homa-ir' => ['short_description' => 'Resistência à insulina', 'icon_key' => 'glucose', 'sort_order' => 630],
-        'perfil-lipidico' => ['short_description' => 'LDL (Friedewald), não-HDL e metas', 'icon_key' => 'heart-pulse', 'sort_order' => 640],
+        'perfil-lipidico' => ['short_description' => 'LDL (Martin/Hopkins), não-HDL e metas', 'icon_key' => 'heart-pulse', 'sort_order' => 640],
         'ckd-epi-2021' => ['short_description' => 'TFG estimada e estágio KDIGO', 'icon_key' => 'kidney', 'sort_order' => 650],
         'cockcroft-gault' => ['short_description' => 'Clearance de creatinina estimado', 'icon_key' => 'kidney', 'sort_order' => 660],
 
@@ -173,6 +173,8 @@ final class CalculatorCatalog
                 'input_schema' => $engine->inputsSchema(),
                 'life_stages' => array_map(fn ($stage) => $stage->value, $engine->lifeStages()),
                 'sort_order' => $presentation['sort_order'],
+                'version' => $engine->version(),
+                'audit' => MethodAudit::for($slug),
             ];
         }
 

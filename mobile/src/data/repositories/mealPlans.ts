@@ -1,5 +1,5 @@
 import { notifyChange } from '../changes';
-import type { SqlDatabase } from '../db/types';
+import type { SqlDatabase, SqlParam } from '../db/types';
 import { newId, nowIso } from '../ids';
 import type { MealPlan, MealPlanItem, MealPlanKind } from '../models';
 
@@ -23,6 +23,19 @@ export interface MealPlanItemInput {
 export interface MealPlanWithPatient extends MealPlan {
   patient_name: string | null;
   item_count: number;
+}
+
+/** Colunas que update()/updateItem() podem alterar — o nome vira SQL, então só da lista. */
+const PLAN_COLUMNS = ['title', 'target_kcal', 'reference_date', 'notes'] as const;
+const ITEM_COLUMNS = ['quantity_g', 'household_measure', 'meal'] as const;
+
+/** Linhas por INSERT ao copiar um plano (9 parâmetros cada: bem abaixo do limite do SQLite). */
+const INSERT_BATCH = 100;
+
+function assignments<T extends object>(fields: T, allowed: readonly string[]): [string, SqlParam][] {
+  return Object.entries(fields)
+    .filter(([key]) => allowed.includes(key))
+    .map(([key, value]) => [key, (value ?? null) as SqlParam]);
 }
 
 /** Planos alimentares e recordatórios 24 h, com seus alimentos. */
@@ -64,12 +77,12 @@ export function mealPlansRepository(db: SqlDatabase) {
       return id;
     },
 
-    async update(id: string, fields: Partial<Pick<MealPlan, 'title' | 'target_kcal' | 'reference_date' | 'notes'>>): Promise<void> {
-      const entries = Object.entries(fields);
+    async update(id: string, fields: Partial<Pick<MealPlan, (typeof PLAN_COLUMNS)[number]>>): Promise<void> {
+      const entries = assignments(fields, PLAN_COLUMNS);
       if (!entries.length) return;
       await db.runAsync(
         `UPDATE meal_plans SET ${entries.map(([key]) => `${key} = ?`).join(', ')}, updated_at = ? WHERE id = ?`,
-        [...entries.map(([, value]) => value ?? null), nowIso(), id],
+        [...entries.map(([, value]) => value), nowIso(), id],
       );
       notifyChange('meal_plans');
     },
@@ -84,9 +97,29 @@ export function mealPlansRepository(db: SqlDatabase) {
       const plan = await this.get(id);
       if (!plan) throw new Error('Plano não encontrado.');
       const copyId = await this.create({ ...plan, title });
-      for (const item of await this.items(id)) {
-        await this.addItem(copyId, item);
+      const items = await this.items(id);
+
+      // Mesma ordem e numeração que addItem() daria item a item (0, 1, 2… por
+      // refeição), mas num INSERT por lote e um único aviso às telas — e não
+      // três idas ao banco e uma recarga geral por alimento.
+      const nextPosition = new Map<string, number>();
+      const now = nowIso();
+      const rows = items.map((item) => {
+        const position = nextPosition.get(item.meal) ?? 0;
+        nextPosition.set(item.meal, position + 1);
+        return [newId(), copyId, item.meal, item.food_id, item.food_name, item.quantity_g, item.household_measure ?? null, position, now];
+      });
+
+      for (let start = 0; start < rows.length; start += INSERT_BATCH) {
+        const batch = rows.slice(start, start + INSERT_BATCH);
+        await db.runAsync(
+          `INSERT INTO meal_plan_items (id, plan_id, meal, food_id, food_name, quantity_g, household_measure, position, created_at)
+           VALUES ${batch.map(() => '(?, ?, ?, ?, ?, ?, ?, ?, ?)').join(', ')}`,
+          batch.flat(),
+        );
       }
+
+      if (rows.length) notifyChange('meal_plans', 'meal_plan_items');
       return copyId;
     },
 
@@ -106,11 +139,11 @@ export function mealPlansRepository(db: SqlDatabase) {
       return id;
     },
 
-    async updateItem(id: string, fields: Partial<Pick<MealPlanItem, 'quantity_g' | 'household_measure' | 'meal'>>): Promise<void> {
-      const entries = Object.entries(fields);
+    async updateItem(id: string, fields: Partial<Pick<MealPlanItem, (typeof ITEM_COLUMNS)[number]>>): Promise<void> {
+      const entries = assignments(fields, ITEM_COLUMNS);
       if (!entries.length) return;
       await db.runAsync(`UPDATE meal_plan_items SET ${entries.map(([key]) => `${key} = ?`).join(', ')} WHERE id = ?`, [
-        ...entries.map(([, value]) => value ?? null),
+        ...entries.map(([, value]) => value),
         id,
       ]);
       const item = await db.getFirstAsync<{ plan_id: string }>('SELECT plan_id FROM meal_plan_items WHERE id = ?', [id]);

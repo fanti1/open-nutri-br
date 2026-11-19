@@ -27,8 +27,10 @@ describe('WHO growth engine (offline)', () => {
 
     expect(outOfCurve).toThrow(OutOfReferenceRangeError);
     expect(outOfCurve).toThrow('A curva peso-para-comprimento da OMS cobre de 45 a 110 cm.');
+    // IMC-para-idade vai até 19 anos e 11 meses (SISVAN, 2011, Quadro 13: valores de 19 anos completos).
     expect(() => imcIdade5a19Calculator.calculate({ age_months: 40, sex: 'female', weight_kg: 15, height_cm: 100 })).toThrow(
-      'Esta curva da Referência OMS 2007 cobre de 60 a 228 meses.',
+      'Esta curva da Referência OMS 2007 cobre de 60 a 239 meses.',
     );
+    expect(() => imcIdade5a19Calculator.calculate({ age_months: 240, sex: 'female', weight_kg: 60, height_cm: 165 })).toThrow(OutOfReferenceRangeError);
   });
 });

@@ -1,0 +1,23 @@
+{
+  "slug": "must",
+  "status": "conferido",
+  "verified_at": "2026-09-24",
+  "summary": "Pontuações e faixas de risco conferidas no formulário oficial da BAPEN.",
+  "formula": "IMC: > 20 → 0 · 18,5–20 → 1 · < 18,5 → 2. Perda de peso não intencional em 3–6 meses: < 5% → 0 · 5–10% → 1 · > 10% → 2. Doença aguda sem ingestão > 5 dias → 2. Total 0 baixo · 1 médio · ≥ 2 alto risco.",
+  "sources": [
+    {
+      "citation": "BAPEN / Malnutrition Advisory Group. The MUST (Malnutrition Universal Screening Tool): formulário e tabelas oficiais.",
+      "url": "https://www.bapen.org.uk/pdfs/must/must-full.pdf",
+      "evidence": "documento_oficial",
+      "checked": "Passos 1 a 3 e faixas de risco (0 baixo, 1 médio, 2 ou mais alto)."
+    }
+  ],
+  "notes": [
+    "O IMC é calculado com peso e altura; valores exatamente no corte (ex.: 18,5) são tratados sem o ruído de ponto flutuante."
+  ],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "IMC = 70 ÷ 1,70² = 24,2 (> 20) → 0; perda de 2% → 0; sem doença aguda → 0. Total 0 → baixo risco."
+  }
+}

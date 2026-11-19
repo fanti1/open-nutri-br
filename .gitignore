@@ -1,6 +1,3 @@
-# Reference material (competitor screenshots, not part of the product)
-/references/
-
 # Backend (Laravel)
 backend/vendor/
 backend/node_modules/
@@ -19,6 +16,7 @@ backend/storage/framework/views/*
 backend/storage/logs/*
 backend/database/database.sqlite
 backend/public/hot
+backend/public/build
 backend/public/storage
 backend/bootstrap/cache/*.php
 
@@ -41,3 +39,8 @@ mobile/.env
 Thumbs.db
 .vscode/
 .idea/
+
+# Testes ponta a ponta (web)
+mobile/dist-e2e/
+mobile/e2e/web/test-results/
+mobile/e2e/web/report/

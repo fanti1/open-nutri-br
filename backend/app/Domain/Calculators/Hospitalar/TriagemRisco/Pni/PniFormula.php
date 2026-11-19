@@ -8,7 +8,8 @@ use App\Domain\Calculators\Contracts\FormulaInterface;
  * PNI(%) = 158 − 16.6×albumina(g/dL) − 0.78×prega cutânea tricipital(mm)
  * − 0.2×transferrina(mg/dL) − 5.8×hipersensibilidade cutânea tardia
  * (0=anérgico, 1=<5mm, 2=≥5mm de induração).
- * Reference: Buzby GP et al., Ann Surg, 1980.
+ * Sem classificação: as faixas de risco não foram conferidas no artigo original.
+ * Reference: Buzby GP et al., Am J Surg, 1980.
  */
 final class PniFormula implements FormulaInterface
 {

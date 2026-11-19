@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Console\Commands\ExportCalculatorCatalog;
 use App\Domain\Calculators\Catalog\CalculatorCatalog;
+use App\Domain\Calculators\Catalog\MethodsDocument;
 use Tests\TestCase;
 
 /**
@@ -24,6 +25,24 @@ class CatalogSnapshotTest extends TestCase
             str_replace("\r\n", "\n", $expected),
             str_replace("\r\n", "\n", file_get_contents($path)),
             'mobile/src/data/catalog.json está desatualizado — rode `php artisan catalog:export`.',
+        );
+    }
+
+    public function test_the_public_methods_document_is_up_to_date(): void
+    {
+        $path = ExportCalculatorCatalog::documentPath();
+        $this->assertFileExists($path, 'Rode `php artisan catalog:export`.');
+
+        $expected = MethodsDocument::render($this->app->make(CalculatorCatalog::class)->entries());
+
+        $this->assertSame(
+            str_replace("
+", "
+", $expected),
+            str_replace("
+", "
+", file_get_contents($path)),
+            'docs/METODOS.md está desatualizado — rode `php artisan catalog:export`.',
         );
     }
 

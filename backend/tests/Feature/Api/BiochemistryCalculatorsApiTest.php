@@ -32,17 +32,47 @@ class BiochemistryCalculatorsApiTest extends TestCase
             ->assertJsonValidationErrors(['fasting_glucose_mg_dl', 'hba1c_percent', 'ogtt_2h_mg_dl']);
     }
 
-    public function test_lipid_profile_omits_friedewald_ldl_when_triglycerides_reach_400(): void
+    public function test_lipid_profile_omits_martin_hopkins_ldl_above_800_mg_dl_of_triglycerides(): void
     {
         $response = $this->postJson('/api/v1/calculators/perfil-lipidico/calculate', [
-            'total_cholesterol_mg_dl' => 250,
-            'hdl_mg_dl' => 35,
-            'triglycerides_mg_dl' => 400,
+            'total_cholesterol_mg_dl' => 300,
+            'hdl_mg_dl' => 40,
+            'triglycerides_mg_dl' => 801,
             'fasting' => true,
         ])->assertOk();
 
         $this->assertArrayNotHasKey('ldl_mg_dl', $response->json('values'));
-        $response->assertJsonPath('values.non_hdl_mg_dl', 215);
+        $this->assertArrayNotHasKey('martin_factor', $response->json('values'));
+        $response->assertJsonPath('values.non_hdl_mg_dl', 260);
+    }
+
+    public function test_lipid_profile_rejects_hdl_not_below_total_cholesterol(): void
+    {
+        $this->postJson('/api/v1/calculators/perfil-lipidico/calculate', [
+            'total_cholesterol_mg_dl' => 60,
+            'hdl_mg_dl' => 60,
+            'triglycerides_mg_dl' => 100,
+            'fasting' => true,
+        ])->assertUnprocessable();
+    }
+
+    public function test_anemia_requires_the_trimester_only_during_pregnancy(): void
+    {
+        $this->postJson('/api/v1/calculators/anemia-oms/calculate', [
+            'age_years' => 30, 'sex' => 'female', 'pregnant' => true, 'hemoglobin_g_dl' => 10.6,
+        ])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors(['pregnancy_trimester']);
+
+        $this->postJson('/api/v1/calculators/anemia-oms/calculate', [
+            'age_years' => 30, 'sex' => 'female', 'pregnant' => true, 'pregnancy_trimester' => 2, 'hemoglobin_g_dl' => 10.6,
+        ])
+            ->assertOk()
+            ->assertJsonPath('classification', 'sem_anemia');
+
+        $this->postJson('/api/v1/calculators/anemia-oms/calculate', [
+            'age_years' => 30, 'sex' => 'female', 'pregnant' => false, 'hemoglobin_g_dl' => 12.5,
+        ])->assertOk();
     }
 
     public function test_ckd_epi_is_restricted_to_adults(): void

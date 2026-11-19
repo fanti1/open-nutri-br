@@ -27,7 +27,7 @@ final class RelacaoCinturaEstaturaCalculator extends AbstractCalculator
 
     public function version(): string
     {
-        return 'v1';
+        return 'v2';
     }
 
     public function inputsSchema(): array

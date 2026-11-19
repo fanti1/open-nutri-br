@@ -70,18 +70,18 @@ export function buildPatientReportHtml(input: {
   return `<!DOCTYPE html>
 <html lang="pt-BR"><head><meta charset="utf-8"><title>Ficha — ${escape(patient.name)}</title>
 <style>
-  body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; color: #10201C; margin: 32px; font-size: 12px; }
-  h1 { color: #0B7A69; font-size: 20px; margin: 0; }
-  h2 { font-size: 14px; color: #0B7A69; border-bottom: 1px solid #DDE6E3; padding-bottom: 4px; margin-top: 24px; }
-  .muted { color: #556762; }
-  .header { display: flex; justify-content: space-between; border-bottom: 2px solid #0B7A69; padding-bottom: 8px; margin-bottom: 12px; }
-  .block { border: 1px solid #DDE6E3; border-radius: 8px; padding: 8px 12px; margin-bottom: 8px; }
+  body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; color: #102324; margin: 32px; font-size: 12px; }
+  h1 { color: #046E58; font-size: 20px; margin: 0; }
+  h2 { font-size: 14px; color: #046E58; border-bottom: 1px solid #D7E2E0; padding-bottom: 4px; margin-top: 24px; }
+  .muted { color: #4B5F60; }
+  .header { display: flex; justify-content: space-between; border-bottom: 2px solid #046E58; padding-bottom: 8px; margin-bottom: 12px; }
+  .block { border: 1px solid #D7E2E0; border-radius: 8px; padding: 8px 12px; margin-bottom: 8px; }
   .block-title { font-weight: 700; margin-bottom: 2px; }
   table { width: 100%; border-collapse: collapse; }
-  th, td { text-align: left; padding: 6px; border-bottom: 1px solid #DDE6E3; vertical-align: top; }
-  th { background: #EAF1EF; }
+  th, td { text-align: left; padding: 6px; border-bottom: 1px solid #D7E2E0; vertical-align: top; }
+  th { background: #E6EFEE; }
   p { margin: 4px 0; }
-  footer { margin-top: 32px; font-size: 10px; color: #8A9A95; }
+  footer { margin-top: 32px; font-size: 10px; color: #5C6D6D; }
 </style></head>
 <body>
   <div class="header">

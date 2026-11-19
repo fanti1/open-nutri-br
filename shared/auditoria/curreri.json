@@ -1,0 +1,37 @@
+{
+  "slug": "curreri",
+  "status": "conferido_com_ressalvas",
+  "verified_at": "2026-09-24",
+  "summary": "Fórmula (25 kcal/kg + 40 kcal por % de superfície queimada) conferida em reproduções abertas; o artigo original (1974) não foi acessado.",
+  "formula": "kcal/dia = 25 × peso (kg) + 40 × %SCQ.",
+  "sources": [
+    {
+      "citation": "Curreri PW, Richmond D, Marvin J, Baxter CR. Dietary requirements of patients with major burns. J Am Diet Assoc. 1974;65(4):415-7.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/4213656/",
+      "pmid": "4213656",
+      "evidence": "nao_acessado",
+      "checked": "Artigo original; não acessado."
+    },
+    {
+      "citation": "Artigo de acesso aberto que descreve a fórmula de Curreri como 40 kcal por 1% de superfície corporal queimada.",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4199722/",
+      "evidence": "reproducao",
+      "checked": "Fórmula de Curreri com 40 kcal por 1% de superfície queimada; comparada à calorimetria indireta, superestimou o gasto (acurácia de 30% no estudo), sobretudo nos grandes queimados."
+    },
+    {
+      "citation": "Jeschke MG, Mlcak RP, Finnerty CC et al. Gender differences in pediatric burn patients: does it make a difference? Ann Surg. 2008;248(1):126-36.",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7863567/",
+      "pmid": "18580216",
+      "evidence": "reproducao",
+      "checked": "Fórmula de Curreri: 25 kcal/kg/dia mais 40 kcal por % de superfície corporal queimada por dia."
+    }
+  ],
+  "notes": [
+    "Estudos com calorimetria indireta mostram que a fórmula superestima o gasto em grandes queimados; trate o resultado como estimativa inicial."
+  ],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "25 × 70 + 40 × 30 = 1.750 + 1.200 = 2.950 kcal/dia."
+  }
+}

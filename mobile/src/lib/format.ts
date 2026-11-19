@@ -86,8 +86,31 @@ export function ageParts(birthDate: string, at = new Date()): { years: number; m
 
 /** Idade em meses com fração (como a OMS usa nas curvas: dias / 30,4375). */
 export function ageInMonthsDecimal(birthDate: string, at = new Date()): number {
-  const days = (startOfDay(at).getTime() - startOfDay(parseDate(birthDate)).getTime()) / 86_400_000;
+  // Math.round: um dia com horário de verão tem 23 ou 25 horas.
+  const days = Math.round((startOfDay(at).getTime() - startOfDay(parseDate(birthDate)).getTime()) / 86_400_000);
   return Math.max(0, Math.round((days / 30.4375) * 100) / 100);
+}
+
+function addMonths(date: Date, months: number): Date {
+  const copy = startOfDay(date);
+  copy.setMonth(copy.getMonth() + months);
+  return copy;
+}
+
+/**
+ * Idade em anos com 2 casas, truncada: meses completos + fração do mês em
+ * curso. Nunca passa dos anos completos — na véspera dos 5 anos dá 4,99, não
+ * 5,00 —, então um ponto de corte por idade (ex.: anemia da OMS, < 5 anos)
+ * só muda no dia do aniversário.
+ */
+export function ageInYearsDecimal(birthDate: string, at = new Date()): number {
+  const { totalMonths } = ageParts(birthDate, at);
+  const birth = parseDate(birthDate);
+  const monthStart = addMonths(birth, totalMonths).getTime();
+  const monthEnd = addMonths(birth, totalMonths + 1).getTime();
+  const fraction = Math.min(1, Math.max(0, (startOfDay(at).getTime() - monthStart) / (monthEnd - monthStart)));
+  // + 1e-9: 0,29 × 100 dá 28,999999999999996 em ponto flutuante.
+  return Math.floor(((totalMonths + fraction) / 12) * 100 + 1e-9) / 100;
 }
 
 export function formatAge(birthDate: string, at = new Date()): string {

@@ -9,7 +9,7 @@ export interface MnaSfInputs {
   bmi_score: number;
 }
 
-/** Soma de 6 itens (0-14). Rubenstein et al., 2001. */
+/** Soma de 6 itens (0–14); categorias 12–14 / 8–11 / 0–7 do MNA-SF revisado (Kaiser et al., 2009). */
 export function mnaSfFormula(inputs: MnaSfInputs): Record<string, number> {
   const total =
     inputs.food_intake_score +
@@ -35,7 +35,7 @@ export const mnaSfCalculator = makeCalculator<MnaSfInputs>({
   version: 'v1',
   reference: {
     method: 'MNA-SF (Mini Nutritional Assessment — Short Form)',
-    citation: 'Rubenstein LZ et al., J Gerontol A Biol Sci Med Sci, 2001; Guigoz Y, Vellas B, Garry PJ, 1994.',
+    citation: 'Kaiser MJ et al., J Nutr Health Aging, 2009; Rubenstein LZ et al., J Gerontol A Biol Sci Med Sci, 2001; formulário oficial MNA-SF (Nestlé, revisão 2009).',
   },
   lifeStages: ['idoso'],
   formula: mnaSfFormula,

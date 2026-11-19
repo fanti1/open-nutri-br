@@ -7,6 +7,9 @@
     { "inputs": { "ogtt_2h_mg_dl": 150 }, "expected": { "values": { "ogtt_2h_mg_dl": 150 }, "classification": "pre_diabetes" } },
     { "inputs": { "fasting_glucose_mg_dl": 118, "hba1c_percent": 6.8 }, "expected": { "values": { "fasting_glucose_mg_dl": 118, "hba1c_percent": 6.8 }, "classification": "compativel_com_diabetes" } },
     { "inputs": { "fasting_glucose_mg_dl": 126 }, "expected": { "values": { "fasting_glucose_mg_dl": 126 }, "classification": "compativel_com_diabetes" } },
-    { "inputs": { "fasting_glucose_mg_dl": 95, "ogtt_2h_mg_dl": 200 }, "expected": { "values": { "fasting_glucose_mg_dl": 95, "ogtt_2h_mg_dl": 200 }, "classification": "compativel_com_diabetes" } }
+    { "inputs": { "fasting_glucose_mg_dl": 95, "ogtt_2h_mg_dl": 200 }, "expected": { "values": { "fasting_glucose_mg_dl": 95, "ogtt_2h_mg_dl": 200 }, "classification": "compativel_com_diabetes" } },
+    { "_comment": "SBD, Tabela 1 (revisão 2024): TOTG 1 h 155–208 = pré-diabetes", "inputs": { "ogtt_1h_mg_dl": 160 }, "expected": { "values": { "ogtt_1h_mg_dl": 160 }, "classification": "pre_diabetes" } },
+    { "_comment": "TOTG 1 h ≥ 209 = critério de diabetes (vale o exame mais alterado)", "inputs": { "fasting_glucose_mg_dl": 95, "ogtt_1h_mg_dl": 209 }, "expected": { "values": { "fasting_glucose_mg_dl": 95, "ogtt_1h_mg_dl": 209 }, "classification": "compativel_com_diabetes" } },
+    { "inputs": { "ogtt_1h_mg_dl": 154 }, "expected": { "values": { "ogtt_1h_mg_dl": 154 }, "classification": "normoglicemia" } }
   ]
 }

@@ -1,20 +1,28 @@
 import { View } from 'react-native';
 import { initials } from '../lib/format';
+import { useTheme } from '../theme/ThemeProvider';
+import { withAlpha, type Palette } from '../theme/tokens';
 import { AppText } from './AppText';
 
-const COLORS = ['#0B7A69', '#E8833A', '#2F6FDB', '#7C3AED', '#D1453B', '#23925A', '#B7791F', '#0E7490'];
+// Cores do tema (e não fixas): as iniciais mantêm o contraste no claro e no escuro.
+const COLOR_KEYS: (keyof Palette)[] = ['primary', 'coral', 'sky', 'sun', 'violet', 'success'];
 
-function colorFor(name: string): string {
+function colorKeyFor(name: string): keyof Palette {
   const hash = [...name].reduce((sum, char) => sum + char.charCodeAt(0), 0);
-  return COLORS[hash % COLORS.length];
+  return COLOR_KEYS[hash % COLOR_KEYS.length];
 }
 
 export function Avatar({ name, size = 44 }: { name: string; size?: number }) {
-  const color = colorFor(name);
+  const { colors } = useTheme();
+  const color = colors[colorKeyFor(name)];
 
   return (
-    <View style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: `${color}22`, alignItems: 'center', justifyContent: 'center' }}>
-      <AppText variant={size > 50 ? 'title' : 'bodyStrong'} color={color}>
+    <View
+      accessibilityElementsHidden
+      importantForAccessibility="no-hide-descendants"
+      style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: withAlpha(color, 0.14), alignItems: 'center', justifyContent: 'center' }}
+    >
+      <AppText variant={size > 50 ? 'title' : size < 38 ? 'caption' : 'bodyStrong'} color={color} style={{ fontWeight: '700' }} maxFontSizeMultiplier={1}>
         {initials(name)}
       </AppText>
     </View>

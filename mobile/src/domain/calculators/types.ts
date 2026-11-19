@@ -38,6 +38,17 @@ export type Classifier<TInputs> = (
  */
 export class IncompleteInputsError extends Error {}
 
+/**
+ * A fórmula produziu algo que não é um número finito (ex.: divisão por zero
+ * com uma combinação de valores que a validação por campo não barra). Nunca
+ * mostrar nem salvar um resultado assim — a mensagem é exibida no lugar.
+ */
+export class InvalidResultError extends IncompleteInputsError {
+  constructor() {
+    super('Não foi possível calcular com esses valores. Confira os dados digitados.');
+  }
+}
+
 export interface Calculator<TInputs = Record<string, unknown>> {
   slug: string;
   module: string;

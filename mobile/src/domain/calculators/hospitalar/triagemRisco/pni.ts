@@ -18,7 +18,8 @@ const DH_SCORES: Record<DelayedHypersensitivity, number> = {
 
 /**
  * PNI(%) = 158 − 16.6×albumina − 0.78×prega tricipital − 0.2×transferrina − 5.8×DH.
- * Reference: Buzby GP et al., Ann Surg, 1980.
+ * Sem classificação: as faixas de risco não foram conferidas no artigo original.
+ * Reference: Buzby GP et al., Am J Surg, 1980.
  */
 export function pniFormula(inputs: PniInputs): Record<string, number> {
   const dhScore = DH_SCORES[inputs.delayed_hypersensitivity];
@@ -33,22 +34,15 @@ export function pniFormula(inputs: PniInputs): Record<string, number> {
   return { pni_percent: round2(pni) };
 }
 
-export function pniClassifier(result: Record<string, number>): string {
-  if (result.pni_percent < 30) return 'risco_baixo';
-  if (result.pni_percent < 60) return 'risco_intermediario';
-  return 'risco_alto';
-}
-
 export const pniCalculator = makeCalculator<PniInputs>({
   slug: 'pni',
   module: 'hospitalar',
   category: 'triagem_risco',
-  version: 'v1',
+  version: 'v2',
   reference: {
     method: 'PNI (Índice de Prognóstico Nutricional)',
-    citation: 'Buzby GP et al., Ann Surg, 1980.',
+    citation: 'Buzby GP et al., Prognostic nutritional index in gastrointestinal surgery, Am J Surg, 1980;139(1):160-7.',
   },
   lifeStages: ['adulto', 'idoso'],
   formula: pniFormula,
-  classifier: pniClassifier,
 });

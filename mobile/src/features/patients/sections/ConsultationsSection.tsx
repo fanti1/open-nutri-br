@@ -47,7 +47,14 @@ export function ConsultationsSection({ patient }: { patient: Patient }) {
     <View style={{ gap: 10 }}>
       <Button label="Novo atendimento" icon="add" variant="secondary" onPress={create} />
       {data.map((consultation) => (
-        <Card key={consultation.id} onPress={() => router.push(`/atendimento/${consultation.id}`)} style={{ gap: 6 }}>
+        <Card
+          key={consultation.id}
+          onPress={() => router.push(`/atendimento/${consultation.id}`)}
+          accessibilityLabel={[`${KIND_LABELS[consultation.kind]} em ${formatDateTime(consultation.occurred_at)}`, measuresSummary(consultation), consultation.complaint || consultation.notes]
+            .filter(Boolean)
+            .join('. ')}
+          style={{ gap: 6 }}
+        >
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <AppText variant="bodyStrong">{formatDateTime(consultation.occurred_at)}</AppText>
             <Badge label={KIND_LABELS[consultation.kind]} color={colors.primary} />

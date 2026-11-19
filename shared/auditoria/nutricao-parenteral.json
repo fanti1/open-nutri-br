@@ -1,0 +1,31 @@
+{
+  "slug": "nutricao-parenteral",
+  "status": "conferido_com_ressalvas",
+  "verified_at": "2026-09-24",
+  "summary": "Conta aritmética: nitrogênio = proteína ÷ 6,25 e relação = kcal não proteicas ÷ g de N. A classificação por faixa \"recomendada\" (100–150 kcal/g N), que não tinha fonte conferida, foi retirada.",
+  "formula": "N (g) = proteína (g) ÷ 6,25; relação = kcal não proteicas ÷ N (g). Sem classificação.",
+  "sources": [
+    {
+      "citation": "Yun JH, Han M, Bae G et al. The PROGAIN trial: a randomized controlled trial of high-protein peripheral parenteral nutrition on nitrogen balance and recovery after gastric cancer surgery - study protocol. PLoS One. 2026;21(8):e0355677.",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13450730/",
+      "pmid": "42566454",
+      "evidence": "reproducao",
+      "checked": "Fórmula clínica simplificada: BN (g/dia) = proteína ingerida ÷ 6,25 − (nitrogênio ureico urinário de 24 h + 4); divisor 6,25 porque a proteína tem cerca de 16% de nitrogênio."
+    }
+  ],
+  "notes": [
+    "O divisor 6,25 (16% de nitrogênio na proteína) é convenção; algumas soluções de aminoácidos informam o nitrogênio no rótulo, e aí vale o valor do produto.",
+    "A meta da relação depende do quadro clínico; o app mostra o valor sem julgar se está adequado."
+  ],
+  "changes": [
+    {
+      "date": "2026-09-24",
+      "version": "v2",
+      "text": "Retirada a classificação por faixa de 100–150 kcal/g N (sem fonte conferida); o cálculo não mudou."
+    }
+  ],
+  "example": {
+    "spec_case": 0,
+    "calculation": "75 ÷ 6,25 = 12 g de N; 1.500 ÷ 12 = 125 kcal não proteicas por g de N."
+  }
+}

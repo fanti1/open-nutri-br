@@ -1,12 +1,12 @@
 import type { CalculatorProfile } from '../domain/calculatorProfile';
 import type { LifeStage } from '../domain/calculators/types';
 import { useData } from './DataProvider';
+import { favoritesQuery, settingsQuery } from './sharedQuery';
 import { useLiveQuery } from './useLiveQuery';
 
-/** Preferências e perfil, sempre atualizados. */
+/** Preferências e perfil, sempre atualizados (uma consulta só para o app inteiro). */
 export function useSettings() {
-  const { settings } = useData();
-  return useLiveQuery(['settings'], () => settings.all());
+  return settingsQuery.useResult();
 }
 
 /** Perfil guardado de uma calculadora (null enquanto nunca foi escolhido) e a função para salvá-lo. */
@@ -28,8 +28,7 @@ export function useAudience(): [LifeStage, (stage: LifeStage) => void] {
 }
 
 export function useFavorites() {
-  const { settings } = useData();
-  return useLiveQuery(['favorites'], () => settings.favoriteSlugs());
+  return favoritesQuery.useResult();
 }
 
 export function usePatient(id: string | undefined) {

@@ -1,0 +1,22 @@
+{
+  "slug": "swinamer",
+  "status": "conferido",
+  "verified_at": "2026-09-24",
+  "summary": "Equação conferida no resumo do artigo original.",
+  "formula": "GE (kcal/dia) = 945 × SC (m²) − 6,4 × idade + 108 × T (°C) + 24,2 × f (irpm) + 817 × VC (L) − 4349.",
+  "sources": [
+    {
+      "citation": "Swinamer DL, Grace MG, Hamilton SM et al. Predictive equation for assessing energy expenditure in mechanically ventilated critically ill patients. Crit Care Med. 1990;18(6):657-61.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/2344758/",
+      "pmid": "2344758",
+      "evidence": "resumo",
+      "checked": "EE = 945 BSA − 6,4 age + 108 Temp + 24,2 f + 817 VT − 4349 (112 pacientes em ventilação mecânica)."
+    }
+  ],
+  "notes": [],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "945 × 1,9 − 6,4 × 50 + 108 × 37,5 + 24,2 × 18 + 817 × 0,5 − 4.349 = 2.020,6 kcal."
+  }
+}

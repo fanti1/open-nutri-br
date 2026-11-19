@@ -21,6 +21,10 @@ final class Who2007IndicatorFormula implements FormulaInterface
 
     /**
      * @param  Closure(array<string, mixed>): float  $measure
+     * @param  int|null  $lastRowUntilExclusive  Idade (meses) até a qual a última linha da tabela
+     *                                           continua valendo — a Norma Técnica do SISVAN (2011,
+     *                                           Quadro 13) manda avaliar de 19 anos e 1 mês a 19 anos
+     *                                           e 11 meses com os valores de 19 anos completos.
      */
     public function __construct(
         private readonly GrowthReferenceRepository $reference,
@@ -28,21 +32,26 @@ final class Who2007IndicatorFormula implements FormulaInterface
         private readonly bool $restrictedZScore,
         private readonly int $maxMonthsExclusive,
         private readonly Closure $measure,
+        private readonly ?int $lastRowUntilExclusive = null,
     ) {}
 
     public function compute(array $inputs): array
     {
         $ageMonths = (float) $inputs['age_months'];
+        $upperExclusive = $this->lastRowUntilExclusive ?? $this->maxMonthsExclusive;
 
-        if ($ageMonths < self::MIN_MONTHS || $ageMonths >= $this->maxMonthsExclusive) {
+        if ($ageMonths < self::MIN_MONTHS || $ageMonths >= $upperExclusive) {
             throw new OutOfReferenceRangeException(sprintf(
                 'Esta curva da Referência OMS 2007 cobre de %d a %d meses.',
                 self::MIN_MONTHS,
-                $this->maxMonthsExclusive - 1,
+                $upperExclusive - 1,
             ));
         }
 
-        $lms = $this->reference->interpolated($this->table, PediatricInputs::whoSex($inputs), $ageMonths, 1);
+        $lastRow = $this->maxMonthsExclusive - 1;
+        $lookupAge = $this->lastRowUntilExclusive !== null ? min($ageMonths, $lastRow) : $ageMonths;
+
+        $lms = $this->reference->interpolated($this->table, PediatricInputs::whoSex($inputs), $lookupAge, 1);
 
         if ($lms === null) {
             throw new OutOfReferenceRangeException('Idade fora da faixa da curva de referência.');

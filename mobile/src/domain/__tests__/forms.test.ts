@@ -1,5 +1,5 @@
 import type { Patient } from '../../data/models';
-import { ageInMonthsDecimal, ageParts, formatAge, relativeDay } from '../../lib/format';
+import { ageInMonthsDecimal, ageInYearsDecimal, ageParts, formatAge, relativeDay } from '../../lib/format';
 import { autofillFromPatient } from '../autofill';
 import { maskDate, parseTypedDate } from '../../ui/DateTimeField';
 import { classificationTone } from '../catalog';
@@ -37,6 +37,32 @@ describe('parseCalculatorForm', () => {
 
     expect(parsed.errors.age_years).toBe('Digite um número inteiro.');
     expect(parsed.inputs.flag).toBe(true);
+  });
+
+  it.each(['0x46', '1e2', 'Infinity', '70,5,1', '7.0.5', 'abc', '.'])('rejects "%s" instead of guessing a number', (text) => {
+    expect(parseCalculatorForm(imcFields, { weight_kg: text, height_m: '1,75' }).errors.weight_kg).toBe('Digite um número.');
+  });
+
+  it('enforces between:a,b ranges', () => {
+    const fields = schemaToFields({ severity_score: ['required', 'integer', 'between:0,3'] });
+
+    expect(parseCalculatorForm(fields, { severity_score: '9' }).errors.severity_score).toBe('Máximo 3.');
+    expect(parseCalculatorForm(fields, { severity_score: '3' }).inputs).toEqual({ severity_score: 3 });
+  });
+
+  it('sends a numeric option as a number, so scores are added and not concatenated', () => {
+    const fields = schemaToFields({ psychological_stress_score: ['required', 'integer', 'in:0,2'], mood: ['required', 'in:A,B'] });
+    const parsed = parseCalculatorForm(fields, { psychological_stress_score: '2', mood: 'A' });
+
+    expect(parsed.inputs).toEqual({ psychological_stress_score: 2, mood: 'A' });
+  });
+
+  it('rejects an option that is not in the list and a boolean that is not Sim/Não', () => {
+    const fields = schemaToFields({ sex: ['required', 'in:male,female'], flag: ['required', 'boolean'] });
+    const parsed = parseCalculatorForm(fields, { sex: 'masculino', flag: 'yes' });
+
+    expect(parsed.errors).toEqual({ sex: 'Escolha uma das opções.', flag: 'Escolha Sim ou Não.' });
+    expect(parsed.complete).toBe(false);
   });
 });
 
@@ -116,6 +142,15 @@ describe('age helpers', () => {
 
   it('computes fractional months the way the WHO does (days / 30.4375)', () => {
     expect(ageInMonthsDecimal('2025-09-22', at)).toBe(11.99);
+  });
+
+  it('computes fractional years that never pass the completed years', () => {
+    expect(ageInYearsDecimal('2026-06-22', at)).toBe(0.25);
+    expect(ageInYearsDecimal('2025-06-22', at)).toBe(1.25);
+    // Véspera dos 5 anos: 4,99 — o corte "< 5 anos" da anemia só muda no aniversário.
+    expect(ageInYearsDecimal('2021-09-23', at)).toBe(4.99);
+    expect(ageInYearsDecimal('2021-09-22', at)).toBe(5);
+    expect(ageInYearsDecimal('1990-03-22', at)).toBe(36.5);
   });
 
   it('labels today and tomorrow', () => {

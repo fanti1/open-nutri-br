@@ -1,0 +1,43 @@
+{
+  "slug": "jackson-pollock-3",
+  "status": "conferido_com_ressalvas",
+  "verified_at": "2026-09-24",
+  "summary": "Coeficientes conferidos em duas reproduções abertas independentes; os artigos originais só têm resumo aberto.",
+  "formula": "Homens (peitoral + abdominal + coxa): D = 1,10938 − 0,0008267·Σ + 0,0000016·Σ² − 0,0002574·idade. Mulheres (tríceps + suprailíaca + coxa): D = 1,0994921 − 0,0009929·Σ + 0,0000023·Σ² − 0,0001392·idade. %G (Siri) = (4,95/D − 4,50) × 100.",
+  "sources": [
+    {
+      "citation": "Jackson AS, Pollock ML. Generalized equations for predicting body density of men. Br J Nutr. 1978;40(3):497-504.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/718832/",
+      "pmid": "718832",
+      "evidence": "resumo",
+      "checked": "Artigo original dos homens (18 a 61 anos); coeficientes não estão no resumo."
+    },
+    {
+      "citation": "Jackson AS, Pollock ML, Ward A. Generalized equations for predicting body density of women. Med Sci Sports Exerc. 1980;12(3):175-81.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/7402053/",
+      "pmid": "7402053",
+      "evidence": "resumo",
+      "checked": "Artigo original das mulheres (18 a 55 anos); coeficientes não estão no resumo."
+    },
+    {
+      "citation": "Reprodução aberta das equações de Jackson-Pollock de 3 dobras (com termo de idade), de Durnin-Womersley (faixas até 19 e 20-29 anos) e da equação de Siri.",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10453806/",
+      "evidence": "reproducao",
+      "checked": "Equações de 3 dobras de homens e mulheres com termo de idade, e a equação de Siri."
+    },
+    {
+      "citation": "Reprodução aberta das equações de Jackson-Pollock de 3 e 7 dobras (homens e mulheres, com termo de idade).",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11374165/",
+      "evidence": "reproducao",
+      "checked": "Mesmos coeficientes de 3 dobras."
+    }
+  ],
+  "notes": [
+    "As equações das mulheres foram validadas de 18 a 55 anos; o app aceita até 61 (limite dos homens)."
+  ],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "Σ = 15 + 20 + 18 = 53. D = 1,10938 − 0,0438151 + 0,0044944 − 0,007722 = 1,0623. %G = (4,95 ÷ 1,0623 − 4,50) × 100 = 15,95%."
+  }
+}

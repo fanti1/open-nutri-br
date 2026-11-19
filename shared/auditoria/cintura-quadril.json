@@ -1,0 +1,30 @@
+{
+  "slug": "cintura-quadril",
+  "status": "conferido_com_ressalvas",
+  "verified_at": "2026-09-24",
+  "summary": "Cortes conferidos na Tabela A1 do relatório da OMS (2008): RCQ ≥ 0,90 (homens) e ≥ 0,85 (mulheres) indicam risco substancialmente aumentado de complicações metabólicas. O próprio relatório diz que a tabela reúne cortes \"atribuídos à OMS\" e não faz recomendação nova.",
+  "formula": "RCQ = cintura (cm) / quadril (cm). Risco aumentado se RCQ ≥ 0,90 (homens) ou ≥ 0,85 (mulheres).",
+  "sources": [
+    {
+      "citation": "WHO. Waist circumference and waist-hip ratio: report of a WHO expert consultation, Geneva, 8-11 December 2008.",
+      "url": "https://www.who.int/publications/i/item/9789241501491",
+      "evidence": "documento_oficial",
+      "checked": "Anexo A, Tabela A1: RCQ ≥ 0,90 (H) / ≥ 0,85 (M) = risco substancialmente aumentado. Capítulo 6: o relatório propõe como derivar cortes, sem recomendar valores novos."
+    }
+  ],
+  "notes": [
+    "O mesmo anexo lembra que a definição de síndrome metabólica da OMS (1999) usa \"acima de 0,90 / 0,85\". O app segue a Tabela A1 (≥); só o valor exato do corte muda de uma leitura para a outra.",
+    "O RCQ é arredondado a 2 casas antes da comparação, como é lido na prática."
+  ],
+  "changes": [
+    {
+      "date": "2026-09-24",
+      "version": "v2",
+      "text": "O valor exato do corte (0,90 em homens, 0,85 em mulheres) passou a indicar risco aumentado, como na Tabela A1 da OMS (2008)."
+    }
+  ],
+  "example": {
+    "spec_case": 0,
+    "calculation": "90 ÷ 100 = 0,90. Homem: 0,90 ≥ 0,90 → risco aumentado."
+  }
+}

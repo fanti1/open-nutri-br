@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { formatTacoValue, searchTaco, type TacoFood } from '../../domain/foods';
+import { parseDecimal } from '../../domain/forms/parseForm';
 import { nutrientAmount } from '../../domain/nutrition';
 import { formatNumber } from '../../lib/format';
 import { useTheme } from '../../theme/ThemeProvider';
@@ -20,8 +21,8 @@ export interface PickedPortion {
 
 /** Converte "150", "150,5" → número; vazio ou inválido → null. */
 export function parseGrams(text: string): number | null {
-  const value = Number(text.replace(',', '.'));
-  return Number.isFinite(value) && value > 0 && value <= 5000 ? value : null;
+  const value = parseDecimal(text);
+  return value !== null && value > 0 && value <= 5000 ? value : null;
 }
 
 /**
@@ -88,7 +89,7 @@ export function FoodPickerSheet({
         </View>
       ) : (
         <View style={{ gap: 12 }}>
-          <TextField value={search} onChangeText={setSearch} placeholder="Buscar na TACO (ex.: arroz integral)" icon="search" autoFocus />
+          <TextField value={search} onChangeText={setSearch} placeholder="Buscar na TACO (ex.: arroz integral)" icon="search" autoFocus clearable />
           {search.trim().length < 2 ? (
             <AppText variant="caption" tone="muted">
               Digite ao menos 2 letras. A busca ignora acentos e aceita várias palavras.

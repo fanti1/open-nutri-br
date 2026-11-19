@@ -59,46 +59,51 @@ export function CalculatorListItem({ entry, onPress, favorite, onToggleFavorite,
   const { colors } = useTheme();
   const module = moduleInfo(entry.module);
 
+  // A estrela fica fora do botão da linha (alvos irmãos): um botão dentro de outro é
+  // HTML inválido no navegador e fica inalcançável no VoiceOver.
   return (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityLabel={entry.name}
-      onPress={onPress}
-      style={({ pressed }) => ({
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 12,
-        paddingVertical: 12,
-        paddingHorizontal: 14,
-        borderBottomWidth: divider ? 1 : 0,
-        borderBottomColor: colors.border,
-        opacity: pressed ? 0.7 : 1,
-      })}
-    >
-      <IconTile name={catalogIcon(entry)} size={36} color={module ? colors[module.colorKey] : undefined} />
-      <View style={{ flex: 1, gap: 2 }}>
-        <AppText variant="bodyStrong" numberOfLines={1}>
-          {entry.name}
-        </AppText>
-        <AppText variant="caption" tone="muted" numberOfLines={1}>
-          {showModule && module ? `${module.label} · ` : ''}
-          {entry.short_description}
-        </AppText>
-        {stages === 'all' && <StageLine stages={entry.life_stages} />}
-        {stages === 'exclusive' && entry.life_stages.length === 1 && <ExclusiveBadge stage={entry.life_stages[0]} />}
-      </View>
-      {onToggleFavorite ? (
+    <View style={{ flexDirection: 'row', alignItems: 'center', borderBottomWidth: divider ? 1 : 0, borderBottomColor: colors.border }}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={entry.name}
+        onPress={onPress}
+        style={({ pressed }) => ({
+          flex: 1,
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 12,
+          paddingVertical: 12,
+          paddingLeft: 14,
+          paddingRight: onToggleFavorite ? 4 : 14,
+          opacity: pressed ? 0.7 : 1,
+        })}
+      >
+        <IconTile name={catalogIcon(entry)} size={36} color={module ? colors[module.colorKey] : undefined} />
+        <View style={{ flex: 1, gap: 2 }}>
+          <AppText variant="bodyStrong" numberOfLines={1}>
+            {entry.name}
+          </AppText>
+          <AppText variant="caption" tone="muted" numberOfLines={1}>
+            {showModule && module ? `${module.label} · ` : ''}
+            {entry.short_description}
+          </AppText>
+          {stages === 'all' && <StageLine stages={entry.life_stages} />}
+          {stages === 'exclusive' && entry.life_stages.length === 1 && <ExclusiveBadge stage={entry.life_stages[0]} />}
+        </View>
+        {!onToggleFavorite && <Ionicons name="chevron-forward" size={18} color={colors.textSubtle} />}
+      </Pressable>
+      {onToggleFavorite && (
         <Pressable
-          accessibilityLabel={favorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
+          accessibilityRole="button"
+          accessibilityLabel={favorite ? `Remover ${entry.name} dos favoritos` : `Adicionar ${entry.name} aos favoritos`}
+          accessibilityState={{ selected: !!favorite }}
           onPress={onToggleFavorite}
-          hitSlop={12}
+          style={({ pressed }) => ({ minWidth: 44, minHeight: 44, alignItems: 'center', justifyContent: 'center', marginRight: 6, opacity: pressed ? 0.6 : 1 })}
         >
           <Ionicons name={favorite ? 'star' : 'star-outline'} size={20} color={favorite ? colors.accent : colors.textSubtle} />
         </Pressable>
-      ) : (
-        <Ionicons name="chevron-forward" size={18} color={colors.textSubtle} />
       )}
-    </Pressable>
+    </View>
   );
 }
 

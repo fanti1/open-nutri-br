@@ -12,7 +12,7 @@ export function Checkbox({ checked, onToggle, label }: { checked: boolean; onTog
       accessibilityState={{ checked }}
       accessibilityLabel={label}
       onPress={onToggle}
-      hitSlop={10}
+      hitSlop={12}
       style={{
         width: 26,
         height: 26,
@@ -24,7 +24,7 @@ export function Checkbox({ checked, onToggle, label }: { checked: boolean; onTog
         justifyContent: 'center',
       }}
     >
-      {checked && <Ionicons name="checkmark" size={18} color="#fff" />}
+      {checked && <Ionicons name="checkmark" size={18} color={colors.onPrimary} />}
     </Pressable>
   );
 }
@@ -40,7 +40,7 @@ export function CheckboxRow({ checked, onToggle, label }: { checked: boolean; on
       aria-checked={checked}
       accessibilityLabel={label}
       onPress={onToggle}
-      style={({ pressed }) => ({ flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 8, opacity: pressed ? 0.7 : 1 })}
+      style={({ pressed }) => ({ flexDirection: 'row', alignItems: 'center', gap: 12, minHeight: 44, paddingVertical: 8, opacity: pressed ? 0.7 : 1 })}
     >
       <View
         style={{
@@ -54,7 +54,7 @@ export function CheckboxRow({ checked, onToggle, label }: { checked: boolean; on
           justifyContent: 'center',
         }}
       >
-        {checked && <Ionicons name="checkmark" size={18} color="#fff" />}
+        {checked && <Ionicons name="checkmark" size={18} color={colors.onPrimary} />}
       </View>
       <AppText style={{ flex: 1 }}>{label}</AppText>
     </Pressable>

@@ -40,23 +40,24 @@ export function consultationsRepository(db: SqlDatabase) {
      * — alimenta o auto-preenchimento das calculadoras.
      */
     async latestMeasurements(patientId: string): Promise<LatestMeasurements> {
+      // Uma consulta só (uma subconsulta por medida) em vez de uma ida ao banco por campo.
+      const row = await db.getFirstAsync<Record<MeasurementField, number | null>>(
+        `SELECT ${MEASUREMENT_FIELDS.map(
+          (field) => `(SELECT ${field} FROM consultations WHERE patient_id = ? AND ${field} IS NOT NULL ORDER BY occurred_at DESC LIMIT 1) AS ${field}`,
+        ).join(', ')}`,
+        MEASUREMENT_FIELDS.map(() => patientId),
+      );
+
       const result: LatestMeasurements = {};
-
       for (const field of MEASUREMENT_FIELDS) {
-        const row = await db.getFirstAsync<{ value: number }>(
-          `SELECT ${field} AS value FROM consultations
-           WHERE patient_id = ? AND ${field} IS NOT NULL
-           ORDER BY occurred_at DESC LIMIT 1`,
-          [patientId],
-        );
-        if (row) result[field] = row.value;
+        const value = row?.[field];
+        if (value != null) result[field] = value;
       }
-
       return result;
     },
 
     /** Série temporal de uma medida, da mais antiga para a mais recente (gráfico de evolução). */
-    measurementSeries(patientId: string, field: MeasurementField): Promise<Array<{ occurred_at: string; value: number }>> {
+    measurementSeries(patientId: string, field: MeasurementField): Promise<{ occurred_at: string; value: number }[]> {
       return db.getAllAsync(
         `SELECT occurred_at, ${field} AS value FROM consultations
          WHERE patient_id = ? AND ${field} IS NOT NULL ORDER BY occurred_at ASC`,

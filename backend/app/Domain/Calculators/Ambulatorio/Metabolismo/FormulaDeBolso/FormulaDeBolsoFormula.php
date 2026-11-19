@@ -6,7 +6,7 @@ use App\Domain\Calculators\Contracts\FormulaInterface;
 
 /**
  * GET = peso(kg) × fator (20–35 kcal/kg conforme objetivo clínico).
- * Reference: ASPEN Clinical Guidelines, McClave SA et al., JPEN, 2016.
+ * Faixas de referência: diretrizes da ESPEN (UTI 2019, polimórbidos 2018, geriatria 2019).
  */
 final class FormulaDeBolsoFormula implements FormulaInterface
 {

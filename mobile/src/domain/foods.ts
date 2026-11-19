@@ -43,33 +43,41 @@ export interface TacoFood {
   polyunsaturated_fat_g?: TacoValue;
 }
 
-let foods: TacoFood[] | null = null;
-
-/** Carregada só quando a Tabela Nutricional é aberta. */
-function all(): TacoFood[] {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  foods ??= require('../data/taco.json') as TacoFood[];
-  return foods;
+interface TacoIndex {
+  foods: TacoFood[];
+  byId: Map<number, TacoFood>;
+  /** Nome sem acento e em minúsculas, na mesma ordem de `foods` — a busca roda a cada tecla. */
+  searchable: string[];
 }
 
-export function tacoGroups(): Array<{ name: string; count: number }> {
+let index: TacoIndex | null = null;
+
+/** Carregada (e indexada) só quando a tabela é usada pela primeira vez. */
+function taco(): TacoIndex {
+  if (!index) {
+    const foods = require('../data/taco.json') as TacoFood[];
+    index = { foods, byId: new Map(foods.map((food) => [food.id, food])), searchable: foods.map((food) => normalizeSearch(food.name)) };
+  }
+  return index;
+}
+
+export function tacoGroups(): { name: string; count: number }[] {
   const counts = new Map<string, number>();
-  for (const food of all()) counts.set(food.group, (counts.get(food.group) ?? 0) + 1);
+  for (const food of taco().foods) counts.set(food.group, (counts.get(food.group) ?? 0) + 1);
   return [...counts.entries()].map(([name, count]) => ({ name, count }));
 }
 
 export function tacoFood(id: number): TacoFood | undefined {
-  return all().find((food) => food.id === id);
+  return taco().byId.get(id);
 }
 
 /** Busca sem acento; várias palavras precisam aparecer todas (ex.: "feijao cozido"). */
 export function searchTaco(term: string, group?: string): TacoFood[] {
   const words = normalizeSearch(term.trim()).split(/\s+/).filter(Boolean);
-  return all().filter((food) => {
+  const { foods, searchable } = taco();
+  return foods.filter((food, i) => {
     if (group && food.group !== group) return false;
-    if (!words.length) return true;
-    const name = normalizeSearch(food.name);
-    return words.every((word) => name.includes(word));
+    return words.every((word) => searchable[i].includes(word));
   });
 }
 

@@ -1,8 +1,10 @@
 {
   "slug": "asg-detsky",
   "cases": [
-    { "inputs": { "weight_change_rating": "A", "dietary_intake_rating": "A", "gi_symptoms_rating": "A", "functional_capacity_rating": "A", "metabolic_demand_rating": "A", "physical_exam_rating": "A" }, "expected": { "values": { "count_a": 6, "count_b": 0, "count_c": 0 }, "classification": "bem_nutrido" } },
-    { "inputs": { "weight_change_rating": "C", "dietary_intake_rating": "C", "gi_symptoms_rating": "B", "functional_capacity_rating": "C", "metabolic_demand_rating": "B", "physical_exam_rating": "C" }, "expected": { "values": { "count_a": 0, "count_b": 2, "count_c": 4 }, "classification": "gravemente_desnutrido" } },
-    { "inputs": { "weight_change_rating": "B", "dietary_intake_rating": "B", "gi_symptoms_rating": "A", "functional_capacity_rating": "B", "metabolic_demand_rating": "A", "physical_exam_rating": "B" }, "expected": { "values": { "count_a": 2, "count_b": 4, "count_c": 0 }, "classification": "moderadamente_desnutrido_ou_suspeita" } }
+    { "inputs": { "weight_change_rating": "A", "dietary_intake_rating": "A", "gi_symptoms_rating": "A", "functional_capacity_rating": "A", "metabolic_demand_rating": "A", "physical_exam_rating": "A", "global_rating": "A" }, "expected": { "values": { "count_a": 6, "count_b": 0, "count_c": 0 }, "classification": "bem_nutrido" } },
+    { "inputs": { "weight_change_rating": "C", "dietary_intake_rating": "C", "gi_symptoms_rating": "B", "functional_capacity_rating": "C", "metabolic_demand_rating": "B", "physical_exam_rating": "C", "global_rating": "C" }, "expected": { "values": { "count_a": 0, "count_b": 2, "count_c": 4 }, "classification": "gravemente_desnutrido" } },
+    { "inputs": { "weight_change_rating": "B", "dietary_intake_rating": "B", "gi_symptoms_rating": "A", "functional_capacity_rating": "B", "metabolic_demand_rating": "A", "physical_exam_rating": "B", "global_rating": "B" }, "expected": { "values": { "count_a": 2, "count_b": 4, "count_c": 0 }, "classification": "moderadamente_desnutrido_ou_suspeita" } },
+    { "inputs": { "weight_change_rating": "C", "dietary_intake_rating": "B", "gi_symptoms_rating": "A", "functional_capacity_rating": "A", "metabolic_demand_rating": "A", "physical_exam_rating": "C", "global_rating": "B" }, "expected": { "values": { "count_a": 3, "count_b": 1, "count_c": 2 }, "classification": "moderadamente_desnutrido_ou_suspeita" } },
+    { "inputs": { "weight_change_rating": "A", "dietary_intake_rating": "A", "gi_symptoms_rating": "A", "functional_capacity_rating": "B", "metabolic_demand_rating": "B", "physical_exam_rating": "A", "global_rating": "A" }, "expected": { "values": { "count_a": 4, "count_b": 2, "count_c": 0 }, "classification": "bem_nutrido" } }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "slug": "oms-peso-comprimento-0-5",
+  "status": "conferido",
+  "verified_at": "2026-09-24",
+  "summary": "Tabela oficial da OMS (peso-para-comprimento e peso-para-estatura) e algoritmo do pacote anthro; classificação do SISVAN (Quadro 6).",
+  "formula": "Escore-Z pelo método LMS: z = ((medida/M)^L − 1) / (L × S). Nos indicadores de peso, além de ±3 DP usa-se o escore restrito da OMS (distância entre 2 e 3 DP). < −3 magreza acentuada · −3 a < −2 magreza · −2 a +1 eutrofia · > +1 a +2 risco de sobrepeso · > +2 a +3 sobrepeso · > +3 obesidade.",
+  "sources": [
+    {
+      "citation": "WHO Multicentre Growth Reference Study Group. WHO Child Growth Standards (2006): tabelas LMS oficiais do pacote anthro e algoritmo do próprio pacote.",
+      "url": "https://www.who.int/tools/child-growth-standards/standards",
+      "evidence": "documento_oficial",
+      "checked": "Tabelas LMS copiadas sem alteração dos pacotes oficiais; algoritmo portado do código-fonte dos pacotes (idade em dias arredondada, correção de ±0,7 cm deitado/em pé, interpolação). Gabarito da própria OMS nos testes."
+    },
+    {
+      "citation": "Ministério da Saúde. Orientações para a coleta e análise de dados antropométricos em serviços de saúde: Norma Técnica do SISVAN. Brasília, 2011.",
+      "url": "https://bvsms.saude.gov.br/bvs/publicacoes/orientacoes_coleta_analise_dados_antropometricos.pdf",
+      "evidence": "documento_oficial",
+      "checked": "Quadro 6: pontos de corte de peso-para-estatura (0 a 5 anos)."
+    }
+  ],
+  "notes": [],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "Menino, 75,35 cm deitado: L = −0,3521, M = 9,5740, S = 0,08299 (interpolado a cada 0,1 cm). z = ((9,5 ÷ 9,574)^−0,3521 − 1) ÷ (−0,3521 × 0,08299) = −0,09 → eutrofia."
+  }
+}

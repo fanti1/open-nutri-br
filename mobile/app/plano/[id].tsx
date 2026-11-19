@@ -19,6 +19,7 @@ import { Button } from '../../src/ui/Button';
 import { Card } from '../../src/ui/Card';
 import { confirm } from '../../src/ui/dialogs';
 import { EmptyState } from '../../src/ui/EmptyState';
+import { IconButton } from '../../src/ui/IconButton';
 import { IconTile } from '../../src/ui/IconTile';
 import { ListItem } from '../../src/ui/ListItem';
 import { Screen } from '../../src/ui/Screen';
@@ -67,7 +68,10 @@ export default function MealPlanScreen() {
     return <Screen back title="Plano alimentar">{!loading && <EmptyState icon="restaurant-outline" title="Plano não encontrado" />}</Screen>;
   }
 
-  const target = targetDraft ?? (plan.target_kcal ? String(plan.target_kcal).replace('.', ',') : '');
+  // Lida aqui, com `?.`: o React Compiler transforma `pickerMeal.key` usado dentro de um
+  // callback em dependência lida durante a renderização, e com o painel fechado (null) a tela quebrava.
+  const pickerMealKey = pickerMeal?.key;
+  const target = targetDraft ??(plan.target_kcal ? String(plan.target_kcal).replace('.', ',') : '');
   const notes = notesDraft ?? plan.notes ?? '';
   const totals = planTotals(items);
   const split = macroDistribution(totals.values);
@@ -122,9 +126,7 @@ export default function MealPlanScreen() {
         .filter(Boolean)
         .join(' · ')}
       right={
-        <Pressable accessibilityLabel="Mais opções" onPress={() => setMenuOpen(true)} hitSlop={12}>
-          <Ionicons name="ellipsis-horizontal-circle" size={28} color={colors.text} />
-        </Pressable>
+        <IconButton icon="ellipsis-horizontal" label="Mais opções" variant="filled" onPress={() => setMenuOpen(true)} />
       }
     >
       <Card tone="primary" style={{ gap: 12 }}>
@@ -295,7 +297,8 @@ export default function MealPlanScreen() {
         mealLabel={pickerMeal?.label ?? ''}
         onClose={() => setPickerMeal(null)}
         onAdd={async ({ food, grams, household }) => {
-          await mealPlans.addItem(plan.id, { meal: pickerMeal!.key, food_id: food.id, food_name: food.name, quantity_g: grams, household_measure: household });
+          if (!pickerMealKey) return;
+          await mealPlans.addItem(plan.id, { meal: pickerMealKey, food_id: food.id, food_name: food.name, quantity_g: grams, household_measure: household });
           setPickerMeal(null);
           toast.success(`${food.name.split(',')[0]} adicionado`);
         }}

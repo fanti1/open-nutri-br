@@ -1,0 +1,30 @@
+{
+  "slug": "conut",
+  "status": "conferido",
+  "verified_at": "2026-09-24",
+  "summary": "Faixas e pontos conferidos na Tabela I do artigo original (texto completo).",
+  "formula": "Albumina (g/dL): ≥ 3,5 → 0 · 3,0–3,49 → 2 · 2,5–2,9 → 4 · < 2,5 → 6. Colesterol (mg/dL): > 180 → 0 · 140–180 → 1 · 100–139 → 2 · < 100 → 3. Linfócitos (/mm³): ≥ 1.600 → 0 · 1.200–1.599 → 1 · 800–1.199 → 2 · < 800 → 3. Total: 0–1 normal · 2–4 leve · 5–8 moderada · 9–12 grave.",
+  "sources": [
+    {
+      "citation": "Ignacio de Ulíbarri J, González-Madroño A, de Villar NG et al. CONUT: una herramienta para controlar el estado nutritivo. Primera validación en una población hospitalaria. Nutr Hosp. 2005;20(1):38-45.",
+      "url": "https://scielo.isciii.es/scielo.php?script=sci_arttext&pid=S0212-16112005000100006",
+      "pmid": "15762418",
+      "evidence": "texto_completo",
+      "checked": "Tabela I: faixas de albumina, linfócitos e colesterol, pontos de cada faixa e classificação do total."
+    }
+  ],
+  "notes": [
+    "A tabela original não inclui exatamente 1.600 linfócitos em nenhuma faixa (> 1600 e 1200–1599); o app considera 1.600 normal."
+  ],
+  "changes": [
+    {
+      "date": "2026-09-24",
+      "version": "v2",
+      "text": "Colesterol exatamente 180 mg/dL passou a valer 1 ponto, como na Tabela I (a faixa 140–180 inclui o 180). Antes valia 0."
+    }
+  ],
+  "example": {
+    "spec_case": 0,
+    "calculation": "Albumina 4,0 → 0; colesterol 200 → 0; linfócitos 2.000 → 0. Total 0 → normal."
+  }
+}

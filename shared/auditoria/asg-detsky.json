@@ -1,0 +1,30 @@
+{
+  "slug": "asg-detsky",
+  "status": "conferido_com_ressalvas",
+  "verified_at": "2026-09-24",
+  "summary": "A classificação (A, B ou C) passou a ser a que o avaliador atribui, como no método original; o app só registra os domínios e conta quantos ficaram em cada categoria. Conferido no resumo do artigo de 1987.",
+  "formula": "Classificação = julgamento global do avaliador: A bem nutrido · B moderadamente desnutrido ou suspeita · C gravemente desnutrido. Contagem de domínios em A, B e C apenas como apoio.",
+  "sources": [
+    {
+      "citation": "Detsky AS, McLaughlin JR, Baker JP et al. What is subjective global assessment of nutritional status? JPEN. 1987;11(1):8-13.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/3820522/",
+      "pmid": "3820522",
+      "evidence": "resumo",
+      "checked": "Técnica clínica baseada em história e exame físico; a classificação é o julgamento do avaliador. Na análise multivariada, o que mais pesou foi a perda de tecido subcutâneo, a perda muscular e a perda de peso."
+    }
+  ],
+  "notes": [
+    "Só o resumo do artigo foi acessado; o formulário original (itens de história e de exame físico) não foi conferido. A marcação A/B/C por domínio é um roteiro do app, não parte do método publicado."
+  ],
+  "changes": [
+    {
+      "date": "2026-09-24",
+      "version": "v2",
+      "text": "A classificação deixou de ser a categoria mais frequente entre os domínios (regra sem fonte) e passou a ser a classificação global escolhida pelo avaliador."
+    }
+  ],
+  "example": {
+    "spec_case": 0,
+    "calculation": "Todos os domínios em A e classificação global A (do avaliador) → bem nutrido."
+  }
+}

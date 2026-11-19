@@ -1,0 +1,36 @@
+{
+  "slug": "homa-ir",
+  "status": "conferido_com_ressalvas",
+  "verified_at": "2026-09-24",
+  "summary": "Corte brasileiro de 2,71 conferido (BRAMS); a constante 405 é a conversão de 22,5 (glicose em mmol/L) para mg/dL, e o 22,5 de Matthews (1985) não foi conferido no texto original.",
+  "formula": "HOMA-IR = glicemia de jejum (mg/dL) × insulina de jejum (µUI/mL) ÷ 405. Resistência à insulina se > 2,71.",
+  "sources": [
+    {
+      "citation": "Geloneze B, Vasques ACJ, Stabe CFC et al. HOMA1-IR and HOMA2-IR indexes in identifying insulin resistance and metabolic syndrome: Brazilian Metabolic Syndrome Study (BRAMS). Arq Bras Endocrinol Metab. 2009;53(2):281-7.",
+      "url": "https://www.scielo.br/j/abem/a/Fb4KV8mksGnjn9LzfQtQRqR/?lang=en",
+      "pmid": "19466221",
+      "evidence": "texto_completo",
+      "checked": "Texto completo: corte de 2,71 identificado antes pelo grupo (Geloneze 2006) e 2,7 no BRAMS."
+    },
+    {
+      "citation": "Geloneze B, Repetto EM, Geloneze SR et al. The threshold value for insulin resistance (HOMA-IR) in an admixtured population. IR in the Brazilian Metabolic Syndrome Study. Diabetes Res Clin Pract. 2006;72(2):219-20.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/16310881/",
+      "pmid": "16310881",
+      "evidence": "resumo",
+      "checked": "Carta original com o valor de corte."
+    },
+    {
+      "citation": "Matthews DR, Hosker JP, Rudenski AS et al. Homeostasis model assessment: insulin resistance and beta-cell function from fasting plasma glucose and insulin concentrations in man. Diabetologia. 1985;28(7):412-9.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/3899825/",
+      "pmid": "3899825",
+      "evidence": "resumo",
+      "checked": "Modelo HOMA; o resumo não traz a constante 22,5."
+    }
+  ],
+  "notes": [],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "90 × 10 ÷ 405 = 2,22. Não é maior que 2,71 → sem resistência insulínica."
+  }
+}

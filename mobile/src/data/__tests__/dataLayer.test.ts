@@ -159,6 +159,32 @@ describe('meal plans', () => {
     expect(await repo.list()).toEqual([]);
     expect(await repo.items(planId)).toEqual([]);
   });
+  it('duplicates a plan in one batch, keeping meal order and renumbering positions', async () => {
+    const db = await freshDb();
+    const repo = mealPlansRepository(db);
+    const planId = await repo.create({ kind: 'plano', title: 'Plano' });
+    for (const [meal, food_id] of [['almoco', 1], ['almoco', 2], ['almoco', 3], ['jantar', 4]] as const) {
+      await repo.addItem(planId, { meal, food_id, food_name: `Alimento ${food_id}`, quantity_g: 100 });
+    }
+    // Buraco na numeração (0, 2): a cópia sai 0, 1 — como addItem() faria item a item.
+    await repo.removeItem((await repo.items(planId)).find((i) => i.food_id === 2)!.id);
+
+    const changes: Table[][] = [];
+    const unsubscribe = subscribeToChanges((changed) => changes.push([...changed]));
+    const copyId = await repo.duplicate(planId, 'Cópia');
+    unsubscribe();
+
+    const copy = await repo.items(copyId);
+    const byMeal = (meal: string) => copy.filter((i) => i.meal === meal).map((i) => [i.food_id, i.position]);
+    expect(byMeal('almoco')).toEqual([
+      [1, 0],
+      [3, 1],
+    ]);
+    expect(byMeal('jantar')).toEqual([[4, 0]]);
+    expect(new Set(copy.map((i) => i.id)).size).toBe(3);
+    // Um aviso ao criar o plano e um pelos alimentos — não um por alimento.
+    expect(changes).toEqual([['meal_plans'], ['meal_plans', 'meal_plan_items']]);
+  });
 });
 
 describe('settings and favorites', () => {
@@ -259,7 +285,7 @@ describe('backup', () => {
     expect(backupOverdue('2026-09-15T12:00:00Z', now)).toBe(true);
   });
 
-  it('carries meal plans but never the device PIN (a forgotten PIN is fixed by reinstalling + restoring)', async () => {
+  it('carries meal plans but never the device PIN or error log (a forgotten PIN is fixed by reinstalling + restoring)', async () => {
     const source = await freshDb();
     const patientId = await patientsRepository(source).create(maria);
     const planId = await mealPlansRepository(source).create({ patient_id: patientId, kind: 'plano', title: 'Plano' });
@@ -267,19 +293,24 @@ describe('backup', () => {
     const sourceLock = { pin_hash: 'hash-origem', salt: 's', pin_length: 4, biometrics: false, timeout_s: 60 };
     await settingsRepository(source).set('app_lock', sourceLock);
     await settingsRepository(source).set('theme', 'dark');
+    const errorAt = (message: string) => [{ at: '2026-10-28T10:00:00.000Z', message, stack: null, route: '/', appVersion: '1.0.0' }];
+    await settingsRepository(source).saveErrorLog(errorAt('erro-origem'));
 
     const file = await backupService(source).exportData();
     expect(JSON.stringify(file)).not.toContain('hash-origem');
+    expect(JSON.stringify(file)).not.toContain('erro-origem');
 
     const target = await freshDb();
     const targetLock = { ...sourceLock, pin_hash: 'hash-destino' };
     await settingsRepository(target).set('app_lock', targetLock);
+    await settingsRepository(target).saveErrorLog(errorAt('erro-destino'));
     await backupService(target).restore(backupService(target).parse(JSON.stringify(file)));
 
     expect((await mealPlansRepository(target).items(planId))[0].food_name).toBe('Arroz, integral, cozido');
     const restored = await settingsRepository(target).all();
     expect(restored.theme).toBe('dark');
     expect(restored.app_lock).toEqual(targetLock);
+    expect(restored.error_log).toEqual(errorAt('erro-destino'));
   });
 
   it('round-trips every table into a fresh device and drops notification ids', async () => {
@@ -320,5 +351,72 @@ describe('backup', () => {
     expect(() => backup.parse('not json')).toThrow(InvalidBackupError);
     expect(() => backup.parse(JSON.stringify({ format: 'other', data: {} }))).toThrow(InvalidBackupError);
     expect(() => backup.parse(JSON.stringify({ format: 'opennutri-br-backup', schema_version: 999, data: {} }))).toThrow(/versão mais nova/);
+    expect(() => backup.parse(JSON.stringify({ format: 'opennutri-br-backup', schema_version: 1, data: { patients: 'x' } }))).toThrow(/corrompido/);
+    expect(() => backup.parse(JSON.stringify({ format: 'opennutri-br-backup', schema_version: 1, data: { patients: [1] } }))).toThrow(/corrompido/);
+  });
+
+  it('only writes columns the table really has (a tampered file cannot inject SQL)', async () => {
+    const source = await freshDb();
+    const patientId = await patientsRepository(source).create(maria);
+    const file = await backupService(source).exportData();
+    const hostile = 'name) VALUES (1); DROP TABLE patients; --';
+    file.data.patients = file.data.patients!.map((row) => ({ ...row, [hostile]: 'x', coluna_futura: 'y' }));
+
+    const target = await freshDb();
+    await backupService(target).restore(backupService(target).parse(JSON.stringify(file)));
+
+    expect((await patientsRepository(target).get(patientId))?.name).toBe('Maria Silva');
+  });
+});
+
+describe('change notifications', () => {
+  it('deleting a patient refreshes the screens of everything deleted with it, meal plans included', async () => {
+    const db = await freshDb();
+    const patientId = await patientsRepository(db).create(maria);
+    await mealPlansRepository(db).create({ patient_id: patientId, kind: 'plano', title: 'Plano' });
+
+    const changed = new Set<Table>();
+    const unsubscribe = subscribeToChanges((tables) => tables.forEach((table) => changed.add(table)));
+    await patientsRepository(db).remove(patientId);
+    unsubscribe();
+
+    expect(changed).toEqual(new Set(['patients', 'consultations', 'calculations', 'attachments', 'tasks', 'appointments', 'meal_plans', 'meal_plan_items']));
+    expect(await mealPlansRepository(db).list()).toEqual([]);
+  });
+
+  it('meal plan updates ignore keys that are not editable columns', async () => {
+    const db = await freshDb();
+    const planId = await mealPlansRepository(db).create({ kind: 'plano', title: 'Plano' });
+
+    const fields = { title: 'Novo', 'id = 1; --': 'x' } as unknown as { title: string };
+    await mealPlansRepository(db).update(planId, fields);
+
+    expect((await mealPlansRepository(db).get(planId))?.title).toBe('Novo');
+  });
+});
+
+describe('patient record counts', () => {
+  it('counts each tab of the record without loading the lists', async () => {
+    const db = await freshDb();
+    const patientId = await patientsRepository(db).create(maria);
+    await consultationsRepository(db).create({ patient_id: patientId, occurred_at: '2026-01-10T10:00:00.000Z', kind: 'consulta', weight_kg: 70, height_cm: 165 });
+    await consultationsRepository(db).create({ patient_id: patientId, occurred_at: '2026-02-10T10:00:00.000Z', kind: 'retorno', weight_kg: 68 });
+    await mealPlansRepository(db).create({ patient_id: patientId, kind: 'plano', title: 'Plano' });
+
+    expect(await patientsRepository(db).recordCounts(patientId)).toEqual({ consultations: 2, calculations: 0, attachments: 0, mealPlans: 1 });
+    // Cada medida vem do atendimento mais recente que a tem.
+    expect(await consultationsRepository(db).latestMeasurements(patientId)).toEqual({ weight_kg: 68, height_cm: 165 });
+  });
+});
+
+describe('migration failure', () => {
+  it('rolls back and leaves no transaction open', async () => {
+    const db = await createTestDatabase();
+    const broken = { ...db, execAsync: async (sql: string) => (sql.startsWith('BEGIN;') ? db.execAsync('BEGIN; CREATE TABLE x (a); SELECT * FROM tabela_inexistente;') : db.execAsync(sql)) };
+
+    await expect(migrate(broken)).rejects.toThrow();
+    // Sem ROLLBACK, este BEGIN falharia com "cannot start a transaction within a transaction".
+    await expect(db.execAsync('BEGIN; COMMIT;')).resolves.toBeUndefined();
+    expect(await db.getAllAsync("SELECT name FROM sqlite_master WHERE name = 'x'")).toEqual([]);
   });
 });

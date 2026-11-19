@@ -1,3 +1,4 @@
+import { reaches } from '../../support/cutoff';
 import { makeCalculator } from '../../support/makeCalculator';
 import { round2 } from '../../support/round';
 
@@ -12,7 +13,11 @@ export interface PennStateInputs {
 
 /** A versão 2010 foi validada para ≥ 60 anos com IMC ≥ 30 (Frankenfield, JPEN 2011). */
 export function usesOlderObeseVersion(age: number, bmi: number): boolean {
-  return age >= 60 && bmi >= 30;
+  return age >= 60 && reaches(bmi, 30);
+}
+
+function bmiOf(inputs: PennStateInputs): number {
+  return inputs.weight_kg / (inputs.height_cm / 100) ** 2;
 }
 
 /**
@@ -22,7 +27,7 @@ export function usesOlderObeseVersion(age: number, bmi: number): boolean {
  */
 export function pennStateFormula(inputs: PennStateInputs): Record<string, number> {
   const mifflin = 10 * inputs.weight_kg + 6.25 * inputs.height_cm - 5 * inputs.age_years + (inputs.sex === 'male' ? 5 : -161);
-  const bmi = inputs.weight_kg / (inputs.height_cm / 100) ** 2;
+  const bmi = bmiOf(inputs);
   const ve = inputs.minute_ventilation_l_min;
   const tmax = inputs.max_temperature_c;
 
@@ -33,9 +38,13 @@ export function pennStateFormula(inputs: PennStateInputs): Record<string, number
   return { ree_kcal: round2(ree), mifflin_kcal: round2(mifflin), bmi: round2(bmi) };
 }
 
-/** Informa qual versão foi aplicada. */
-export function pennStateClassifier(result: Record<string, number>, inputs: PennStateInputs): string {
-  return usesOlderObeseVersion(inputs.age_years, result.bmi) ? 'equacao_2010_idoso_com_obesidade' : 'equacao_2003b';
+/**
+ * Informa qual versão foi aplicada — com o mesmo IMC (sem arredondar) que a
+ * fórmula usou: com IMC 29,997 a fórmula aplica a 2003b, e o IMC exibido
+ * (30,00) não pode fazer o rótulo dizer 2010.
+ */
+export function pennStateClassifier(_result: Record<string, number>, inputs: PennStateInputs): string {
+  return usesOlderObeseVersion(inputs.age_years, bmiOf(inputs)) ? 'equacao_2010_idoso_com_obesidade' : 'equacao_2003b';
 }
 
 export const pennStateCalculator = makeCalculator<PennStateInputs>({

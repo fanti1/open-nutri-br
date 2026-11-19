@@ -27,7 +27,7 @@ final class PerfilLipidicoCalculator extends AbstractCalculator
 
     public function version(): string
     {
-        return 'v1';
+        return 'v2';
     }
 
     public function inputsSchema(): array
@@ -43,8 +43,8 @@ final class PerfilLipidicoCalculator extends AbstractCalculator
     public function reference(): CalculatorReference
     {
         return new CalculatorReference(
-            method: 'LDL-c (Friedewald), não-HDL-c e valores referenciais desejáveis',
-            citation: 'Faludi AA et al., Atualização da Diretriz Brasileira de Dislipidemias e Prevenção da Aterosclerose – 2017, Arq Bras Cardiol, 2017; Friedewald WT, Levy RI, Fredrickson DS, Clin Chem, 1972.',
+            method: 'LDL-c (Martin/Hopkins), não-HDL-c e valores referenciais desejáveis',
+            citation: 'SBC, Diretriz Brasileira de Dislipidemias e Prevenção da Aterosclerose – 2025, Arq Bras Cardiol, 2025 (Martin/Hopkins para todos; valores desejáveis iguais aos de 2017); Martin SS et al., JAMA, 2013;310(19):2061-2068; tabela de fatores: Faludi AA et al., Atualização da Diretriz Brasileira de Dislipidemias – 2017, Tabela 1.',
         );
     }
 

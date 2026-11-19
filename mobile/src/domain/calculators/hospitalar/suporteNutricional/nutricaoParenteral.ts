@@ -8,7 +8,11 @@ export interface NutricaoParenteralInputs {
 
 const PROTEIN_TO_NITROGEN_FACTOR = 6.25;
 
-/** Relação kcal não-proteica : g N = kcal não-proteica / (proteína/6.25). ASPEN/BRASPEN Guidelines. */
+/**
+ * Relação kcal não proteicas : g N = kcal não proteicas / (proteína/6,25) — a proteína tem cerca
+ * de 16% de nitrogênio. Sem classificação: a faixa "recomendada" de 100–150 kcal/g N não foi
+ * encontrada numa fonte conferível.
+ */
 export function nutricaoParenteralFormula(inputs: NutricaoParenteralInputs): Record<string, number> {
   const nitrogenG = inputs.protein_g / PROTEIN_TO_NITROGEN_FACTOR;
 
@@ -18,22 +22,15 @@ export function nutricaoParenteralFormula(inputs: NutricaoParenteralInputs): Rec
   };
 }
 
-export function nutricaoParenteralClassifier(result: Record<string, number>): string {
-  if (result.kcal_per_gram_nitrogen < 100) return 'abaixo_da_faixa_recomendada';
-  if (result.kcal_per_gram_nitrogen <= 150) return 'dentro_da_faixa_recomendada';
-  return 'acima_da_faixa_recomendada';
-}
-
 export const nutricaoParenteralCalculator = makeCalculator<NutricaoParenteralInputs>({
   slug: 'nutricao-parenteral',
   module: 'hospitalar',
   category: 'suporte_nutricional',
-  version: 'v1',
+  version: 'v2',
   reference: {
-    method: 'Nutrição Parenteral (relação kcal não-proteica : N)',
-    citation: 'ASPEN/BRASPEN Guidelines for Parenteral Nutrition.',
+    method: 'Nutrição Parenteral (relação kcal não proteicas : g de N)',
+    citation: 'Conta aritmética: N (g) = proteína ÷ 6,25 (a proteína tem cerca de 16% de nitrogênio); relação = kcal não proteicas ÷ N.',
   },
   lifeStages: ['adulto', 'idoso'],
   formula: nutricaoParenteralFormula,
-  classifier: nutricaoParenteralClassifier,
 });

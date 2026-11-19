@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "Se você usar o OpenNutri BR num trabalho acadêmico, cite-o assim."
+title: "OpenNutri BR: ferramentas clínicas abertas para nutricionistas"
+type: software
+authors:
+  - alias: fanti1
+    website: "https://github.com/fanti1"
+version: 1.0.0
+date-released: 2026-10-28
+license: GPL-3.0-or-later
+repository-code: "https://github.com/fanti1/open-nutri-br"
+url: "https://github.com/fanti1/open-nutri-br"
+abstract: >-
+  App de código aberto para nutricionistas brasileiros, que funciona sem internet:
+  55 calculadoras clínicas com auditoria científica pública, fichas de pacientes,
+  plano alimentar e recordatório 24 h com a tabela TACO.
+keywords:
+  - nutrição
+  - nutrição clínica
+  - calculadoras clínicas
+  - TACO
+  - curvas de crescimento
+  - LGPD

@@ -1,6 +1,7 @@
 import type { LatestMeasurements } from '../data/repositories/consultations';
 import type { Patient } from '../data/models';
-import { ageInMonthsDecimal, ageParts } from '../lib/format';
+import { ageInMonthsDecimal, ageInYearsDecimal, ageParts } from '../lib/format';
+import { roundHalfUp } from './calculators/support/round';
 
 /**
  * Valores iniciais de um formulário de calculadora a partir da ficha do
@@ -24,12 +25,12 @@ export function autofillFromPatient(
 
   set('sex', patient.sex);
   // Campos de idade que aceitam fração (ex.: anemia da OMS a partir de 6 meses) recebem anos com decimais.
-  set('age_years', acceptsFraction(schema.age_years) ? round(ageMonths / 12, 2) : years);
+  set('age_years', acceptsFraction(schema.age_years) ? ageInYearsDecimal(patient.birth_date, at) : years);
   set('age_months', ageMonths);
   set('weight_kg', measurements.weight_kg);
   set('current_weight_kg', measurements.weight_kg);
   set('height_cm', measurements.height_cm);
-  set('height_m', measurements.height_cm !== undefined ? round(measurements.height_cm / 100, 3) : undefined);
+  set('height_m', measurements.height_cm !== undefined ? roundHalfUp(measurements.height_cm / 100, 3) : undefined);
   set('length_cm', measurements.height_cm);
   set('waist_cm', measurements.waist_cm);
   set('hip_cm', measurements.hip_cm);
@@ -40,8 +41,9 @@ export function autofillFromPatient(
     values.measurement_position = ageMonths < 24 ? 'deitado' : 'em_pe';
   }
 
+  // Mesmo arredondamento da calculadora de IMC: o IMC preenchido é o que ela mostraria.
   if (fields.has('bmi') && measurements.weight_kg && measurements.height_cm) {
-    values.bmi = String(round(measurements.weight_kg / (measurements.height_cm / 100) ** 2, 2));
+    values.bmi = String(roundHalfUp(measurements.weight_kg / (measurements.height_cm / 100) ** 2, 2));
   }
 
   return values;
@@ -49,9 +51,4 @@ export function autofillFromPatient(
 
 function acceptsFraction(rules: unknown): boolean {
   return Array.isArray(rules) && rules.includes('numeric') && !rules.includes('integer');
-}
-
-function round(value: number, digits: number): number {
-  const factor = 10 ** digits;
-  return Math.round(value * factor) / factor;
 }

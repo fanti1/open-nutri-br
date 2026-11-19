@@ -1,0 +1,48 @@
+{
+  "slug": "penn-state",
+  "status": "conferido",
+  "verified_at": "2026-09-24",
+  "summary": "Equações 2003b e 2010 conferidas em resumos originais e em revisão aberta; escolha automática da versão conferida no resumo de 2011.",
+  "formula": "Mifflin-St Jeor com peso atual. 2003b: 0,96 × Mifflin + 31 × Ve + 167 × Tmax − 6212. 2010 (≥ 60 anos e IMC ≥ 30): 0,71 × Mifflin + 85 × Tmax + 64 × Ve − 3085.",
+  "sources": [
+    {
+      "citation": "Frankenfield DC, Coleman A, Alam S, Cooney RN. Analysis of estimation methods for resting metabolic rate in critically ill adults. JPEN. 2009;33(1):27-36.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/19011147/",
+      "pmid": "19011147",
+      "evidence": "resumo",
+      "checked": "Versão para idosos com obesidade: Mifflin(0,71) + Tmax(85) + Ve(64) − 3085."
+    },
+    {
+      "citation": "Frankenfield D. Validation of an equation for resting metabolic rate in older obese, critically ill patients. JPEN. 2011;35(2):264-9.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/21378256/",
+      "pmid": "21378256",
+      "evidence": "resumo",
+      "checked": "Validação da versão modificada em pacientes com 60 anos ou mais e IMC ≥ 30."
+    },
+    {
+      "citation": "Revisão de acesso aberto 'Methods for Estimating Energy Expenditure in Critically Ill Adults' (tabela com as versões 2003b e 2010 da equação de Penn State).",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7520823/",
+      "evidence": "reproducao",
+      "checked": "2003b: 0,96 (Mifflin) + 31 (Ve) + 167 (Tmax) − 6212."
+    },
+    {
+      "citation": "Frankenfield D, Smith JS, Cooney RN. Validation of 2 approaches to predicting resting metabolic rate in critically ill patients. JPEN. 2004;28(4):259-64.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/15291408/",
+      "pmid": "15291408",
+      "evidence": "resumo",
+      "checked": "Validação das equações de Penn State."
+    }
+  ],
+  "notes": [],
+  "changes": [
+    {
+      "date": "2026-09-24",
+      "version": "v1",
+      "text": "A versão aplicada e o rótulo passaram a usar o mesmo IMC, e um IMC exatamente 30 (ex.: 76,8 kg e 1,60 m) conta como ≥ 30 apesar do erro de ponto flutuante."
+    }
+  ],
+  "example": {
+    "spec_case": 0,
+    "calculation": "Mifflin = 10 × 80 + 6,25 × 175 − 5 × 50 + 5 = 1.648,75. 50 anos → 2003b: 0,96 × 1.648,75 + 31 × 10 + 167 × 37,5 − 6.212 = 1.943,3 kcal."
+  }
+}

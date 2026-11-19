@@ -1,0 +1,23 @@
+{
+  "slug": "perda-de-peso",
+  "status": "pendente",
+  "verified_at": "2026-09-24",
+  "summary": "O cálculo do percentual é aritmético, mas a tabela de significância de Blackburn (1977) não pôde ser conferida na fonte original.",
+  "formula": "% perda = (peso habitual − peso atual) / peso habitual × 100. Cortes usados (Blackburn, 1977): até 7 dias 1% significativa / 2% grave; até 1 mês 5%; até 3 meses 7,5%; até 6 meses 10%.",
+  "sources": [
+    {
+      "citation": "Blackburn GL, Bistrian BR, Maini BS et al. Nutritional and metabolic assessment of the hospitalized patient. JPEN. 1977;1(1):11-22.",
+      "url": "https://doi.org/10.1177/014860717700100101",
+      "evidence": "nao_acessado",
+      "checked": "Tabela de perda de peso significativa × grave; artigo não acessível em versão aberta."
+    }
+  ],
+  "notes": [
+    "No valor exato do corte único (5%, 7,5% ou 10%) o app classifica como perda grave; em várias reproduções o valor exato é perda significativa e só acima dele é grave. Aguarda conferência na fonte."
+  ],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "(100 − 99,5) ÷ 100 × 100 = 0,5% em 7 dias. Menor que 1% → sem perda significativa."
+  }
+}

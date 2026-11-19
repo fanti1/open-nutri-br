@@ -54,7 +54,7 @@ export function CalculationsSection({ patient }: { patient: Patient }) {
               <AppText variant="small" tone="subtle">
                 {formatDate(calc.created_at)}
               </AppText>
-              <Pressable accessibilityLabel="Excluir cálculo" onPress={() => remove(calc.id, calc.calculator_name)} hitSlop={10}>
+              <Pressable accessibilityRole="button" accessibilityLabel={`Excluir cálculo: ${calc.calculator_name}`} onPress={() => remove(calc.id, calc.calculator_name)} hitSlop={13}>
                 <Ionicons name="trash-outline" size={18} color={colors.textSubtle} />
               </Pressable>
             </View>

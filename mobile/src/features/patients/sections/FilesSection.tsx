@@ -79,7 +79,7 @@ export function FilesSection({ patient }: { patient: Patient }) {
               {formatBytes(attachment.size_bytes)} · {formatDate(attachment.created_at)}
             </AppText>
           </View>
-          <Pressable accessibilityLabel="Excluir arquivo" onPress={() => remove(attachment)} hitSlop={10}>
+          <Pressable accessibilityRole="button" accessibilityLabel={`Excluir arquivo: ${attachment.name}`} onPress={() => remove(attachment)} hitSlop={13}>
             <Ionicons name="trash-outline" size={18} color={colors.textSubtle} />
           </Pressable>
         </Card>

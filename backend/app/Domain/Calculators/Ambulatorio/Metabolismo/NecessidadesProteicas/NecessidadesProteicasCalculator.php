@@ -26,30 +26,29 @@ final class NecessidadesProteicasCalculator extends AbstractCalculator
 
     public function version(): string
     {
-        return 'v1';
+        return 'v2';
     }
 
     public function inputsSchema(): array
     {
         return [
             'weight_kg' => ['required', 'numeric', 'min:1', 'max:500'],
-            // Escrito como string (não Rule::in()) para permanecer serializável em JSON
-            // no catálogo de calculadoras consumido pelo app.
-            'clinical_context' => ['required', 'in:'.implode(',', array_keys(NecessidadesProteicasFormula::FACTORS_G_PER_KG))],
+            // A meta é decisão clínica; a faixa só barra erro de digitação.
+            'protein_g_per_kg' => ['required', 'numeric', 'between:0.3,3'],
         ];
     }
 
     public function reference(): CalculatorReference
     {
         return new CalculatorReference(
-            method: 'Necessidades Proteicas Diárias',
-            citation: 'ESPEN Guideline on Clinical Nutrition, Clin Nutr, 2016; Institute of Medicine, Dietary Reference Intakes, 2005.',
+            method: 'Necessidades Proteicas Diárias (peso × g/kg/dia)',
+            citation: 'Meta em g/kg/dia escolhida pelo profissional. Recomendações de referência: Singer P et al., ESPEN guideline on clinical nutrition in the ICU, Clin Nutr, 2023; Gomes F et al., ESPEN guidelines for polymorbid internal medicine patients, Clin Nutr, 2018; Volkert D et al., ESPEN guideline on clinical nutrition and hydration in geriatrics, Clin Nutr, 2019.',
         );
     }
 
     /**
-     * Os valores de g/kg usados (ESPEN 2016, IOM 2005) são os de referência para
-     * adultos; necessidades proteicas pediátricas por idade ficam para a Fase 3.
+     * As recomendações de referência (ESPEN) são para adultos e idosos;
+     * necessidades proteicas pediátricas por idade ficam para a Fase 3.
      */
     public function lifeStages(): array
     {

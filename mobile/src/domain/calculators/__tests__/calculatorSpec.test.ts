@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import { CATALOG } from '../../catalog';
+import { CATALOG, catalogEntry } from '../../catalog';
+import { parseCalculatorForm } from '../../forms/parseForm';
+import { isKnownRule, schemaToFields } from '../../forms/schemaToFields';
 import { CALCULATOR_REGISTRY } from '../registry';
 
 /**
@@ -45,13 +47,47 @@ describe('calculator spec conformance', () => {
 
       const outcome = calculator.calculate(testCase.inputs);
 
+      // Os resultados já saem arredondados (2 casas; densidade, 4): têm de bater exatamente.
       for (const [key, expectedValue] of Object.entries(testCase.expected.values)) {
-        expect(outcome.values[key]).toBeCloseTo(expectedValue, 1);
+        expect(outcome.values[key]).toBeCloseTo(expectedValue, 6);
       }
 
       expect(outcome.classification).toBe(testCase.expected.classification);
     },
   );
+
+  // O mesmo vetor pelo caminho da tela: o que a pessoa digita (texto, vírgula
+  // decimal, opções tocadas) → formulário gerado do catálogo → cálculo. Pega
+  // erros que o cálculo direto não vê, como uma opção numérica chegando como
+  // texto e sendo concatenada em vez de somada.
+  it.each(localSpecs.flatMap((spec) => spec.cases.map((c, i) => [spec.slug, i, spec, c] as const)))(
+    '%s case #%i gives the same result when typed into the form',
+    (_slug, _i, spec, testCase) => {
+      const fields = schemaToFields(catalogEntry(spec.slug)!.input_schema);
+      const typed = Object.fromEntries(
+        Object.entries(testCase.inputs).map(([name, value]) => [name, typeof value === 'number' ? String(value).replace('.', ',') : String(value)]),
+      );
+
+      const parsed = parseCalculatorForm(fields, typed);
+      expect(parsed.errors).toEqual({});
+      expect(parsed.complete).toBe(true);
+
+      const outcome = CALCULATOR_REGISTRY[spec.slug].calculate(parsed.inputs);
+      for (const [key, expectedValue] of Object.entries(testCase.expected.values)) {
+        expect(outcome.values[key]).toBeCloseTo(expectedValue, 6);
+      }
+      expect(outcome.classification).toBe(testCase.expected.classification);
+    },
+  );
+
+  it('the form understands every validation rule used by the catalog', () => {
+    const unknown = CATALOG.flatMap((entry) =>
+      Object.entries(entry.input_schema).flatMap(([field, rules]) =>
+        (rules as unknown[]).filter((rule) => typeof rule !== 'string' || !isKnownRule(rule)).map((rule) => `${entry.slug}.${field}: ${String(rule)}`),
+      ),
+    );
+    expect(unknown).toEqual([]);
+  });
 
   it('every registered calculator declares a reference', () => {
     for (const calculator of Object.values(CALCULATOR_REGISTRY)) {

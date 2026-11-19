@@ -26,27 +26,28 @@ final class IngestaoLiquidosCalculator extends AbstractCalculator
 
     public function version(): string
     {
-        return 'v1';
+        return 'v2';
     }
 
     public function inputsSchema(): array
     {
         return [
             'weight_kg' => ['required', 'numeric', 'min:1', 'max:500'],
+            // A meta é decisão clínica; a faixa só barra erro de digitação.
+            'ml_per_kg' => ['required', 'numeric', 'between:10,60'],
         ];
     }
 
     public function reference(): CalculatorReference
     {
         return new CalculatorReference(
-            method: 'Necessidade Hídrica Diária',
-            citation: 'ESPEN Guideline on Home Enteral Nutrition, Clin Nutr.',
+            method: 'Necessidade Hídrica Diária (peso × mL/kg/dia)',
+            citation: 'Volume em mL/kg/dia escolhido pelo profissional. Recomendação de referência para idosos: Volkert D et al., ESPEN guideline on clinical nutrition and hydration in geriatrics, Clin Nutr, 2019.',
         );
     }
 
     /**
-     * A faixa de 30–35 mL/kg é a recomendação ESPEN para adultos; necessidade
-     * hídrica pediátrica usa Holliday-Segar (Fase 2/3).
+     * Para adultos e idosos; a necessidade hídrica pediátrica usa Holliday-Segar.
      */
     public function lifeStages(): array
     {

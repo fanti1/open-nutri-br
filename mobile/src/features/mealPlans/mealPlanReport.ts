@@ -51,17 +51,17 @@ export function buildMealPlanHtml(input: {
   return `<!DOCTYPE html>
 <html lang="pt-BR"><head><meta charset="utf-8"><title>${escape(kindLabel)}${patientName ? ` — ${escape(patientName)}` : ''}</title>
 <style>
-  body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; color: #10201C; margin: 32px; font-size: 12px; }
-  h1 { color: #0B7A69; font-size: 20px; margin: 0; }
-  .muted { color: #556762; font-weight: 400; }
-  .header { display: flex; justify-content: space-between; border-bottom: 2px solid #0B7A69; padding-bottom: 8px; margin-bottom: 16px; }
-  .meal { border: 1px solid #DDE6E3; border-radius: 8px; padding: 8px 12px; margin-bottom: 10px; page-break-inside: avoid; }
-  .meal-title { font-weight: 700; color: #0B7A69; margin-bottom: 4px; }
+  body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; color: #102324; margin: 32px; font-size: 12px; }
+  h1 { color: #046E58; font-size: 20px; margin: 0; }
+  .muted { color: #4B5F60; font-weight: 400; }
+  .header { display: flex; justify-content: space-between; border-bottom: 2px solid #046E58; padding-bottom: 8px; margin-bottom: 16px; }
+  .meal { border: 1px solid #D7E2E0; border-radius: 8px; padding: 8px 12px; margin-bottom: 10px; page-break-inside: avoid; }
+  .meal-title { font-weight: 700; color: #046E58; margin-bottom: 4px; }
   table { width: 100%; border-collapse: collapse; }
-  td { padding: 4px 0; border-bottom: 1px solid #EEF3F1; }
+  td { padding: 4px 0; border-bottom: 1px solid #E6EFEE; }
   td.qty { text-align: right; white-space: nowrap; }
-  .totals { background: #EAF1EF; border-radius: 8px; padding: 10px 12px; margin-top: 14px; }
-  footer { margin-top: 28px; font-size: 10px; color: #8A9A95; }
+  .totals { background: #E6EFEE; border-radius: 8px; padding: 10px 12px; margin-top: 14px; }
+  footer { margin-top: 28px; font-size: 10px; color: #5C6D6D; }
 </style></head>
 <body>
   <div class="header">

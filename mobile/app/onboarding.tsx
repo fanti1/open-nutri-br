@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import { View } from 'react-native';
+import { Image, View } from 'react-native';
 import { useData } from '../src/data/DataProvider';
 import { CATALOG } from '../src/domain/catalog';
 import { PrivacyNotice } from '../src/features/common/PrivacyNotice';
 import { PRIVACY_VERSION } from '../src/lib/constants';
+import { useTheme } from '../src/theme/ThemeProvider';
+import { areaColors, type AreaColor } from '../src/theme/tokens';
 import { AppText } from '../src/ui/AppText';
 import { Button } from '../src/ui/Button';
 import { Card } from '../src/ui/Card';
@@ -12,19 +14,21 @@ import { IconTile, type IconName } from '../src/ui/IconTile';
 import { Screen } from '../src/ui/Screen';
 import { TextField } from '../src/ui/TextField';
 
-const HIGHLIGHTS: Array<{ icon: IconName; title: string; text: string }> = [
+const HIGHLIGHTS: { icon: IconName; area: AreaColor; title: string; text: string }[] = [
   {
-    icon: 'calculator-outline',
+    icon: 'calculator',
+    area: 'coral',
     title: `${CATALOG.length} calculadoras científicas`,
     text: 'Antropometria, metabolismo, hospitalar, UTI, pediatria e exames laboratoriais — cada uma com a referência publicada.',
   },
-  { icon: 'people-outline', title: 'Fichas de pacientes', text: 'Atendimentos, medidas, evolução, cálculos e arquivos de exames em um só lugar.' },
-  { icon: 'calendar-outline', title: 'Agenda e tarefas', text: 'Organize seus atendimentos e receba lembretes no celular.' },
-  { icon: 'lock-closed-outline', title: 'Seus dados ficam com você', text: 'Tudo fica salvo no seu aparelho. Faça backup para o Drive quando quiser.' },
+  { icon: 'people', area: 'sky', title: 'Fichas de pacientes', text: 'Atendimentos, medidas, evolução, cálculos e arquivos de exames em um só lugar.' },
+  { icon: 'calendar', area: 'sun', title: 'Agenda e tarefas', text: 'Organize seus atendimentos e receba lembretes no celular.' },
+  { icon: 'lock-closed', area: 'violet', title: 'Seus dados ficam com você', text: 'Tudo fica salvo no seu aparelho. Faça backup para o Drive quando quiser.' },
 ];
 
 export default function OnboardingScreen() {
   const { settings } = useData();
+  const { colors, radius } = useTheme();
   const [step, setStep] = useState(0);
   const [name, setName] = useState('');
   const [crn, setCrn] = useState('');
@@ -45,11 +49,21 @@ export default function OnboardingScreen() {
       <Screen
         title="Bem-vindo(a) ao OpenNutri BR"
         subtitle="Ferramentas clínicas para nutricionistas, abertas a todos"
+        hero={{
+          overlap: 24,
+          children: (
+            <Image
+              source={require('../assets/icon.png')}
+              style={{ width: 84, height: 84, borderRadius: radius.lg, marginBottom: 8 }}
+              accessible={false}
+            />
+          ),
+        }}
         footer={<Button label="Começar" onPress={() => setStep(1)} fullWidth style={{ flex: 1 }} />}
       >
         {HIGHLIGHTS.map((item) => (
           <Card key={item.title} style={{ flexDirection: 'row', gap: 14, alignItems: 'center' }}>
-            <IconTile name={item.icon} size={46} />
+            <IconTile name={item.icon} size={50} fill={areaColors(colors, item.area).fill} onFill={areaColors(colors, item.area).onFill} />
             <View style={{ flex: 1, gap: 2 }}>
               <AppText variant="heading">{item.title}</AppText>
               <AppText tone="muted">{item.text}</AppText>

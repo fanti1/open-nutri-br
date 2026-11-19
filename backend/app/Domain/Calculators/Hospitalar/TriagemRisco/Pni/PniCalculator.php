@@ -2,7 +2,6 @@
 
 namespace App\Domain\Calculators\Hospitalar\TriagemRisco\Pni;
 
-use App\Domain\Calculators\Contracts\ClassifierInterface;
 use App\Domain\Calculators\Contracts\FormulaInterface;
 use App\Domain\Calculators\Support\AbstractCalculator;
 use App\Domain\Calculators\Support\CalculatorReference;
@@ -27,7 +26,7 @@ final class PniCalculator extends AbstractCalculator
 
     public function version(): string
     {
-        return 'v1';
+        return 'v2';
     }
 
     public function inputsSchema(): array
@@ -44,7 +43,7 @@ final class PniCalculator extends AbstractCalculator
     {
         return new CalculatorReference(
             method: 'PNI (Índice de Prognóstico Nutricional)',
-            citation: 'Buzby GP et al., Prognostic nutritional index in gastrointestinal surgery, Ann Surg, 1980.',
+            citation: 'Buzby GP et al., Prognostic nutritional index in gastrointestinal surgery, Am J Surg, 1980;139(1):160-7.',
         );
     }
 
@@ -56,10 +55,5 @@ final class PniCalculator extends AbstractCalculator
     protected function formula(): FormulaInterface
     {
         return new PniFormula;
-    }
-
-    protected function classifier(): ?ClassifierInterface
-    {
-        return new PniClassifier;
     }
 }

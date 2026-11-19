@@ -5,15 +5,17 @@ export interface DiagnosticoGlicemicoInputs {
   fasting_glucose_mg_dl?: number;
   hba1c_percent?: number;
   ogtt_2h_mg_dl?: number;
+  ogtt_1h_mg_dl?: number;
 }
 
 type Exam = keyof DiagnosticoGlicemicoInputs;
 
-/** [pré-diabetes a partir de, diabetes a partir de] — SBD 2023, iguais aos da ADA. */
+/** [pré-diabetes a partir de, diabetes a partir de] — SBD, Tabela 1 (revisão 2024). */
 const THRESHOLDS: Record<Exam, [number, number]> = {
   fasting_glucose_mg_dl: [100, 126],
   hba1c_percent: [5.7, 6.5],
   ogtt_2h_mg_dl: [140, 200],
+  ogtt_1h_mg_dl: [155, 209],
 };
 
 const EXAMS = Object.keys(THRESHOLDS) as Exam[];
@@ -48,8 +50,8 @@ export const diagnosticoGlicemicoCalculator = makeCalculator<DiagnosticoGlicemic
   category: 'glicemia',
   version: 'v1',
   reference: {
-    method: 'Critérios diagnósticos de pré-diabetes e diabetes (glicemia de jejum, HbA1c, TOTG)',
-    citation: 'Sociedade Brasileira de Diabetes, Diretriz Oficial da SBD — Diagnóstico de diabetes mellitus, 2023.',
+    method: 'Critérios diagnósticos de pré-diabetes e diabetes (glicemia de jejum, HbA1c, TOTG de 1 h e de 2 h)',
+    citation: 'Sociedade Brasileira de Diabetes, Diretriz Oficial — Diagnóstico de DM e rastreamento do DM2, revisão 2024 (Tabela 1).',
   },
   lifeStages: ['adulto', 'idoso'],
   formula: diagnosticoGlicemicoFormula,

@@ -20,7 +20,7 @@ final class ImcIdade5a19Calculator extends WhoGrowthCalculator
     public function inputsSchema(): array
     {
         return [
-            ...PediatricInputs::ageSexSchema(228.99, 60),
+            ...PediatricInputs::ageSexSchema(239.99, 60),
             'weight_kg' => ['required', 'numeric', 'min:5', 'max:250'],
             'height_cm' => ['required', 'numeric', 'min:80', 'max:230'],
         ];
@@ -30,7 +30,7 @@ final class ImcIdade5a19Calculator extends WhoGrowthCalculator
     {
         return new CalculatorReference(
             method: 'IMC-para-idade (escore-Z, Referência OMS 2007)',
-            citation: 'de Onis M et al., Development of a WHO growth reference for school-aged children and adolescents, Bull World Health Organ, 2007; classificação: Ministério da Saúde, Norma Técnica do SISVAN, 2011.',
+            citation: 'de Onis M et al., Development of a WHO growth reference for school-aged children and adolescents, Bull World Health Organ, 2007; classificação e extensão até 19 anos e 11 meses: Ministério da Saúde, Norma Técnica do SISVAN, 2011 (Quadro 13).',
         );
     }
 
@@ -42,6 +42,8 @@ final class ImcIdade5a19Calculator extends WhoGrowthCalculator
             true,
             229,
             fn (array $i) => (float) $i['weight_kg'] / (((float) $i['height_cm'] / 100) ** 2),
+            // SISVAN (2011, Quadro 13): de 19 anos e 1 mês a 19 anos e 11 meses, valores de 19 anos.
+            240,
         );
     }
 

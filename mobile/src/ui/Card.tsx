@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
-import { Pressable, View, type StyleProp, type ViewStyle } from 'react-native';
+import { Pressable, StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
 import { useTheme } from '../theme/ThemeProvider';
+import { elevation } from '../theme/tokens';
 
 interface CardProps {
   children: ReactNode;
@@ -8,9 +9,11 @@ interface CardProps {
   style?: StyleProp<ViewStyle>;
   padded?: boolean;
   tone?: 'surface' | 'alt' | 'primary';
+  accessibilityLabel?: string;
+  accessibilityHint?: string;
 }
 
-export function Card({ children, onPress, style, padded = true, tone = 'surface' }: CardProps) {
+export function Card({ children, onPress, style, padded = true, tone = 'surface', accessibilityLabel, accessibilityHint }: CardProps) {
   const { colors, radius, dark } = useTheme();
 
   const background = tone === 'alt' ? colors.surfaceAlt : tone === 'primary' ? colors.primary : colors.surface;
@@ -18,20 +21,28 @@ export function Card({ children, onPress, style, padded = true, tone = 'surface'
   const base: ViewStyle = {
     backgroundColor: background,
     borderRadius: radius.lg,
-    borderWidth: tone === 'surface' ? 1 : 0,
-    borderColor: colors.border,
-    padding: padded ? 16 : 0,
-    shadowColor: '#000',
-    shadowOpacity: dark ? 0 : 0.04,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: dark ? 0 : 1,
+    padding: padded ? 18 : 0,
+    ...elevation(tone === 'primary' ? 2 : tone === 'surface' ? 1 : 0, dark),
   };
 
   if (!onPress) return <View style={[base, style]}>{children}</View>;
 
+  // Cartão com fundo próprio (ex.: aviso amarelo) não troca de cor ao toque — só apaga.
+  const neutral = tone === 'surface' && StyleSheet.flatten(style)?.backgroundColor === undefined;
+
   return (
-    <Pressable onPress={onPress} style={({ pressed }) => [base, { opacity: pressed ? 0.85 : 1 }, style]}>
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel}
+      accessibilityHint={accessibilityHint}
+      onPress={onPress}
+      style={({ pressed }) => [
+        base,
+        style,
+        // Superfície neutra muda de tom ao toque; cartões coloridos só apagam um pouco.
+        pressed && (neutral ? { backgroundColor: colors.surfacePressed } : { opacity: 0.88 }),
+      ]}
+    >
       {children}
     </Pressable>
   );

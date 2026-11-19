@@ -45,6 +45,19 @@ export function patientsRepository(db: SqlDatabase) {
       return db.getFirstAsync<Patient>('SELECT * FROM patients WHERE id = ?', [id]);
     },
 
+    /** Quantos registros a ficha tem em cada aba — contados no banco, sem carregar as listas. */
+    async recordCounts(id: string): Promise<{ consultations: number; calculations: number; attachments: number; mealPlans: number }> {
+      const row = await db.getFirstAsync<{ consultations: number; calculations: number; attachments: number; mealPlans: number }>(
+        `SELECT
+           (SELECT COUNT(*) FROM consultations WHERE patient_id = ?) AS consultations,
+           (SELECT COUNT(*) FROM calculations WHERE patient_id = ?) AS calculations,
+           (SELECT COUNT(*) FROM attachments WHERE patient_id = ?) AS attachments,
+           (SELECT COUNT(*) FROM meal_plans WHERE patient_id = ?) AS mealPlans`,
+        [id, id, id, id],
+      );
+      return row ?? { consultations: 0, calculations: 0, attachments: 0, mealPlans: 0 };
+    },
+
     async create(input: PatientInput): Promise<string> {
       const id = newId();
       const now = nowIso();
@@ -68,7 +81,8 @@ export function patientsRepository(db: SqlDatabase) {
 
     async remove(id: string): Promise<void> {
       await db.runAsync('DELETE FROM patients WHERE id = ?', [id]);
-      notifyChange('patients', 'consultations', 'calculations', 'attachments', 'tasks', 'appointments');
+      // Tudo que sai junto (ON DELETE CASCADE) ou perde o vínculo (SET NULL).
+      notifyChange('patients', 'consultations', 'calculations', 'attachments', 'tasks', 'appointments', 'meal_plans', 'meal_plan_items');
     },
   };
 }

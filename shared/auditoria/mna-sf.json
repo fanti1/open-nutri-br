@@ -1,0 +1,43 @@
+{
+  "slug": "mna-sf",
+  "status": "conferido",
+  "verified_at": "2026-09-24",
+  "summary": "Itens, pontuações e as três categorias conferidos no formulário oficial (revisão 2009) e no texto completo de Kaiser et al. (2009).",
+  "formula": "Soma de 6 itens (A ingestão 0–2, B perda de peso 0–3, C mobilidade 0–2, D estresse/doença aguda 0 ou 2, E neuropsicológico 0–2, F IMC 0–3). 12–14 normal · 8–11 risco de desnutrição · 0–7 desnutrido.",
+  "sources": [
+    {
+      "citation": "Nestlé Nutrition Institute. Mini Nutritional Assessment MNA-SF (formulário oficial, revisão 2009).",
+      "url": "https://www.mna-elderly.com/sites/default/files/2021-10/mna-mini-english.pdf",
+      "evidence": "documento_oficial",
+      "checked": "Formulário MNA-SF: pontuação de cada item e faixas 12–14 / 8–11 / 0–7."
+    },
+    {
+      "citation": "Kaiser MJ, Bauer JM, Ramsch C et al. Validation of the Mini Nutritional Assessment short-form (MNA-SF): a practical tool for identification of nutritional status. J Nutr Health Aging. 2009;13(9):782-8.",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12878690/",
+      "pmid": "19812868",
+      "evidence": "texto_completo",
+      "checked": "Validação da versão revisada com três categorias: 0–7 desnutrido; 8–11 risco; 12–14 bem nutrido."
+    },
+    {
+      "citation": "Rubenstein LZ, Harker JO, Salvà A, Guigoz Y, Vellas B. Screening for undernutrition in geriatric practice: developing the short-form mini-nutritional assessment (MNA-SF). J Gerontol A Biol Sci Med Sci. 2001;56(6):M366-72.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/11382797/",
+      "pmid": "11382797",
+      "evidence": "resumo",
+      "checked": "Versão original (duas categorias, corte 11)."
+    }
+  ],
+  "notes": [
+    "O formulário permite trocar o IMC pela circunferência da panturrilha (0 ou 3 pontos); no app use a pontuação equivalente no item F."
+  ],
+  "changes": [
+    {
+      "date": "2026-09-24",
+      "version": "v1",
+      "text": "Citação corrigida: as três categorias usadas são as de Kaiser et al. (2009), não as de Rubenstein et al. (2001)."
+    }
+  ],
+  "example": {
+    "spec_case": 0,
+    "calculation": "2 + 3 + 2 + 2 + 2 + 3 = 14 → 12 a 14 → estado nutricional normal."
+  }
+}

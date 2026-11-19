@@ -1,0 +1,24 @@
+{
+  "slug": "peso-ideal",
+  "status": "conferido_com_ressalvas",
+  "verified_at": "2026-09-24",
+  "summary": "Fórmula de Devine conferida em reprodução aberta; o artigo original (1974) não é indexado e não foi acessado.",
+  "formula": "Estatura em polegadas = metros × 39,3701. Homens: 50 + 2,3 × (polegadas − 60). Mulheres: 45,5 + 2,3 × (polegadas − 60).",
+  "sources": [
+    {
+      "citation": "Devine BJ. Gentamicin therapy. Drug Intell Clin Pharm. 1974;8:650-5 (não indexada; fórmula conferida em reprodução aberta).",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13516392/",
+      "evidence": "reproducao",
+      "checked": "50 kg + 2,3 kg por polegada acima de 5 pés (homens) e 45,5 kg + 2,3 kg (mulheres)."
+    }
+  ],
+  "notes": [
+    "Abaixo de 5 pés (152,4 cm) a fórmula não é definida pelo autor; o app não subtrai (usa 0 polegada extra).",
+    "A fórmula nasceu para dose de gentamicina, não como meta de peso; é usada assim por convenção."
+  ],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "1,80 m = 70,866 pol; 70,866 − 60 = 10,866; 50 + 2,3 × 10,866 = 74,99 kg."
+  }
+}

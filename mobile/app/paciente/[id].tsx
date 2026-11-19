@@ -1,11 +1,9 @@
-import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, View } from 'react-native';
 import { useData } from '../../src/data/DataProvider';
+import { LIFE_STAGE_LABELS } from '../../src/domain/calculators/support/lifeStage';
 import { usePatient, useSettings } from '../../src/data/hooks';
 import { useLiveQuery } from '../../src/data/useLiveQuery';
-import { LifeStageBadge } from '../../src/features/common/LifeStageBadge';
 import { buildPatientReportHtml } from '../../src/features/files/patientReport';
 import { MealPlanList } from '../../src/features/mealPlans/MealPlanList';
 import { exportPdf } from '../../src/features/files/printService';
@@ -17,11 +15,11 @@ import { FilesSection } from '../../src/features/patients/sections/FilesSection'
 import { SummarySection } from '../../src/features/patients/sections/SummarySection';
 import { formatAge, formatDate } from '../../src/lib/format';
 import { useTheme } from '../../src/theme/ThemeProvider';
-import { AppText } from '../../src/ui/AppText';
-import { Avatar } from '../../src/ui/Avatar';
 import { Button } from '../../src/ui/Button';
+import { Card } from '../../src/ui/Card';
 import { confirm } from '../../src/ui/dialogs';
 import { EmptyState } from '../../src/ui/EmptyState';
+import { IconButton } from '../../src/ui/IconButton';
 import { IconTile } from '../../src/ui/IconTile';
 import { ListItem } from '../../src/ui/ListItem';
 import { Screen } from '../../src/ui/Screen';
@@ -36,16 +34,16 @@ export default function PatientRecordScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const { colors } = useTheme();
-  const { patients, consultations, calculations, attachments, mealPlans } = useData();
+  const { patients, consultations, calculations } = useData();
   const { data: patient, loading } = usePatient(id);
   const { data: settings } = useSettings();
   const [tab, setTab] = useState<Tab>('resumo');
   const [menuOpen, setMenuOpen] = useState(false);
-  const { data: counts } = useLiveQuery(['consultations', 'calculations', 'attachments', 'meal_plans'], async () => {
-    if (!id) return undefined;
-    const [c, k, a, m] = await Promise.all([consultations.listByPatient(id), calculations.listByPatient(id), attachments.listByPatient(id), mealPlans.list(id)]);
-    return { consultations: c.length, calculations: k.length, attachments: a.length, mealPlans: m.length };
-  }, [id]);
+  const { data: counts } = useLiveQuery(
+    ['consultations', 'calculations', 'attachments', 'meal_plans'],
+    async () => (id ? patients.recordCounts(id) : undefined),
+    [id],
+  );
 
   if (!patient) {
     return (
@@ -88,33 +86,16 @@ export default function PatientRecordScreen() {
   return (
     <Screen
       back
-      title="Ficha"
-      right={
-        <Pressable accessibilityLabel="Mais opções" onPress={() => setMenuOpen(true)} hitSlop={12}>
-          <Ionicons name="ellipsis-horizontal-circle" size={28} color={colors.text} />
-        </Pressable>
-      }
+      title={patient.name}
+      subtitle={`${LIFE_STAGE_LABELS[patientLifeStage(patient)]} · ${formatAge(patient.birth_date)} · ${sexLabel(patient.sex)} · nasc. ${formatDate(patient.birth_date)}`}
+      hero={{ overlap: 36 }}
+      right={<IconButton icon="ellipsis-horizontal" label="Mais opções" variant="onHero" onPress={() => setMenuOpen(true)} />}
     >
-      <View style={{ flexDirection: 'row', gap: 14, alignItems: 'center' }}>
-        <Avatar name={patient.name} size={56} />
-        <View style={{ flex: 1, gap: 4 }}>
-          <AppText variant="title" numberOfLines={2}>
-            {patient.name}
-          </AppText>
-          <View style={{ flexDirection: 'row', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
-            <LifeStageBadge stage={patientLifeStage(patient)} />
-            <AppText variant="caption" tone="muted">
-              {formatAge(patient.birth_date)} · {sexLabel(patient.sex)} · nasc. {formatDate(patient.birth_date)}
-            </AppText>
-          </View>
-        </View>
-      </View>
-
-      <View style={{ flexDirection: 'row', gap: 8 }}>
+      <Card style={{ flexDirection: 'row', gap: 8, padding: 10 }}>
         <Button label="Atendimento" icon="add" size="sm" onPress={() => router.push(`/atendimento/novo?patientId=${patient.id}`)} style={{ flex: 1.2 }} />
         <Button label="Calcular" icon="calculator-outline" size="sm" variant="secondary" onPress={() => router.push(`/paciente/calcular/${patient.id}`)} style={{ flex: 1 }} />
         <Button label="Agendar" icon="calendar-outline" size="sm" variant="secondary" onPress={() => router.push(`/compromisso/novo?patientId=${patient.id}`)} style={{ flex: 1 }} />
-      </View>
+      </Card>
 
       <TabBar
         tabs={[

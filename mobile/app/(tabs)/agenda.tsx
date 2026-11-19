@@ -40,7 +40,12 @@ export default function AgendaScreen() {
   const newAppointment = () => router.push(`/compromisso/novo?date=${toDateOnly(selected)}`);
 
   return (
-    <Screen title="Agenda" subtitle="Organize seus atendimentos e receba lembretes" floating={<Fab label="Agendar" icon="add" onPress={newAppointment} />}>
+    <Screen
+      title="Agenda"
+      subtitle="Organize seus atendimentos e receba lembretes"
+      hero={{ overlap: 44 }}
+      floating={<Fab label="Agendar" icon="add" onPress={newAppointment} />}
+    >
       <Card>
         <MonthCalendar
           month={month}

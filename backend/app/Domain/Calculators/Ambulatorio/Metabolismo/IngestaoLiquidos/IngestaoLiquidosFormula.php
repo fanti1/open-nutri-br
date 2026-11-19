@@ -5,22 +5,16 @@ namespace App\Domain\Calculators\Ambulatorio\Metabolismo\IngestaoLiquidos;
 use App\Domain\Calculators\Contracts\FormulaInterface;
 
 /**
- * 30–35 mL/kg/dia (adulto).
- * Reference: ESPEN Guideline on Home Enteral Nutrition.
+ * Líquidos (mL/dia) = peso × mL/kg/dia escolhido pelo profissional. A
+ * recomendação conferida para idosos (ESPEN, 2019: pelo menos 1,6 L/dia de
+ * bebidas para mulheres e 2,0 L/dia para homens) aparece como orientação.
  */
 final class IngestaoLiquidosFormula implements FormulaInterface
 {
-    private const MIN_ML_PER_KG = 30;
-
-    private const MAX_ML_PER_KG = 35;
-
     public function compute(array $inputs): array
     {
-        $weightKg = (float) $inputs['weight_kg'];
-
         return [
-            'min_ml_per_day' => round($weightKg * self::MIN_ML_PER_KG, 2),
-            'max_ml_per_day' => round($weightKg * self::MAX_ML_PER_KG, 2),
+            'ml_per_day' => round((float) $inputs['weight_kg'] * (float) $inputs['ml_per_kg'], 2),
         ];
     }
 }

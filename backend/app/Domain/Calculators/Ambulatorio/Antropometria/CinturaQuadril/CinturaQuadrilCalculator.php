@@ -27,7 +27,7 @@ final class CinturaQuadrilCalculator extends AbstractCalculator
 
     public function version(): string
     {
-        return 'v1';
+        return 'v2';
     }
 
     public function inputsSchema(): array
@@ -43,7 +43,7 @@ final class CinturaQuadrilCalculator extends AbstractCalculator
     {
         return new CalculatorReference(
             method: 'Relação Cintura-Quadril (RCQ)',
-            citation: 'World Health Organization, Waist Circumference and Waist-Hip Ratio: Report of a WHO Expert Consultation, 2008.',
+            citation: 'World Health Organization, Waist Circumference and Waist-Hip Ratio: Report of a WHO Expert Consultation, 2008 (Tabela A1).',
         );
     }
 

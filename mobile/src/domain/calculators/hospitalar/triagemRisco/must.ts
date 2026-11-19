@@ -1,3 +1,4 @@
+import { exceeds, reaches } from '../../support/cutoff';
 import { makeCalculator } from '../../support/makeCalculator';
 
 export interface MustInputs {
@@ -11,7 +12,7 @@ export interface MustInputs {
 export function mustFormula(inputs: MustInputs): Record<string, number> {
   const bmi = inputs.weight_kg / inputs.height_m ** 2;
 
-  const bmiScore = bmi > 20.0 ? 0 : bmi >= 18.5 ? 1 : 2;
+  const bmiScore = exceeds(bmi, 20.0) ? 0 : reaches(bmi, 18.5) ? 1 : 2;
   const weightLossScore = inputs.weight_loss_percent < 5 ? 0 : inputs.weight_loss_percent <= 10 ? 1 : 2;
   const diseaseScore = inputs.acute_disease_effect ? 2 : 0;
 

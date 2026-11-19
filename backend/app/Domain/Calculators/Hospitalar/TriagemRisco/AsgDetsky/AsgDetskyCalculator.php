@@ -27,7 +27,7 @@ final class AsgDetskyCalculator extends AbstractCalculator
 
     public function version(): string
     {
-        return 'v1';
+        return 'v2';
     }
 
     public function inputsSchema(): array
@@ -41,6 +41,8 @@ final class AsgDetskyCalculator extends AbstractCalculator
             'functional_capacity_rating' => $rule,
             'metabolic_demand_rating' => $rule,
             'physical_exam_rating' => $rule,
+            // A classificação da ASG é o julgamento global do avaliador.
+            'global_rating' => $rule,
         ];
     }
 

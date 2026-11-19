@@ -1,0 +1,31 @@
+{
+  "slug": "valor-calorico-total",
+  "status": "conferido",
+  "verified_at": "2026-09-24",
+  "summary": "VCT = TMB × PAL, com o PAL na faixa e nas categorias de estilo de vida da Tabela 5.3 da FAO/OMS/ONU; o exemplo resolvido é o do próprio relatório (seção 5.4.1).",
+  "formula": "VCT = TMB × PAL, com PAL de 1,40 a 2,40. Estilo de vida (Tabela 5.3): sedentário ou atividade leve 1,40–1,69 · ativo ou moderadamente ativo 1,70–1,99 · vigorosamente ativo 2,00–2,40.",
+  "sources": [
+    {
+      "citation": "FAO/WHO/UNU. Human energy requirements: report of a Joint FAO/WHO/UNU Expert Consultation (Roma, 2001). FAO Food and Nutrition Technical Report Series 1, 2004.",
+      "url": "https://www.fao.org/4/y5686e/y5686e.pdf",
+      "evidence": "documento_oficial",
+      "checked": "Tabela 5.3 (PAL 1,40–1,69 / 1,70–1,99 / 2,00–2,40; acima de 2,40 é difícil de manter) e seção 5.4.1 (necessidade = TMB × PAL; exemplo: 1.302 kcal × 1,85 = 2.410 kcal/dia, calculado em MJ)."
+    }
+  ],
+  "notes": [
+    "O profissional escolhe o PAL dentro da faixa da FAO; a classificação só nomeia o estilo de vida correspondente.",
+    "A FAO lembra que os valores servem para grupos; para um indivíduo, o PAL deve refletir a atividade habitual dele.",
+    "O relatório calcula em MJ (5,45 × 1,85 = 10,08 MJ = 2.410 kcal); em kcal direto, 1.302 × 1,85 = 2.408,7."
+  ],
+  "changes": [
+    {
+      "date": "2026-09-24",
+      "version": "v2",
+      "text": "Fatores 1,2 · 1,375 · 1,55 · 1,725 · 1,9 (sem fonte na FAO) substituídos pelo PAL da FAO, de 1,40 a 2,40, escolhido pelo profissional, com a categoria de estilo de vida da Tabela 5.3."
+    }
+  ],
+  "example": {
+    "spec_case": 0,
+    "calculation": "1.302 × 1,85 = 2.408,7 kcal/dia. PAL 1,85 está entre 1,70 e 1,99 → ativo ou moderadamente ativo."
+  }
+}

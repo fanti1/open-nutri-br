@@ -2,7 +2,8 @@
 
 ## Status
 Implementado (7 calculadoras, módulo `bioquimica`). Três itens do catálogo
-original deferidos (ver abaixo).
+original deferidos (ver abaixo); Martin-Hopkins e os cortes da OMS 2024 foram
+implementados depois, com a conferência registrada na ADR 0010.
 
 ## Calculadoras
 

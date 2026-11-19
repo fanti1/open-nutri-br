@@ -46,7 +46,7 @@ final class MnaSfCalculator extends AbstractCalculator
     {
         return new CalculatorReference(
             method: 'MNA-SF (Mini Nutritional Assessment — Short Form)',
-            citation: 'Rubenstein LZ et al., Screening for undernutrition in geriatric practice: developing the short-form MNA, J Gerontol A Biol Sci Med Sci, 2001; Guigoz Y, Vellas B, Garry PJ, 1994 (MNA original).',
+            citation: 'Kaiser MJ et al., Validation of the Mini Nutritional Assessment short-form (MNA-SF): a practical tool for identification of nutritional status, J Nutr Health Aging, 2009 (três categorias: 12–14 normal, 8–11 risco, 0–7 desnutrido); Rubenstein LZ et al., J Gerontol A Biol Sci Med Sci, 2001 (versão original, dois grupos); formulário oficial MNA-SF, Nestlé, revisão 2009.',
         );
     }
 

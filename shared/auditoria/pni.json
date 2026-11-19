@@ -1,0 +1,44 @@
+{
+  "slug": "pni",
+  "status": "pendente",
+  "verified_at": "2026-09-24",
+  "summary": "Fórmula conferida só em reproduções, que divergem no coeficiente da transferrina (0,20 em duas, 0,22 em uma); o artigo original não é aberto. As faixas de risco usadas antes (< 30, 30–59, ≥ 60) não tinham fonte e foram retiradas.",
+  "formula": "PNI (%) = 158 − 16,6 × albumina (g/dL) − 0,78 × prega tricipital (mm) − 0,20 × transferrina (mg/dL) − 5,8 × hipersensibilidade cutânea tardia (0 anérgico, 1 induração < 5 mm, 2 ≥ 5 mm). Sem classificação.",
+  "sources": [
+    {
+      "citation": "Buzby GP, Mullen JL, Matthews DC, Hobbs CL, Rosato EF. Prognostic nutritional index in gastrointestinal surgery. Am J Surg. 1980;139(1):160-7.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/7350839/",
+      "pmid": "7350839",
+      "evidence": "resumo",
+      "checked": "Artigo original do índice (Am J Surg, 1980); o resumo não traz a fórmula nem faixas de risco."
+    },
+    {
+      "citation": "Mori S, Usami N, Fukumoto K et al. The significance of the prognostic nutritional index in patients with completely resected non-small cell lung cancer. PLoS One. 2015;10(9):e0136897.",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4565697/",
+      "evidence": "reproducao",
+      "checked": "Fórmula de Buzby: 158 − 16,6 × albumina − 0,78 × prega tricipital − 0,20 × transferrina − 5,8 × hipersensibilidade."
+    },
+    {
+      "citation": "Iwata E, Obata K, Kikuta S et al. Admission prognostic nutritional index predicts prolonged hospitalization in severe odontogenic deep neck infections. Odontology. 2026;114(2):664-73.",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13053453/",
+      "pmid": "40615648",
+      "evidence": "reproducao",
+      "checked": "Mesma fórmula, mas com 0,22 × transferrina; hipersensibilidade pontuada de 0 a 2."
+    }
+  ],
+  "notes": [
+    "O coeficiente da transferrina precisa ser conferido no artigo original: o app usa 0,20, como na maioria das reproduções.",
+    "Uma calculadora on-line (ScyMed MediCalc) usa faixas < 40% baixo, 40–49% moderado e > 50% alto risco e pontua a hipersensibilidade como anérgico = 1, reativo = 2 — diferente da pontuação 0–2 das reproduções em artigos. Nenhuma das faixas foi adotada sem o artigo original."
+  ],
+  "changes": [
+    {
+      "date": "2026-09-24",
+      "version": "v2",
+      "text": "Retirada a classificação de risco (< 30 / 30–59 / ≥ 60, sem fonte) e corrigida a citação (Am J Surg, não Ann Surg); o cálculo não mudou."
+    }
+  ],
+  "example": {
+    "spec_case": 0,
+    "calculation": "158 − 16,6 × 4,0 − 0,78 × 15 − 0,20 × 250 − 5,8 × 2 = 158 − 66,4 − 11,7 − 50 − 11,6 = 18,3%."
+  }
+}

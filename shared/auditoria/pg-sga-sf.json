@@ -1,0 +1,29 @@
+{
+  "slug": "pg-sga-sf",
+  "status": "pendente",
+  "verified_at": "2026-09-24",
+  "summary": "As faixas de triagem são as mais usadas, mas o formulário oficial (e o valor máximo de cada box) não pôde ser conferido.",
+  "formula": "Total = box 1 + box 2 + box 3 + box 4. 0–1 sem intervenção · 2–3 educação nutricional · 4–8 intervenção por nutricionista · ≥ 9 intervenção crítica.",
+  "sources": [
+    {
+      "citation": "Ottery FD. Definition of standardized nutritional assessment and interventional pathways in oncology. Nutrition. 1996;12(1 Suppl):S15-9; formulário oficial PG-SGA (Pt-Global).",
+      "url": "https://pt-global.org",
+      "evidence": "nao_acessado",
+      "checked": "Formulário oficial; não acessado."
+    },
+    {
+      "citation": "Uso das faixas de pontuação do PG-SGA SF (0-3, 4-8, 9 ou mais) em artigo de acesso aberto.",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11719838/",
+      "evidence": "reproducao",
+      "checked": "Faixas de pontuação 0–3, 4–8 e 9 ou mais usadas em artigo aberto (compatíveis com as do app)."
+    }
+  ],
+  "notes": [
+    "Limites aceitos por box no app: 0–4, 0–4, 0–24, 0–4. O box 1 do formulário pode somar pontos extras (perda nas últimas 2 semanas); conferir no formulário oficial."
+  ],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "0 + 0 + 0 + 0 = 0 → sem necessidade de intervenção."
+  }
+}

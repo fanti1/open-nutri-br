@@ -1,0 +1,37 @@
+{
+  "slug": "durnin-womersley",
+  "status": "conferido_com_ressalvas",
+  "verified_at": "2026-09-24",
+  "summary": "Os 10 pares de coeficientes (5 faixas etárias × 2 sexos) conferidos em duas reproduções abertas; o artigo original (1974) não foi acessado.",
+  "formula": "D = c − m × log10(Σ bíceps + tríceps + subescapular + suprailíaca), com c e m por sexo e faixa etária (17–19, 20–29, 30–39, 40–49, 50+). %G (Siri) = (4,95/D − 4,50) × 100.",
+  "sources": [
+    {
+      "citation": "Durnin JV, Womersley J. Body fat assessed from total body density and its estimation from skinfold thickness. Br J Nutr. 1974;32(1):77-97.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/4843734/",
+      "pmid": "4843734",
+      "evidence": "nao_acessado",
+      "checked": "Tabela original de c e m; artigo não acessível em versão aberta."
+    },
+    {
+      "citation": "Reprodução aberta das equações de Jackson-Pollock de 3 dobras (com termo de idade), de Durnin-Womersley (faixas até 19 e 20-29 anos) e da equação de Siri.",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10453806/",
+      "evidence": "reproducao",
+      "checked": "Homens até 19 anos 1,1620 / 0,0630 e 20–29 anos 1,1631 / 0,0632; mulheres até 19 anos 1,1549 / 0,0678 e 20–29 anos 1,1599 / 0,0717; equação de Siri."
+    },
+    {
+      "citation": "Naz H, Mushtaq K, Butt BA, Khawaja KI. Estimation of body fat in Pakistani adult: a comparison of equations based upon skinfold thickness measurements. Pak J Med Sci. 2017;33(3):635-9.",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5510117/",
+      "pmid": "28811785",
+      "evidence": "reproducao",
+      "checked": "Tabela de Durnin-Womersley por idade e sexo: homens 17–19 1,1620/0,0630; 20–29 1,1631/0,0632; 30–39 1,1422/0,0544; 40–49 1,1620/0,0700; 50+ 1,1715/0,0779; mulheres 17–19 1,1549/0,0678; 20–29 1,1599/0,0717; 30–39 1,1423/0,0632; 40–49 1,1333/0,0612; 50+ 1,1339/0,0645."
+    }
+  ],
+  "notes": [
+    "A reprodução escreve a última faixa como \"> 50\"; o app usa 50 anos ou mais, como é usual para a tabela original (a faixa anterior termina em 49)."
+  ],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "Homem de 25 anos → c = 1,1631, m = 0,0632. Σ = 47; log10(47) = 1,6721. D = 1,1631 − 0,0632 × 1,6721 = 1,0574. %G = (4,95 ÷ 1,0574 − 4,50) × 100 = 18,12%."
+  }
+}

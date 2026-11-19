@@ -1,0 +1,16 @@
+{
+  "slug": "dieta-enteral",
+  "status": "conferido",
+  "verified_at": "2026-09-24",
+  "summary": "Conta aritmética, sem constante clínica.",
+  "formula": "Taxa (mL/h) = volume-alvo (mL) ÷ duração da infusão (h).",
+  "sources": [],
+  "notes": [
+    "Não há parâmetro científico a conferir: o volume e a duração são definidos pelo profissional."
+  ],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "1.440 ÷ 24 = 60 mL/h."
+  }
+}

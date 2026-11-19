@@ -34,7 +34,7 @@ final class GorduraCorporalCalculator extends AbstractCalculator
         return [
             'weight_kg' => ['required', 'numeric', 'min:1', 'max:500'],
             'height_m' => ['required', 'numeric', 'min:0.3', 'max:2.5'],
-            'age_years' => ['required', 'integer', 'min:1', 'max:120'],
+            'age_years' => ['required', 'integer', 'min:16', 'max:120'],
             'sex' => ['required', 'in:male,female'],
         ];
     }
@@ -48,8 +48,9 @@ final class GorduraCorporalCalculator extends AbstractCalculator
     }
 
     /**
-     * Esta versão da equação de Deurenberg (1991) foi validada em adultos; há
-     * uma variante pediátrica distinta na literatura, ainda não implementada.
+     * Esta é a equação de adultos de Deurenberg (1991). O próprio artigo mostra
+     * que até 15 anos a relação é outra (equação pediátrica, não implementada),
+     * por isso a idade mínima é 16 anos.
      */
     public function lifeStages(): array
     {

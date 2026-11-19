@@ -1,0 +1,35 @@
+{
+  "slug": "waterlow",
+  "status": "pendente",
+  "verified_at": "2026-09-24",
+  "summary": "As medianas vêm das tabelas oficiais da OMS (conferidas) e o corte de 90% do peso para a estatura foi conferido em reprodução aberta; o de 95% da estatura para a idade ainda não. O artigo original só existe como imagem digitalizada.",
+  "formula": "P/E = peso ÷ mediana OMS de peso-para-estatura × 100; E/I = estatura ÷ mediana OMS de estatura-para-idade × 100. P/E < 90% = déficit atual; E/I < 95% = déficit crônico.",
+  "sources": [
+    {
+      "citation": "Waterlow JC. Classification and definition of protein-calorie malnutrition. BMJ. 1972;3(5826):566-9.",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC1785878/",
+      "pmid": "4627051",
+      "evidence": "nao_acessado",
+      "checked": "Artigo original; não conferido (imagem digitalizada)."
+    },
+    {
+      "citation": "WHO Multicentre Growth Reference Study Group. WHO Child Growth Standards (2006): tabelas LMS oficiais do pacote anthro e algoritmo do próprio pacote.",
+      "url": "https://www.who.int/tools/child-growth-standards/standards",
+      "evidence": "documento_oficial",
+      "checked": "Medianas de peso-para-estatura e estatura-para-idade (tabelas oficiais)."
+    },
+    {
+      "citation": "Sandler A. The legacy of a standard of normality in child nutrition research. SSM Popul Health. 2021;15:100865.",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8319510/",
+      "pmid": "34345645",
+      "evidence": "reproducao",
+      "checked": "Waterlow (1972), peso para a estatura: graus 90–80, 80–70 e < 70% da mediana (abaixo de 90% = desnutrição atual). O corte de 95% da estatura para a idade não aparece nessa reprodução."
+    }
+  ],
+  "notes": [],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "Menina, 1.096 dias, 88 cm em pé, 11 kg: mediana P/E = 12,1478 kg → 90,55%; mediana E/I = 95,0572 cm → 92,58%. P/E ≥ 90 e E/I < 95 → desnutrição pregressa."
+  }
+}

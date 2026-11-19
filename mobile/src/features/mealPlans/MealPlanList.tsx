@@ -86,10 +86,12 @@ function PlanRow({
   colors: ReturnType<typeof useTheme>['colors'];
 }) {
   const isPlan = plan.kind === 'plano';
+  const details = [showPatient && plan.patient_name, plan.reference_date && formatDate(plan.reference_date), `${plan.item_count} ${plan.item_count === 1 ? 'alimento' : 'alimentos'}`].filter(Boolean);
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={plan.title}
+      // Título, detalhes e total: o plano não se confunde com o botão "Plano alimentar" que cria um novo.
+      accessibilityLabel={[plan.title, ...details, `${formatNumber(Math.round(kcal))} kcal`].join(', ')}
       onPress={onPress}
       style={({ pressed }) => ({
         flexDirection: 'row',
@@ -108,9 +110,7 @@ function PlanRow({
           {plan.title}
         </AppText>
         <AppText variant="caption" tone="muted" numberOfLines={1}>
-          {[showPatient && plan.patient_name, plan.reference_date && formatDate(plan.reference_date), `${plan.item_count} ${plan.item_count === 1 ? 'alimento' : 'alimentos'}`]
-            .filter(Boolean)
-            .join(' · ')}
+          {details.join(' · ')}
         </AppText>
         <Badge label={isPlan ? 'Plano alimentar' : 'Recordatório 24 h'} color={isPlan ? colors.primary : colors.accent} />
       </View>

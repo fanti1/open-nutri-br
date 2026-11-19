@@ -1,0 +1,37 @@
+{
+  "slug": "gomez",
+  "status": "pendente",
+  "verified_at": "2026-09-24",
+  "summary": "A mediana vem da tabela oficial da OMS (conferida). As faixas de Gómez aparecem em reprodução aberta como 76–90 / 61–75 / < 60%, com limites que não coincidem exatamente com os do app; o artigo original só existe como imagem digitalizada.",
+  "formula": "% da mediana = peso ÷ mediana OMS de peso para a idade × 100. ≥ 90% sem desnutrição · 75–89,9% 1º grau · 60–74,9% 2º grau · < 60% 3º grau.",
+  "sources": [
+    {
+      "citation": "Gómez F, Ramos Galván R, Frenk S et al. Mortality in second and third degree malnutrition. J Trop Pediatr. 1956;2:77-83 (republicado em Bull World Health Organ. 2000;78(10):1275-80).",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2560616/",
+      "evidence": "nao_acessado",
+      "checked": "Artigo original; não conferido (imagem digitalizada)."
+    },
+    {
+      "citation": "WHO Multicentre Growth Reference Study Group. WHO Child Growth Standards (2006): tabelas LMS oficiais do pacote anthro e algoritmo do próprio pacote.",
+      "url": "https://www.who.int/tools/child-growth-standards/standards",
+      "evidence": "documento_oficial",
+      "checked": "Mediana de peso-para-idade (tabela oficial)."
+    },
+    {
+      "citation": "Sandler A. The legacy of a standard of normality in child nutrition research. SSM Popul Health. 2021;15:100865.",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8319510/",
+      "pmid": "34345645",
+      "evidence": "reproducao",
+      "checked": "Gómez et al. (1956): peso para a idade 76–90% da mediana = 1º grau, 61–75% = 2º grau, menos de 60% = 3º grau."
+    }
+  ],
+  "notes": [
+    "Os autores usavam a referência da época; o app usa a mediana dos Padrões OMS 2006, que é a prática atual (ADR 0002).",
+    "Nos valores exatos dos limites a reprodução e o app podem divergir (ex.: 90% é 1º grau na reprodução e sem desnutrição no app; 75% é 2º grau na reprodução e 1º grau no app). Nada foi alterado sem o texto original."
+  ],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "Menino, 365 dias: mediana OMS = 9,646 kg. 7,0 ÷ 9,646 × 100 = 72,57% → 60 a 74,9% → desnutrição de 2º grau."
+  }
+}

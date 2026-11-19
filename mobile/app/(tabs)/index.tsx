@@ -2,17 +2,22 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { Pressable, View } from 'react-native';
 import { useData } from '../../src/data/DataProvider';
-import { useFavorites, useSettings } from '../../src/data/hooks';
+import { useAudience, useFavorites, useSettings } from '../../src/data/hooks';
 import { backupOverdue } from '../../src/data/services/backupService';
 import { useLiveQuery } from '../../src/data/useLiveQuery';
-import { catalogEntry, type CatalogEntry } from '../../src/domain/catalog';
+import { LIFE_STAGE_PLURAL } from '../../src/domain/calculators/support/lifeStage';
+import { CATALOG, catalogEntry, MODULES, type CatalogEntry } from '../../src/domain/catalog';
 import { AppointmentRow } from '../../src/features/agenda/AppointmentRow';
+import { AreaGrid, AreaTile } from '../../src/features/calculators/AreaTile';
 import { CalculatorGroup } from '../../src/features/calculators/CalculatorRow';
+import { PatientRow } from '../../src/features/patients/PatientRow';
 import { TaskRow } from '../../src/features/tasks/TaskRow';
-import { addDays, formatAge, formatTime, formatWeekday, startOfDay } from '../../src/lib/format';
+import { addDays, formatTime, formatWeekday, startOfDay } from '../../src/lib/format';
 import { useTheme } from '../../src/theme/ThemeProvider';
+import { elevation } from '../../src/theme/tokens';
 import { AppText } from '../../src/ui/AppText';
 import { Avatar } from '../../src/ui/Avatar';
+import { Callout } from '../../src/ui/Callout';
 import { Card } from '../../src/ui/Card';
 import { IconTile, type IconName } from '../../src/ui/IconTile';
 import { Screen } from '../../src/ui/Screen';
@@ -31,10 +36,12 @@ function plural(count: number, one: string, many: string): string {
 
 export default function HomeScreen() {
   const router = useRouter();
-  const { colors } = useTheme();
+  const { colors, dark } = useTheme();
+  const [audience] = useAudience();
   const { patients, appointments, tasks, taskActions, calculations } = useData();
   const { data: settings } = useSettings();
   const { data: favoriteSlugs = [] } = useFavorites();
+  const openPatient = (id: string) => router.push(`/paciente/${id}`);
 
   const today = startOfDay(new Date());
   const { data: dashboard } = useLiveQuery(['patients', 'appointments', 'tasks', 'calculations'], async () => {
@@ -58,6 +65,7 @@ export default function HomeScreen() {
   const firstName = profileName.split(' ')[0];
   const scheduledToday = dashboard?.todayAppointments.filter((a) => a.status === 'agendado') ?? [];
   const next = dashboard?.upcoming[0];
+  const nextLabel = next ? `${formatTime(next.starts_at)} · ${next.patient_name ? `${next.title} com ${next.patient_name}` : next.title}` : null;
   // Só lembra do backup quando já existe algo a perder.
   const backupDue = !!dashboard?.recentPatients.length && backupOverdue(settings?.last_backup_at ?? null);
 
@@ -65,56 +73,55 @@ export default function HomeScreen() {
     <Screen
       title={`${greeting()}${firstName ? `, ${firstName}` : ''}!`}
       subtitle={formatWeekday(new Date())}
+      hero={{ overlap: 64 }}
       right={
-        <Pressable accessibilityLabel="Perfil profissional" onPress={() => router.push('/perfil')} hitSlop={8}>
-          <Avatar name={profileName || 'OpenNutri'} size={40} />
+        <Pressable accessibilityRole="button" accessibilityLabel="Perfil profissional" onPress={() => router.push('/perfil')} hitSlop={8}>
+          {/* Avatar sobre um disco branco: as iniciais coloridas não somem no verde do cabeçalho. */}
+          <View style={{ padding: 3, borderRadius: 28, backgroundColor: colors.surface }}>
+            <Avatar name={profileName || 'OpenNutri'} size={42} />
+          </View>
         </Pressable>
       }
     >
-      <Card tone="primary" onPress={() => router.push('/agenda')} style={{ gap: 12 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-          <AppText variant="overline" tone="onPrimary" style={{ opacity: 0.85 }}>
-            Hoje
-          </AppText>
-          <Ionicons name="chevron-forward" size={18} color={colors.onPrimary} />
+      <Card
+        onPress={() => router.push('/agenda')}
+        accessibilityLabel={`Hoje: ${plural(scheduledToday.length, 'atendimento', 'atendimentos')} e ${plural(dashboard?.openTasks ?? 0, 'tarefa pendente', 'tarefas pendentes')}. ${nextLabel ? `Próximo: ${nextLabel}.` : 'Agenda livre.'} Abrir agenda.`}
+        style={[{ gap: 14 }, elevation(2, dark)]}
+      >
+        <View style={{ flexDirection: 'row', gap: 10 }}>
+          <TodayMetric value={scheduledToday.length} label={scheduledToday.length === 1 ? 'atendimento hoje' : 'atendimentos hoje'} color={colors.primary} background={colors.primarySoft} />
+          <TodayMetric value={dashboard?.openTasks ?? 0} label={dashboard?.openTasks === 1 ? 'tarefa pendente' : 'tarefas pendentes'} color={colors.sun} background={colors.sunSoft} />
         </View>
-        <View style={{ flexDirection: 'row', gap: 24 }}>
-          <TodayMetric value={scheduledToday.length} label={scheduledToday.length === 1 ? 'atendimento' : 'atendimentos'} />
-          <TodayMetric value={dashboard?.openTasks ?? 0} label={dashboard?.openTasks === 1 ? 'tarefa pendente' : 'tarefas pendentes'} />
-        </View>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingTop: 12, borderTopWidth: 1, borderTopColor: `${colors.onPrimary}33` }}>
-          <Ionicons name="time-outline" size={16} color={colors.onPrimary} />
-          <AppText variant="caption" tone="onPrimary" numberOfLines={1} style={{ flex: 1 }}>
-            {next ? `Próximo: ${formatTime(next.starts_at)} — ${next.patient_name ?? next.title}` : 'Agenda livre — nenhum atendimento marcado'}
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+          <View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: next ? colors.coralFill : colors.textSubtle }} />
+          <AppText variant="bodyStrong" numberOfLines={1} style={{ flex: 1, fontSize: 14 }}>
+            {nextLabel ?? 'Agenda livre: nenhum atendimento marcado'}
           </AppText>
+          <Ionicons name="chevron-forward" size={18} color={colors.textSubtle} />
         </View>
       </Card>
 
       {backupDue && (
-        <Card onPress={() => router.push('/backup')} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, borderColor: colors.warning, backgroundColor: colors.warningSoft }}>
-          <Ionicons name="cloud-upload-outline" size={22} color={colors.warning} />
-          <View style={{ flex: 1 }}>
-            <AppText variant="bodyStrong" color={colors.warning}>
-              {settings?.last_backup_at ? 'Faça um novo backup' : 'Faça seu primeiro backup'}
-            </AppText>
-            <AppText variant="caption" color={colors.warning}>
-              Seus dados ficam só neste celular. Salve uma cópia no Google Drive.
-            </AppText>
-          </View>
-          <Ionicons name="chevron-forward" size={18} color={colors.warning} />
-        </Card>
+        <Callout tone="warning" icon="cloud-upload-outline" title={settings?.last_backup_at ? 'Faça um novo backup' : 'Faça seu primeiro backup'} onPress={() => router.push('/backup')}>
+          Seus dados ficam só neste celular. Salve uma cópia no Google Drive.
+        </Callout>
       )}
 
-      <View style={{ gap: 10 }}>
-        <View style={{ flexDirection: 'row', gap: 10 }}>
-          <QuickAction icon="person-add-outline" label="Novo paciente" onPress={() => router.push('/paciente/novo')} />
-          <QuickAction icon="calendar-outline" label="Agendar" onPress={() => router.push('/compromisso/novo')} />
-        </View>
-        <View style={{ flexDirection: 'row', gap: 10 }}>
-          <QuickAction icon="checkbox-outline" label="Nova tarefa" onPress={() => router.push('/tarefa/novo')} />
-          <QuickAction icon="calculator-outline" label="Calculadoras" onPress={() => router.push('/calculadoras')} />
-        </View>
+      <View style={{ flexDirection: 'row', gap: 10 }}>
+        <QuickAction icon="person-add" label="Novo paciente" onPress={() => router.push('/paciente/novo')} />
+        <QuickAction icon="calendar" label="Agendar" onPress={() => router.push('/compromisso/novo')} />
+        <QuickAction icon="checkbox" label="Nova tarefa" onPress={() => router.push('/tarefa/novo')} />
       </View>
+
+      <Section size="lg" title="Calcular por área" description={`Métodos validados para ${LIFE_STAGE_PLURAL[audience]}`} action="Todas" onAction={() => router.push('/calculadoras')}>
+        <AreaGrid>
+          {MODULES.map((module) => ({ module, count: CATALOG.filter((entry) => entry.module === module.key && entry.life_stages.includes(audience)).length }))
+            .filter(({ count }) => count > 0)
+            .map(({ module, count }) => (
+              <AreaTile key={module.key} module={module} count={count} onPress={() => router.push(`/calculadoras?area=${module.key}`)} />
+            ))}
+        </AreaGrid>
+      </Section>
 
       {!!dashboard?.upcoming.length && (
         <Section size="lg" title="Próximos atendimentos" action="Agenda" onAction={() => router.push('/agenda')}>
@@ -150,30 +157,7 @@ export default function HomeScreen() {
         <Section size="lg" title="Pacientes recentes" action="Todos" onAction={() => router.push('/pacientes')}>
           <Card padded={false} style={{ overflow: 'hidden' }}>
             {dashboard.recentPatients.map((patient, index) => (
-              <Pressable
-                key={patient.id}
-                accessibilityRole="button"
-                onPress={() => router.push(`/paciente/${patient.id}`)}
-                style={({ pressed }) => ({
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: 12,
-                  paddingVertical: 12,
-                  paddingHorizontal: 14,
-                  borderTopWidth: index ? 1 : 0,
-                  borderTopColor: colors.border,
-                  opacity: pressed ? 0.7 : 1,
-                })}
-              >
-                <Avatar name={patient.name} size={36} />
-                <View style={{ flex: 1 }}>
-                  <AppText variant="bodyStrong">{patient.name}</AppText>
-                  <AppText variant="caption" tone="muted">
-                    {formatAge(patient.birth_date)}
-                  </AppText>
-                </View>
-                <Ionicons name="chevron-forward" size={18} color={colors.textSubtle} />
-              </Pressable>
+              <PatientRow key={patient.id} patient={patient} onPress={openPatient} divider={index > 0} />
             ))}
           </Card>
         </Section>
@@ -182,24 +166,27 @@ export default function HomeScreen() {
   );
 }
 
-function TodayMetric({ value, label }: { value: number; label: string }) {
+/** Número do dia num bloco de cor suave (atendimentos, tarefas). */
+function TodayMetric({ value, label, color, background }: { value: number; label: string; color: string; background: string }) {
+  const { radius } = useTheme();
   return (
-    <View>
-      <AppText variant="display" tone="onPrimary">
+    <View style={{ flex: 1, backgroundColor: background, borderRadius: radius.md, padding: 14 }}>
+      <AppText variant="display" color={color} style={{ fontSize: 32, lineHeight: 36 }}>
         {value}
       </AppText>
-      <AppText variant="caption" tone="onPrimary" style={{ opacity: 0.9 }}>
+      <AppText variant="caption" color={color} style={{ fontWeight: '800' }}>
         {label}
       </AppText>
     </View>
   );
 }
 
+/** Atalho em bloco: ícone sobre o rótulo, lado a lado — o rótulo inteiro sempre cabe. */
 function QuickAction({ icon, label, onPress }: { icon: IconName; label: string; onPress: () => void }) {
   return (
-    <Card onPress={onPress} style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 12, paddingHorizontal: 12 }}>
-      <IconTile name={icon} size={36} />
-      <AppText variant="bodyStrong" numberOfLines={1} style={{ flex: 1 }}>
+    <Card onPress={onPress} accessibilityLabel={label} style={{ flex: 1, alignItems: 'center', gap: 8, paddingVertical: 14, paddingHorizontal: 4 }}>
+      <IconTile name={icon} size={42} />
+      <AppText variant="small" align="center" numberOfLines={2} style={{ fontWeight: '800', fontSize: 13 }}>
         {label}
       </AppText>
     </Card>

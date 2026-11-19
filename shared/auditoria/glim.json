@@ -1,0 +1,24 @@
+{
+  "slug": "glim",
+  "status": "conferido",
+  "verified_at": "2026-09-24",
+  "summary": "Critérios fenotípicos, etiológicos e graus de gravidade conferidos no texto completo do consenso GLIM (Tabelas 3 e 4).",
+  "formula": "Desnutrição = ≥ 1 critério fenotípico + ≥ 1 etiológico. Moderada: perda 5–10% em 6 meses ou 10–20% em mais de 6 meses; IMC < 20 (< 70 anos) ou < 22 (≥ 70); déficit muscular leve/moderado. Grave: perda > 10% em 6 meses ou > 20% em mais de 6 meses; IMC < 18,5 (< 70 anos) ou < 20 (≥ 70); déficit muscular grave.",
+  "sources": [
+    {
+      "citation": "Cederholm T, Jensen GL, Correia MITD et al. GLIM criteria for the diagnosis of malnutrition: a consensus report from the global clinical nutrition community. J Cachexia Sarcopenia Muscle. 2019;10(1):207-17 (também Clin Nutr. 2019;38(1):1-9).",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6438340/",
+      "pmid": "30181091",
+      "evidence": "texto_completo",
+      "checked": "Tabela 3 (critérios) e Tabela 4 (gravidade: estágio 1 moderado e estágio 2 grave)."
+    }
+  ],
+  "notes": [
+    "A Tabela 3 fala em perda '> 5%' e a Tabela 4 em '5–10%'; o app considera 5% como moderada. Os cortes de IMC para asiáticos não estão implementados."
+  ],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "Perda de 3% em 6 meses, IMC 23 com 50 anos e sem perda muscular → nenhum critério fenotípico → sem desnutrição."
+  }
+}

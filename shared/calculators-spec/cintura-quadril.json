@@ -1,9 +1,13 @@
 {
   "slug": "cintura-quadril",
   "cases": [
-    { "inputs": { "waist_cm": 90, "hip_cm": 100, "sex": "male" }, "expected": { "values": { "value": 0.9 }, "classification": "risco_normal" } },
+    { "inputs": { "waist_cm": 90, "hip_cm": 100, "sex": "male" }, "expected": { "values": { "value": 0.9 }, "classification": "risco_aumentado" } },
     { "inputs": { "waist_cm": 95, "hip_cm": 100, "sex": "male" }, "expected": { "values": { "value": 0.95 }, "classification": "risco_aumentado" } },
     { "inputs": { "waist_cm": 80, "hip_cm": 100, "sex": "female" }, "expected": { "values": { "value": 0.8 }, "classification": "risco_normal" } },
-    { "inputs": { "waist_cm": 90, "hip_cm": 100, "sex": "female" }, "expected": { "values": { "value": 0.9 }, "classification": "risco_aumentado" } }
+    { "inputs": { "waist_cm": 90, "hip_cm": 100, "sex": "female" }, "expected": { "values": { "value": 0.9 }, "classification": "risco_aumentado" } },
+    { "inputs": { "waist_cm": 89, "hip_cm": 100, "sex": "male" }, "expected": { "values": { "value": 0.89 }, "classification": "risco_normal" } },
+    { "inputs": { "waist_cm": 85, "hip_cm": 100, "sex": "female" }, "expected": { "values": { "value": 0.85 }, "classification": "risco_aumentado" } },
+    { "inputs": { "waist_cm": 84, "hip_cm": 100, "sex": "female" }, "expected": { "values": { "value": 0.84 }, "classification": "risco_normal" } },
+    { "inputs": { "waist_cm": 76.5, "hip_cm": 90, "sex": "female" }, "expected": { "values": { "value": 0.85 }, "classification": "risco_aumentado" } }
   ]
 }

@@ -1,0 +1,27 @@
+# Os ids dos campos são preenchidos pelo app em "Mais → Relatar um problema → Sugestão" (mobile/src/lib/report.ts).
+name: Sugestão de melhoria
+description: Uma ideia que facilitaria o seu dia a dia com o app
+title: "[Sugestão] "
+labels: [sugestao]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Conte o problema que a sugestão resolve: isso ajuda mais do que descrever a solução. Uma calculadora nova precisa de fonte primária (artigo ou diretriz) — veja o [CONTRIBUTING](https://github.com/fanti1/open-nutri-br/blob/HEAD/CONTRIBUTING.md).
+  - type: textarea
+    id: descricao
+    attributes:
+      label: O que você sugere e por quê?
+      description: Em que situação do atendimento isso ajudaria?
+    validations:
+      required: true
+  - type: textarea
+    id: fonte
+    attributes:
+      label: Fonte científica (se for um método novo)
+      description: Artigo ou diretriz, com o local exato (página, tabela ou equação) e o link, se houver.
+  - type: input
+    id: versao
+    attributes:
+      label: Versão do app
+      placeholder: "1.0.0"

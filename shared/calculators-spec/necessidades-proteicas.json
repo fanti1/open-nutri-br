@@ -1,7 +1,9 @@
 {
   "slug": "necessidades-proteicas",
   "cases": [
-    { "inputs": { "weight_kg": 70, "clinical_context": "saudavel" }, "expected": { "values": { "protein_g_per_day": 56 }, "classification": null } },
-    { "inputs": { "weight_kg": 70, "clinical_context": "critico" }, "expected": { "values": { "protein_g_per_day": 140 }, "classification": null } }
+    { "inputs": { "weight_kg": 70, "protein_g_per_kg": 1.3 }, "expected": { "values": { "protein_g_per_day": 91 }, "classification": null } },
+    { "inputs": { "weight_kg": 70, "protein_g_per_kg": 0.8 }, "expected": { "values": { "protein_g_per_day": 56 }, "classification": null } },
+    { "inputs": { "weight_kg": 62.5, "protein_g_per_kg": 1.0 }, "expected": { "values": { "protein_g_per_day": 62.5 }, "classification": null } },
+    { "inputs": { "weight_kg": 81.3, "protein_g_per_kg": 1.5 }, "expected": { "values": { "protein_g_per_day": 121.95 }, "classification": null } }
   ]
 }

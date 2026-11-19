@@ -22,16 +22,17 @@ export interface BackupFile {
   format: typeof BACKUP_FORMAT;
   schema_version: number;
   exported_at: string;
-  data: Partial<Record<Table, Array<Record<string, SqlParam>>>>;
+  data: Partial<Record<Table, Record<string, SqlParam>[]>>;
 }
 
 export class InvalidBackupError extends Error {}
 
 /**
  * Configurações que pertencem ao aparelho, não aos dados: o PIN do bloqueio não
- * vai no backup (quem esqueceu o PIN reinstala e restaura sem ficar trancado).
+ * vai no backup (quem esqueceu o PIN reinstala e restaura sem ficar trancado), e
+ * o registro de erros é diagnóstico deste aparelho.
  */
-const DEVICE_ONLY_SETTINGS = ['app_lock'];
+const DEVICE_ONLY_SETTINGS = ['app_lock', 'error_log'];
 
 /** Dias sem backup a partir dos quais o app passa a lembrar. */
 export const BACKUP_REMINDER_DAYS = 7;
@@ -69,8 +70,15 @@ export function backupService(db: SqlDatabase) {
       }
 
       const backup = parsed as Partial<BackupFile>;
-      if (backup?.format !== BACKUP_FORMAT || typeof backup.data !== 'object') {
+      if (backup?.format !== BACKUP_FORMAT || typeof backup.data !== 'object' || backup.data === null) {
         throw new InvalidBackupError('O arquivo não é um backup válido do OpenNutri BR.');
+      }
+      const malformed = TABLES.some((table) => {
+        const rows = backup.data![table];
+        return rows !== undefined && (!Array.isArray(rows) || rows.some((row) => typeof row !== 'object' || row === null || Array.isArray(row)));
+      });
+      if (malformed) {
+        throw new InvalidBackupError('O arquivo de backup está corrompido ou incompleto.');
       }
       if ((backup.schema_version ?? 0) > SCHEMA_VERSION) {
         throw new InvalidBackupError('Este backup foi gerado por uma versão mais nova do app. Atualize o app para restaurá-lo.');
@@ -83,6 +91,14 @@ export function backupService(db: SqlDatabase) {
       // Notificações não são restauradas: IDs de outro aparelho não valem aqui.
       const clearNotificationIds = (table: Table, row: Record<string, SqlParam>) =>
         table === 'tasks' || table === 'appointments' ? { ...row, notification_id: null } : row;
+
+      // Os nomes de coluna vão para o SQL: só entram os que a tabela tem de fato.
+      // Um arquivo adulterado não injeta SQL, e uma coluna desconhecida não derruba a restauração.
+      const columnsOf = new Map<Table, Set<string>>();
+      for (const table of TABLES) {
+        const info = await db.getAllAsync<{ name: string }>(`PRAGMA table_info(${table})`);
+        columnsOf.set(table, new Set(info.map((column) => column.name)));
+      }
 
       const deviceSettings = await db.getAllAsync<Record<string, SqlParam>>(
         `SELECT * FROM settings WHERE key IN (${DEVICE_ONLY_SETTINGS.map(() => '?').join(', ')})`,
@@ -101,7 +117,9 @@ export function backupService(db: SqlDatabase) {
             : (backup.data[table] ?? []);
           for (const original of rows) {
             const row = clearNotificationIds(table, original);
-            const columns = Object.keys(row);
+            const known = columnsOf.get(table)!;
+            const columns = Object.keys(row).filter((column) => known.has(column));
+            if (!columns.length) continue;
             await db.runAsync(
               `INSERT INTO ${table} (${columns.join(', ')}) VALUES (${columns.map(() => '?').join(', ')})`,
               columns.map((column) => row[column]),

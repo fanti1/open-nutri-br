@@ -1,0 +1,29 @@
+{
+  "slug": "oms-perimetro-cefalico-0-5",
+  "status": "conferido_com_ressalvas",
+  "verified_at": "2026-09-24",
+  "summary": "Tabela oficial da OMS e algoritmo do pacote anthro; os cortes de microcefalia (−2 e −3 DP) conferidos na orientação da OMS de 2016. O corte de macrocefalia (> +2 DP) não tem fonte conferida.",
+  "formula": "Escore-Z pelo método LMS: z = ((medida/M)^L − 1) / (L × S). Nos indicadores de peso, além de ±3 DP usa-se o escore restrito da OMS (distância entre 2 e 3 DP). < −3 microcefalia grave · −3 a < −2 microcefalia · −2 a +2 adequado · > +2 macrocefalia.",
+  "sources": [
+    {
+      "citation": "WHO Multicentre Growth Reference Study Group. WHO Child Growth Standards (2006): tabelas LMS oficiais do pacote anthro e algoritmo do próprio pacote.",
+      "url": "https://www.who.int/tools/child-growth-standards/standards",
+      "evidence": "documento_oficial",
+      "checked": "Tabelas LMS copiadas sem alteração dos pacotes oficiais; algoritmo portado do código-fonte dos pacotes (idade em dias arredondada, correção de ±0,7 cm deitado/em pé, interpolação). Gabarito da própria OMS nos testes."
+    },
+    {
+      "citation": "WHO. Screening, assessment and management of neonates and infants with complications associated with Zika virus exposure in utero. 2016.",
+      "url": "https://www.who.int/publications/i/item/WHO-ZIKV-MOC-16.3-Rev.2",
+      "evidence": "documento_oficial",
+      "checked": "Seção 3.1.1: microcefalia = perímetro cefálico mais de 2 desvios-padrão abaixo da mediana para idade e sexo; grave = mais de 3 desvios-padrão abaixo."
+    }
+  ],
+  "notes": [
+    "O corte de macrocefalia (> +2 DP) é convencional e não tem fonte conferida nesta auditoria."
+  ],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "Menina, 183 dias, 42 cm: L = 1, M = 42,2079, S = 0,03087. z = (42 ÷ 42,2079 − 1) ÷ 0,03087 = −0,16 → adequado para a idade."
+  }
+}

@@ -1,5 +1,7 @@
+import { Ionicons } from '@expo/vector-icons';
 import { Pressable, ScrollView, View } from 'react-native';
 import { useTheme } from '../theme/ThemeProvider';
+import { elevation } from '../theme/tokens';
 import { AppText } from './AppText';
 
 export interface ChipOption<T extends string> {
@@ -15,11 +17,16 @@ interface ChipGroupProps<T extends string> {
   value: T | null;
   onChange: (value: T) => void;
   scroll?: boolean;
+  /** Nome do grupo para o leitor de tela (ex.: o rótulo do campo). */
+  accessibilityLabel?: string;
 }
 
-/** Seleção única em "pílulas" — usada em filtros e em campos de múltipla escolha. */
-export function ChipGroup<T extends string>({ options, value, onChange, scroll = false }: ChipGroupProps<T>) {
-  const { colors, radius } = useTheme();
+/**
+ * Seleção única em "pílulas" — usada em filtros e em campos de múltipla escolha.
+ * A opção escolhida ganha um ✓ além da cor: a seleção não depende só de cor.
+ */
+export function ChipGroup<T extends string>({ options, value, onChange, scroll = false, accessibilityLabel }: ChipGroupProps<T>) {
+  const { colors, radius, layout } = useTheme();
 
   const chips = options.map((option) => {
     const active = option.value === value;
@@ -28,23 +35,28 @@ export function ChipGroup<T extends string>({ options, value, onChange, scroll =
     return (
       <Pressable
         key={option.value}
-        accessibilityRole="button"
-        accessibilityState={{ selected: active, disabled: option.disabled }}
-        aria-selected={active}
+        accessibilityRole="radio"
+        accessibilityLabel={option.label}
+        accessibilityState={{ checked: active, disabled: option.disabled }}
+        aria-checked={active}
         aria-disabled={option.disabled}
         disabled={option.disabled}
         onPress={() => onChange(option.value)}
-        style={{
-          paddingHorizontal: 14,
-          paddingVertical: 8,
+        style={({ pressed }) => ({
+          minHeight: layout.controlHeightSm,
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 6,
+          paddingHorizontal: active ? 14 : 16,
           borderRadius: radius.pill,
-          borderWidth: 1,
+          borderWidth: 1.5,
           borderColor: active ? tint : colors.border,
-          backgroundColor: active ? tint : colors.surface,
+          backgroundColor: active ? tint : pressed ? colors.surfacePressed : colors.surface,
           opacity: option.disabled ? 0.4 : 1,
-        }}
+        })}
       >
-        <AppText variant="caption" color={active ? colors.onPrimary : colors.text}>
+        {active && <Ionicons name="checkmark" size={15} color={colors.onPrimary} />}
+        <AppText variant="label" color={active ? colors.onPrimary : colors.text} numberOfLines={1}>
           {option.label}
         </AppText>
       </Pressable>
@@ -53,13 +65,23 @@ export function ChipGroup<T extends string>({ options, value, onChange, scroll =
 
   if (scroll) {
     return (
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingRight: 16 }}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ gap: 8, paddingRight: 16 }}
+        accessibilityRole="radiogroup"
+        accessibilityLabel={accessibilityLabel}
+      >
         {chips}
       </ScrollView>
     );
   }
 
-  return <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>{chips}</View>;
+  return (
+    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }} accessibilityRole="radiogroup" accessibilityLabel={accessibilityLabel}>
+      {chips}
+    </View>
+  );
 }
 
 /** Controle segmentado (abas internas de uma tela ou escolha entre poucas opções). */
@@ -72,10 +94,10 @@ export function Segmented<T extends string>({
   value: T | null;
   onChange: (v: T) => void;
 }) {
-  const { colors, radius } = useTheme();
+  const { colors, radius, layout, dark } = useTheme();
 
   return (
-    <View style={{ flexDirection: 'row', backgroundColor: colors.surfaceAlt, borderRadius: radius.md, padding: 3 }}>
+    <View style={{ flexDirection: 'row', backgroundColor: colors.surfaceAlt, borderRadius: radius.pill, padding: 4 }} accessibilityRole="tablist">
       {options.map((option) => {
         const active = option.value === value;
         const tint = option.color ?? colors.primary;
@@ -89,18 +111,21 @@ export function Segmented<T extends string>({
             accessibilityLabel={option.label}
             disabled={option.disabled}
             onPress={() => onChange(option.value)}
+            // Com o respiro de 4 do trilho, a área de toque chega a 44.
+            hitSlop={{ top: 4, bottom: 4 }}
             style={{
               flex: 1,
+              minHeight: layout.controlHeightSm - 8,
               alignItems: 'center',
-              paddingVertical: 9,
-              borderRadius: radius.md - 3,
+              justifyContent: 'center',
+              paddingHorizontal: 4,
+              borderRadius: radius.pill,
               backgroundColor: active ? colors.surface : 'transparent',
-              borderWidth: active ? 1 : 0,
-              borderColor: active ? tint : 'transparent',
               opacity: option.disabled ? 0.35 : 1,
+              ...(active ? elevation(1, dark) : null),
             }}
           >
-            <AppText variant="caption" color={active ? tint : undefined} tone={active ? 'default' : 'muted'} numberOfLines={1}>
+            <AppText variant="label" color={active ? tint : colors.textMuted} numberOfLines={1} style={{ fontSize: 14, fontWeight: active ? '800' : '700' }}>
               {option.label}
             </AppText>
           </Pressable>

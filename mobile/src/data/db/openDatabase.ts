@@ -1,4 +1,5 @@
 import * as SQLite from 'expo-sqlite';
+import { Platform } from 'react-native';
 import { migrate } from './migrations';
 import type { SqlDatabase } from './types';
 
@@ -19,10 +20,20 @@ function adapt(db: SQLite.SQLiteDatabase): SqlDatabase {
 export function openDatabase(): Promise<SqlDatabase> {
   if (!instance) {
     instance = (async () => {
-      const db = adapt(await SQLite.openDatabaseAsync(DATABASE_NAME));
+      const native = await SQLite.openDatabaseAsync(DATABASE_NAME);
+      if (Platform.OS !== 'web') {
+        // WAL: leituras não esperam gravações e cada gravação escreve menos no
+        // disco. O SQLite do navegador (OPFS) não usa WAL.
+        await native.execAsync('PRAGMA journal_mode = WAL;');
+      }
+      const db = adapt(native);
       await migrate(db);
       return db;
-    })();
+    })().catch((error: unknown) => {
+      // Uma falha não fica guardada: "Tentar de novo" abre o banco outra vez.
+      instance = null;
+      throw error;
+    });
   }
 
   return instance;

@@ -3,6 +3,7 @@
   "cases": [
     { "inputs": { "weight_kg": 70, "height_m": 1.70, "weight_loss_percent": 2, "acute_disease_effect": false }, "expected": { "values": { "total_score": 0 }, "classification": "risco_baixo" } },
     { "inputs": { "weight_kg": 70, "height_m": 1.70, "weight_loss_percent": 7, "acute_disease_effect": false }, "expected": { "values": { "total_score": 1 }, "classification": "risco_medio" } },
-    { "inputs": { "weight_kg": 55, "height_m": 1.75, "weight_loss_percent": 12, "acute_disease_effect": true }, "expected": { "values": { "total_score": 6 }, "classification": "risco_alto" } }
+    { "inputs": { "weight_kg": 55, "height_m": 1.75, "weight_loss_percent": 12, "acute_disease_effect": true }, "expected": { "values": { "total_score": 6 }, "classification": "risco_alto" } },
+    { "_comment": "IMC exatamente 18,5 (47,36 kg / 1,60 m²): em ponto flutuante dá 18,499999999999996 e precisa pontuar 1, não 2", "inputs": { "weight_kg": 47.36, "height_m": 1.6, "weight_loss_percent": 0, "acute_disease_effect": false }, "expected": { "values": { "total_score": 1 }, "classification": "risco_medio" } }
   ]
 }

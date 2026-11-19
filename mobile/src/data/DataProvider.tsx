@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { errorLog } from '../lib/errorLog';
 import { openDatabase } from './db/openDatabase';
 import type { SqlDatabase } from './db/types';
 import { attachmentsRepository } from './repositories/attachments';
@@ -13,6 +14,7 @@ import { agendaService } from './services/agendaService';
 import { backupService } from './services/backupService';
 import { configureForegroundNotifications, deviceReminderScheduler } from './services/reminders';
 import { taskService } from './services/taskService';
+import { favoritesQuery, settingsQuery } from './sharedQuery';
 
 function createAppData(db: SqlDatabase) {
   return {
@@ -42,8 +44,18 @@ export function DataProvider({ children, fallback }: { children: ReactNode; fall
   useEffect(() => {
     configureForegroundNotifications();
     openDatabase()
-      .then((db) => setData(createAppData(db)))
-      .catch((e: Error) => setError(e));
+      .then(async (db) => {
+        const appData = createAppData(db);
+        // Preferências já carregadas na primeira tela: o tema escolhido aparece
+        // de cara (sem piscar o claro) e nenhuma tela começa em "carregando".
+        await Promise.all([settingsQuery.connect(() => appData.settings.all()), favoritesQuery.connect(() => appData.settings.favoriteSlugs())]);
+        errorLog.attach((await appData.settings.all()).error_log, (entries) => appData.settings.saveErrorLog(entries));
+        setData(appData);
+      })
+      .catch((e: Error) => {
+        errorLog.record(e);
+        setError(e);
+      });
   }, []);
 
   if (error) throw error;

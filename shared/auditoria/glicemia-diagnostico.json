@@ -1,0 +1,29 @@
+{
+  "slug": "glicemia-diagnostico",
+  "status": "conferido",
+  "verified_at": "2026-09-24",
+  "summary": "Todos os critérios conferidos na Tabela 1 e nas recomendações R1 e R5 da diretriz vigente da SBD.",
+  "formula": "Pré-diabetes / diabetes a partir de: jejum 100 / 126 mg/dL · HbA1c 5,7 / 6,5% · TOTG 1 h 155 / 209 mg/dL · TOTG 2 h 140 / 200 mg/dL. Vale o exame mais alterado.",
+  "sources": [
+    {
+      "citation": "Sociedade Brasileira de Diabetes. Diretriz Oficial: Diagnóstico de diabetes mellitus e rastreamento do DM tipo 2 (revisão de 09/07/2024). DOI 10.29327/5412848.2024-1.",
+      "url": "https://diretriz.diabetes.org.br/diagnostico-de-diabetes-mellitus/",
+      "evidence": "documento_oficial",
+      "checked": "Tabela 1 (critérios laboratoriais) e recomendações R1 e R5 (TOTG de 1 hora)."
+    }
+  ],
+  "notes": [
+    "Um único exame na faixa de diabetes, sem sintomas, precisa ser repetido para confirmar (R1); por isso o resultado é 'compatível com diabetes'. A glicemia ao acaso ≥ 200 com sintomas (R2) não está no formulário."
+  ],
+  "changes": [
+    {
+      "date": "2026-09-24",
+      "version": "v1",
+      "text": "Incluído o TOTG de 1 hora (< 155 normal, 155–208 pré-diabetes, ≥ 209 diabetes) e atualizada a citação para a revisão 2024 da diretriz."
+    }
+  ],
+  "example": {
+    "spec_case": 0,
+    "calculation": "Jejum 92 (< 100) e HbA1c 5,4% (< 5,7) → normoglicemia."
+  }
+}

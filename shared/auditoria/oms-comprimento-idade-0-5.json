@@ -1,0 +1,27 @@
+{
+  "slug": "oms-comprimento-idade-0-5",
+  "status": "conferido",
+  "verified_at": "2026-09-24",
+  "summary": "Tabela oficial da OMS e algoritmo do pacote anthro, com o caso de teste oficial da própria OMS (z = −6,09); classificação do SISVAN (Quadro 9).",
+  "formula": "Escore-Z pelo método LMS: z = ((medida/M)^L − 1) / (L × S). Nos indicadores de peso, além de ±3 DP usa-se o escore restrito da OMS (distância entre 2 e 3 DP). < −3 muito baixa estatura · −3 a < −2 baixa estatura · ≥ −2 adequada.",
+  "sources": [
+    {
+      "citation": "WHO Multicentre Growth Reference Study Group. WHO Child Growth Standards (2006): tabelas LMS oficiais do pacote anthro e algoritmo do próprio pacote.",
+      "url": "https://www.who.int/tools/child-growth-standards/standards",
+      "evidence": "documento_oficial",
+      "checked": "Tabelas LMS copiadas sem alteração dos pacotes oficiais; algoritmo portado do código-fonte dos pacotes (idade em dias arredondada, correção de ±0,7 cm deitado/em pé, interpolação). Gabarito da própria OMS nos testes."
+    },
+    {
+      "citation": "Ministério da Saúde. Orientações para a coleta e análise de dados antropométricos em serviços de saúde: Norma Técnica do SISVAN. Brasília, 2011.",
+      "url": "https://bvsms.saude.gov.br/bvs/publicacoes/orientacoes_coleta_analise_dados_antropometricos.pdf",
+      "evidence": "documento_oficial",
+      "checked": "Quadro 9: pontos de corte de estatura-para-idade."
+    }
+  ],
+  "notes": [],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "Menino, 987 dias, medido deitado → 72,86 − 0,7 = 72,16 cm (a partir de 731 dias a referência é em pé). L = 1, M = 93,6743, S = 0,03772. z = (72,16 ÷ 93,6743 − 1) ÷ 0,03772 = −6,09 (valor do caso de teste oficial da OMS) → muito baixa estatura."
+  }
+}

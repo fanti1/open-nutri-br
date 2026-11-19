@@ -1,0 +1,28 @@
+{
+  "slug": "schofield",
+  "status": "conferido",
+  "verified_at": "2026-09-24",
+  "summary": "Os 12 coeficientes conferidos na Tabela 5.2 do relatório FAO/OMS/ONU (2004).",
+  "formula": "TMB = a × peso + b, por sexo e faixa (< 3, 3–10, 10–18, 18–30, 30–60, ≥ 60 anos). Ex.: homens < 3 anos 59,512 × peso − 30,4.",
+  "sources": [
+    {
+      "citation": "FAO/WHO/UNU. Human energy requirements: report of a Joint FAO/WHO/UNU Expert Consultation (Roma, 2001). FAO Food and Nutrition Technical Report Series 1, 2004.",
+      "url": "https://www.fao.org/4/y5686e/y5686e.pdf",
+      "evidence": "documento_oficial",
+      "checked": "Tabela 5.2: coeficientes de Schofield em kcal/dia para as 6 faixas etárias de cada sexo."
+    },
+    {
+      "citation": "Schofield WN. Predicting basal metabolic rate, new standards and review of previous work. Hum Nutr Clin Nutr. 1985;39 Suppl 1:5-41.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/4044297/",
+      "pmid": "4044297",
+      "evidence": "resumo",
+      "checked": "Artigo original das equações."
+    }
+  ],
+  "notes": [],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "Menino de 2 anos → faixa < 3 anos: 59,512 × 12 − 30,4 = 683,74 kcal."
+  }
+}

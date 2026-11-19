@@ -6,11 +6,14 @@ export interface ConutInputs {
   lymphocytes_cells_mm3: number;
 }
 
-/** Soma 3 subescores por faixa: albumina, colesterol total, linfócitos totais. Ignacio de Ulíbarri et al., 2005. */
+/**
+ * Soma 3 subescores por faixa: albumina, colesterol total, linfócitos totais — Tabela I
+ * do artigo original: colesterol > 180 = 0; 140–180 = 1 (180 mg/dL inclusive). Ignacio de Ulíbarri et al., 2005.
+ */
 export function conutFormula(inputs: ConutInputs): Record<string, number> {
   const albuminScore = inputs.albumin_g_dl >= 3.5 ? 0 : inputs.albumin_g_dl >= 3.0 ? 2 : inputs.albumin_g_dl >= 2.5 ? 4 : 6;
   const cholesterolScore =
-    inputs.total_cholesterol_mg_dl >= 180 ? 0 : inputs.total_cholesterol_mg_dl >= 140 ? 1 : inputs.total_cholesterol_mg_dl >= 100 ? 2 : 3;
+    inputs.total_cholesterol_mg_dl > 180 ? 0 : inputs.total_cholesterol_mg_dl >= 140 ? 1 : inputs.total_cholesterol_mg_dl >= 100 ? 2 : 3;
   const lymphocyteScore =
     inputs.lymphocytes_cells_mm3 >= 1600 ? 0 : inputs.lymphocytes_cells_mm3 >= 1200 ? 1 : inputs.lymphocytes_cells_mm3 >= 800 ? 2 : 3;
 
@@ -28,7 +31,7 @@ export const conutCalculator = makeCalculator<ConutInputs>({
   slug: 'conut',
   module: 'hospitalar',
   category: 'triagem_risco',
-  version: 'v1',
+  version: 'v2',
   reference: {
     method: 'CONUT (Controlling Nutritional Status)',
     citation: 'Ignacio de Ulíbarri J et al., Nutr Hosp, 2005.',

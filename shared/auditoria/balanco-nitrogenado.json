@@ -1,0 +1,30 @@
+{
+  "slug": "balanco-nitrogenado",
+  "status": "conferido_com_ressalvas",
+  "verified_at": "2026-09-24",
+  "summary": "Fórmula clínica padrão conferida em reprodução aberta; a fonte original citada (Blackburn, 1977) não foi acessada.",
+  "formula": "BN = proteína ingerida (g) ÷ 6,25 − (nitrogênio ureico urinário 24 h + 4).",
+  "sources": [
+    {
+      "citation": "Blackburn GL, Bistrian BR, Maini BS et al. Nutritional and metabolic assessment of the hospitalized patient. JPEN. 1977;1(1):11-22.",
+      "url": "https://doi.org/10.1177/014860717700100101",
+      "evidence": "nao_acessado",
+      "checked": "Fonte citada para o fator 6,25 e as perdas não ureicas de 4 g; não acessada."
+    },
+    {
+      "citation": "Yun JH, Han M, Bae G et al. The PROGAIN trial: a randomized controlled trial of high-protein peripheral parenteral nutrition on nitrogen balance and recovery after gastric cancer surgery - study protocol. PLoS One. 2026;21(8):e0355677.",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13450730/",
+      "pmid": "42566454",
+      "evidence": "reproducao",
+      "checked": "Fórmula clínica simplificada: BN (g/dia) = proteína ingerida ÷ 6,25 − (nitrogênio ureico urinário de 24 h + 4); divisor 6,25 porque a proteína tem cerca de 16% de nitrogênio."
+    }
+  ],
+  "notes": [
+    "Na forma reproduzida, o nitrogênio de uma nutrição parenteral entra somado à parte (valor do rótulo da solução); o app converte toda a proteína informada por 6,25."
+  ],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "90 ÷ 6,25 = 14,4 g de N; 14,4 − (10 + 4) = 0,4 g/dia → balanço positivo."
+  }
+}

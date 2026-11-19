@@ -1,0 +1,41 @@
+{
+  "slug": "formula-de-bolso",
+  "status": "conferido_com_ressalvas",
+  "verified_at": "2026-09-24",
+  "summary": "Conta aritmética (peso × fator escolhido pelo profissional). As faixas de kcal/kg foram conferidas nas diretrizes da ESPEN.",
+  "formula": "GET = peso (kg) × fator (20 a 35 kcal/kg/dia, escolhido pelo profissional).",
+  "sources": [
+    {
+      "citation": "Singer P, Blaser AR, Berger MM et al. ESPEN guideline on clinical nutrition in the intensive care unit. Clin Nutr. 2019;38(1):48-79.",
+      "url": "https://www.espen.org/files/ESPEN-Guidelines/ESPEN_guideline-on-clinical-nutrition-in-the-intensive-care-unit.pdf",
+      "evidence": "texto_completo",
+      "checked": "Sem calorimetria indireta: equações simples por peso, como 20–25 kcal/kg/dia, no doente crítico."
+    },
+    {
+      "citation": "Gomes F, Schuetz P, Bounoure L et al. ESPEN guidelines on nutritional support for polymorbid internal medicine patients. Clin Nutr. 2018;37(1):336-53.",
+      "url": "https://www.espen.org/files/ESPEN-Guidelines/ESPEN_guidelines_on_nutritional_support_for_polymorbid_internal_medicine_patients.pdf",
+      "evidence": "texto_completo",
+      "checked": "Pacientes polimórbidos: 27 kcal/kg de peso atual; 30 kcal/kg no baixo peso grave."
+    },
+    {
+      "citation": "Volkert D, Beck AM, Cederholm T et al. ESPEN guideline on clinical nutrition and hydration in geriatrics. Clin Nutr. 2019;38(1):10-47.",
+      "url": "https://www.espen.org/files/ESPEN-Guidelines/ESPEN_guideline_on_clincal_nutrition_and_hydration_in_geriatrics.pdf",
+      "evidence": "texto_completo",
+      "checked": "Idosos: cerca de 30 kcal/kg/dia como valor orientador."
+    }
+  ],
+  "notes": [
+    "A citação anterior (ASPEN, McClave 2016) não pôde ser conferida; a referência passou a apontar as diretrizes da ESPEN conferidas."
+  ],
+  "changes": [
+    {
+      "date": "2026-09-24",
+      "version": "v1",
+      "text": "Referência atualizada para as diretrizes da ESPEN conferidas; a conta não mudou."
+    }
+  ],
+  "example": {
+    "spec_case": 0,
+    "calculation": "70 × 25 = 1.750 kcal/dia."
+  }
+}

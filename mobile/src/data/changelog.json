@@ -1,0 +1,33 @@
+[
+  {
+    "version": "1.0.0",
+    "date": "2026-10-28",
+    "summary": "Primeira versão aberta.",
+    "changes": [
+      {
+        "kind": "Adicionado",
+        "items": [
+          "55 calculadoras clínicas em consultório, hospitalar e UTI, pediatria e exames laboratoriais, organizadas por público (criança, adulto, idoso) e com resultado enquanto se digita.",
+          "Auditoria científica pública de cada método: fórmula, pontos de corte, fontes com grau de acesso, ressalvas e um exemplo resolvido que é também vetor de teste.",
+          "Curvas de crescimento da OMS com escore-Z e classificação do SISVAN, calculadas no aparelho.",
+          "Fichas de pacientes com atendimentos, gráfico de evolução, cálculos salvos com a versão da fórmula, arquivos e PDF da ficha.",
+          "Plano alimentar e recordatório 24 h com os 597 alimentos da TACO (4ª edição), com totais, macronutrientes, meta de energia e PDF.",
+          "Agenda e tarefas com lembretes por notificação local.",
+          "Backup em arquivo, protegido por senha (AES-256-GCM), para Google Drive, e-mail ou WhatsApp.",
+          "Bloqueio do app com PIN e digital ou rosto.",
+          "Tela \"Sobre\" com versão, novidades, licenças de código aberto, créditos e link para o código-fonte.",
+          "Central de ajuda que funciona sem internet, com busca nos guias e nas calculadoras.",
+          "\"Relatar um problema\": monta o relato com as informações técnicas no aparelho e abre uma issue já preenchida no GitHub, ou envia por e-mail ou WhatsApp. Erros inesperados ficam registrados só no aparelho para ajudar no relato.",
+          "Visual colorido e acolhedor: cada área com sua cor (consultório, hospital, pediatria, exames), cabeçalhos coloridos, fonte arredondada embarcada e barra de abas flutuante, nos temas claro e escuro, com contraste AA medido.",
+          "Acessibilidade: resumo falado dos gráficos, opção de ver a evolução como tabela, respeito ao \"reduzir movimento\" do sistema e rótulos e papéis para leitores de tela em todos os botões."
+        ]
+      },
+      {
+        "kind": "Segurança",
+        "items": [
+          "Nenhuma requisição de rede, conta, telemetria, anúncio ou analytics: os dados dos pacientes ficam só no aparelho."
+        ]
+      }
+    ]
+  }
+]

@@ -2,6 +2,7 @@
 
 namespace App\Domain\Calculators\Ambulatorio\Metabolismo\ValorCaloricoTotal;
 
+use App\Domain\Calculators\Contracts\ClassifierInterface;
 use App\Domain\Calculators\Contracts\FormulaInterface;
 use App\Domain\Calculators\Support\AbstractCalculator;
 use App\Domain\Calculators\Support\CalculatorReference;
@@ -26,29 +27,28 @@ final class ValorCaloricoTotalCalculator extends AbstractCalculator
 
     public function version(): string
     {
-        return 'v1';
+        return 'v2';
     }
 
     public function inputsSchema(): array
     {
         return [
             'bmr_kcal' => ['required', 'numeric', 'min:200', 'max:6000'],
-            // Escrito como string (não Rule::in()) para permanecer serializável em JSON
-            // no catálogo de calculadoras consumido pelo app.
-            'activity_level' => ['required', 'in:'.implode(',', array_keys(ValorCaloricoTotalFormula::ACTIVITY_FACTORS))],
+            // Faixa de PAL da Tabela 5.3 (valores acima de 2,40 são difíceis de manter por muito tempo).
+            'pal' => ['required', 'numeric', 'between:1.4,2.4'],
         ];
     }
 
     public function reference(): CalculatorReference
     {
         return new CalculatorReference(
-            method: 'Valor Calórico Total (VCT)',
-            citation: 'FAO/WHO/UNU, Human Energy Requirements: Report of a Joint Expert Consultation, 2001.',
+            method: 'Valor Calórico Total (VCT) = TMB × PAL',
+            citation: 'FAO/WHO/UNU, Human Energy Requirements: Report of a Joint FAO/WHO/UNU Expert Consultation (2001), FAO Food and Nutrition Technical Report Series 1, 2004 — Tabela 5.3.',
         );
     }
 
     /**
-     * Os fatores de atividade da FAO/WHO/UNU (2001) usados aqui são os de adultos.
+     * A classificação de PAL da FAO/WHO/UNU (Tabela 5.3) é a de adultos.
      */
     public function lifeStages(): array
     {
@@ -58,5 +58,10 @@ final class ValorCaloricoTotalCalculator extends AbstractCalculator
     protected function formula(): FormulaInterface
     {
         return new ValorCaloricoTotalFormula;
+    }
+
+    protected function classifier(): ?ClassifierInterface
+    {
+        return new ValorCaloricoTotalClassifier;
     }
 }

@@ -1,0 +1,23 @@
+{
+  "slug": "necessidade-energetica-infantil",
+  "status": "conferido",
+  "verified_at": "2026-09-24",
+  "summary": "Os 34 valores de kcal/kg/dia conferidos nas Tabelas 4.5 (meninos) e 4.6 (meninas) do relatório FAO/OMS/ONU (2004).",
+  "formula": "kcal/dia = kcal/kg da tabela (por sexo, idade em anos completos e atividade) × peso.",
+  "sources": [
+    {
+      "citation": "FAO/WHO/UNU. Human energy requirements: report of a Joint FAO/WHO/UNU Expert Consultation (Roma, 2001). FAO Food and Nutrition Technical Report Series 1, 2004.",
+      "url": "https://www.fao.org/4/y5686e/y5686e.pdf",
+      "evidence": "documento_oficial",
+      "checked": "Tabelas 4.5 e 4.6: necessidade energética de 1 a 18 anos com atividade leve, moderada e intensa (de 1 a 5 anos, um valor único)."
+    }
+  ],
+  "notes": [
+    "De 1 a 5 anos a FAO dá um único valor (atividade moderada); nessa idade o nível de atividade escolhido não altera o resultado."
+  ],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "Menino de 4,5 anos → 4 anos completos → 77 kcal/kg (Tabela 4.5). 77 × 17 = 1.309 kcal/dia."
+  }
+}

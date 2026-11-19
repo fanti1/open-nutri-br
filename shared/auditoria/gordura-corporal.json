@@ -1,0 +1,30 @@
+{
+  "slug": "gordura-corporal",
+  "status": "conferido",
+  "verified_at": "2026-09-24",
+  "summary": "Equação de adultos de Deurenberg conferida no resumo do artigo original.",
+  "formula": "%G = 1,20 × IMC + 0,23 × idade − 10,8 × sexo − 5,4 (sexo: homem = 1, mulher = 0). IMC arredondado a 2 casas.",
+  "sources": [
+    {
+      "citation": "Deurenberg P, Weststrate JA, Seidell JC. Body mass index as a measure of body fatness: age- and sex-specific prediction formulas. Br J Nutr. 1991;65(2):105-14.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/2043597/",
+      "pmid": "2043597",
+      "evidence": "resumo",
+      "checked": "Adultos: BF% = 1,20 × BMI + 0,23 × age − 10,8 × sex − 5,4. Até 15 anos a relação é outra: BF% = 1,51 × BMI − 0,70 × age − 3,6 × sex + 1,4."
+    }
+  ],
+  "notes": [
+    "A equação pediátrica do mesmo artigo (até 15 anos) não está implementada."
+  ],
+  "changes": [
+    {
+      "date": "2026-09-24",
+      "version": "v1",
+      "text": "Idade mínima passou de 1 para 16 anos: o artigo mostra que até 15 anos vale outra equação."
+    }
+  ],
+  "example": {
+    "spec_case": 0,
+    "calculation": "IMC = 70 ÷ 1,75² = 22,86. 1,20 × 22,86 + 0,23 × 30 − 10,8 × 1 − 5,4 = 18,13%."
+  }
+}

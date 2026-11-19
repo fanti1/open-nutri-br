@@ -1,0 +1,30 @@
+{
+  "slug": "harris-benedict",
+  "status": "conferido_com_ressalvas",
+  "verified_at": "2026-09-24",
+  "summary": "Coeficientes da revisão de Roza & Shizgal (1984) conferidos em reprodução aberta; o resumo original não os traz.",
+  "formula": "Homens: 88,362 + 13,397 × peso + 4,799 × estatura (cm) − 5,677 × idade. Mulheres: 447,593 + 9,247 × peso + 3,098 × estatura (cm) − 4,330 × idade.",
+  "sources": [
+    {
+      "citation": "Roza AM, Shizgal HM. The Harris Benedict equation reevaluated: resting energy requirements and the body cell mass. Am J Clin Nutr. 1984;40(1):168-82.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/6741850/",
+      "pmid": "6741850",
+      "evidence": "resumo",
+      "checked": "Artigo original da revisão; coeficientes não estão no resumo. Precisão de ±14% em pessoas bem nutridas; pouco confiável em desnutridos."
+    },
+    {
+      "citation": "Reprodução aberta dos coeficientes de Roza e Shizgal (tabela de equações de metabolismo basal).",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13288070/",
+      "evidence": "reproducao",
+      "checked": "Coeficientes 88,362 / 13,397 / 4,799 / 5,677 e 447,593 / 9,247 / 3,098 / 4,330."
+    }
+  ],
+  "notes": [
+    "O próprio artigo mostra que a equação subestima o gasto em pacientes desnutridos."
+  ],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "88,362 + 13,397 × 70 + 4,799 × 175 − 5,677 × 30 = 88,362 + 937,79 + 839,825 − 170,31 = 1.695,67 kcal."
+  }
+}

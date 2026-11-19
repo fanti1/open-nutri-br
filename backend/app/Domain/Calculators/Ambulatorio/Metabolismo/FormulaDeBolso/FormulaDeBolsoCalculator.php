@@ -42,7 +42,7 @@ final class FormulaDeBolsoCalculator extends AbstractCalculator
     {
         return new CalculatorReference(
             method: 'Fórmula de Bolso (estimativa rápida de GET)',
-            citation: 'McClave SA et al., ASPEN Clinical Guidelines: Nutrition Support Therapy, JPEN, 2016.',
+            citation: 'Peso × fator escolhido pelo profissional. Faixas de referência: ESPEN UTI (Singer P et al., Clin Nutr, 2019): 20–25 kcal/kg/dia sem calorimetria; ESPEN polimórbidos (Gomes F et al., Clin Nutr, 2018): 27 kcal/kg (30 no baixo peso grave); ESPEN geriatria (Volkert D et al., Clin Nutr, 2019): cerca de 30 kcal/kg.',
         );
     }
 

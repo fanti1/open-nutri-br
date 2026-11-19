@@ -1,0 +1,43 @@
+{
+  "slug": "jackson-pollock-7",
+  "status": "conferido_com_ressalvas",
+  "verified_at": "2026-09-24",
+  "summary": "Coeficientes conferidos em reprodução aberta; os artigos originais só têm resumo aberto.",
+  "formula": "Σ de 7 dobras (peitoral, axilar média, tríceps, subescapular, abdominal, suprailíaca, coxa). Homens: D = 1,112 − 0,00043499·Σ + 0,00000055·Σ² − 0,00028826·idade. Mulheres: D = 1,097 − 0,00046971·Σ + 0,00000056·Σ² − 0,00012828·idade. %G (Siri) = (4,95/D − 4,50) × 100.",
+  "sources": [
+    {
+      "citation": "Jackson AS, Pollock ML. Generalized equations for predicting body density of men. Br J Nutr. 1978;40(3):497-504.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/718832/",
+      "pmid": "718832",
+      "evidence": "resumo",
+      "checked": "Artigo original dos homens; coeficientes não estão no resumo."
+    },
+    {
+      "citation": "Jackson AS, Pollock ML, Ward A. Generalized equations for predicting body density of women. Med Sci Sports Exerc. 1980;12(3):175-81.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/7402053/",
+      "pmid": "7402053",
+      "evidence": "resumo",
+      "checked": "Artigo original das mulheres; coeficientes não estão no resumo."
+    },
+    {
+      "citation": "Reprodução aberta das equações de Jackson-Pollock de 3 e 7 dobras (homens e mulheres, com termo de idade).",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11374165/",
+      "evidence": "reproducao",
+      "checked": "Equações de 7 dobras de homens e mulheres, com termo de idade."
+    },
+    {
+      "citation": "Reprodução aberta das equações de Jackson-Pollock de 3 dobras (com termo de idade), de Durnin-Womersley (faixas até 19 e 20-29 anos) e da equação de Siri.",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10453806/",
+      "evidence": "reproducao",
+      "checked": "Equação de Siri."
+    }
+  ],
+  "notes": [
+    "As equações das mulheres foram validadas de 18 a 55 anos; o app aceita até 61."
+  ],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "Σ = 93. D = 1,112 − 0,0404541 + 0,0047570 − 0,0115304 = 1,0648. %G = (4,95 ÷ 1,0648 − 4,50) × 100 = 14,89%."
+  }
+}

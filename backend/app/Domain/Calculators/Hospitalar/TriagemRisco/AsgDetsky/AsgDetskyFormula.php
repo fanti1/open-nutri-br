@@ -5,14 +5,9 @@ namespace App\Domain\Calculators\Hospitalar\TriagemRisco\AsgDetsky;
 use App\Domain\Calculators\Contracts\FormulaInterface;
 
 /**
- * A ASG/SGA original é um julgamento clínico global (gestalt), não uma soma
- * de pontos — Detsky et al. descrevem que a classificação final considera
- * todos os domínios, com maior peso para perda de peso e exame físico, sem
- * uma fórmula determinística publicada. Esta implementação é uma
- * simplificação de apoio: cada um dos 6 domínios recebe uma classificação
- * A/B/C do profissional (conforme o formulário original) e o resultado é a
- * categoria mais frequente entre eles (com desempate a favor da mais grave) —
- * uma aproximação estruturada, não um substituto do julgamento clínico.
+ * Quantos domínios o avaliador marcou em A, B e C — apoio à decisão. A ASG/SGA
+ * é um julgamento clínico global, sem soma nem regra numérica: a classificação
+ * final é a que o avaliador atribui (ver AsgDetskyClassifier).
  * Reference: Detsky AS et al., What is subjective global assessment of
  * nutritional status?, JPEN, 1987.
  */

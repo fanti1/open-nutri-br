@@ -1,6 +1,8 @@
 {
   "slug": "ingestao-liquidos",
   "cases": [
-    { "inputs": { "weight_kg": 70 }, "expected": { "values": { "min_ml_per_day": 2100, "max_ml_per_day": 2450 }, "classification": null } }
+    { "inputs": { "weight_kg": 70, "ml_per_kg": 30 }, "expected": { "values": { "ml_per_day": 2100 }, "classification": null } },
+    { "inputs": { "weight_kg": 58.4, "ml_per_kg": 35 }, "expected": { "values": { "ml_per_day": 2044 }, "classification": null } },
+    { "inputs": { "weight_kg": 80, "ml_per_kg": 25.5 }, "expected": { "values": { "ml_per_day": 2040 }, "classification": null } }
   ]
 }

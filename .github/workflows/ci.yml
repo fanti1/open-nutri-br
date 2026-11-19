@@ -1,0 +1,77 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_call:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  app:
+    name: App (testes, tipos e lint)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+      - run: npm ci
+      - run: npm test -- --ci
+      - run: npx tsc --noEmit
+      - run: npm run lint
+
+  e2e:
+    name: Ponta a ponta (app no navegador)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+      - run: npm ci
+      # Usa o Google Chrome que já vem nas máquinas do GitHub (sem baixar navegador).
+      - run: npx playwright test
+        env:
+          E2E_BROWSER: chrome
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: relatorio-e2e
+          path: |
+            mobile/e2e/web/report
+            mobile/e2e/web/test-results
+          retention-days: 14
+
+  backend:
+    name: Backend (fórmulas de referência)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: pdo_sqlite, mbstring, bcmath
+          coverage: none
+      - run: composer install --no-interaction --no-progress --prefer-dist
+      - run: cp .env.example .env && php artisan key:generate
+      - run: php artisan test

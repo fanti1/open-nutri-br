@@ -1,10 +1,15 @@
 {
   "slug": "perfil-lipidico",
   "cases": [
-    { "inputs": { "total_cholesterol_mg_dl": 180, "hdl_mg_dl": 55, "triglycerides_mg_dl": 100, "fasting": true }, "expected": { "values": { "ldl_mg_dl": 105, "non_hdl_mg_dl": 125 }, "classification": "perfil_desejavel" } },
-    { "inputs": { "total_cholesterol_mg_dl": 200, "hdl_mg_dl": 50, "triglycerides_mg_dl": 150, "fasting": true }, "expected": { "values": { "ldl_mg_dl": 120, "non_hdl_mg_dl": 150 }, "classification": "perfil_alterado" } },
-    { "inputs": { "total_cholesterol_mg_dl": 170, "hdl_mg_dl": 45, "triglycerides_mg_dl": 160, "fasting": false }, "expected": { "values": { "ldl_mg_dl": 93, "non_hdl_mg_dl": 125 }, "classification": "perfil_desejavel" } },
-    { "inputs": { "total_cholesterol_mg_dl": 170, "hdl_mg_dl": 45, "triglycerides_mg_dl": 160, "fasting": true }, "expected": { "values": { "ldl_mg_dl": 93, "non_hdl_mg_dl": 125 }, "classification": "perfil_alterado" } },
-    { "inputs": { "total_cholesterol_mg_dl": 250, "hdl_mg_dl": 35, "triglycerides_mg_dl": 450, "fasting": true }, "expected": { "values": { "non_hdl_mg_dl": 215 }, "classification": "perfil_alterado" } }
+    { "inputs": { "total_cholesterol_mg_dl": 180, "hdl_mg_dl": 55, "triglycerides_mg_dl": 100, "fasting": true }, "expected": { "values": { "ldl_mg_dl": 105.39, "martin_factor": 5.1, "non_hdl_mg_dl": 125 }, "classification": "perfil_desejavel" } },
+    { "inputs": { "total_cholesterol_mg_dl": 200, "hdl_mg_dl": 50, "triglycerides_mg_dl": 150, "fasting": true }, "expected": { "values": { "ldl_mg_dl": 123.68, "martin_factor": 5.7, "non_hdl_mg_dl": 150 }, "classification": "perfil_alterado" } },
+    { "inputs": { "total_cholesterol_mg_dl": 170, "hdl_mg_dl": 45, "triglycerides_mg_dl": 160, "fasting": false }, "expected": { "values": { "ldl_mg_dl": 99.19, "martin_factor": 6.2, "non_hdl_mg_dl": 125 }, "classification": "perfil_desejavel" } },
+    { "inputs": { "total_cholesterol_mg_dl": 170, "hdl_mg_dl": 45, "triglycerides_mg_dl": 160, "fasting": true }, "expected": { "values": { "ldl_mg_dl": 99.19, "martin_factor": 6.2, "non_hdl_mg_dl": 125 }, "classification": "perfil_alterado" } },
+    { "inputs": { "total_cholesterol_mg_dl": 250, "hdl_mg_dl": 35, "triglycerides_mg_dl": 450, "fasting": true }, "expected": { "values": { "ldl_mg_dl": 155, "martin_factor": 7.5, "non_hdl_mg_dl": 215 }, "classification": "perfil_alterado" } },
+    { "inputs": { "total_cholesterol_mg_dl": 300, "hdl_mg_dl": 40, "triglycerides_mg_dl": 800, "fasting": true }, "expected": { "values": { "ldl_mg_dl": 140.6, "martin_factor": 6.7, "non_hdl_mg_dl": 260 }, "classification": "perfil_alterado" } },
+    { "inputs": { "total_cholesterol_mg_dl": 300, "hdl_mg_dl": 40, "triglycerides_mg_dl": 900, "fasting": true }, "expected": { "values": { "non_hdl_mg_dl": 260 }, "classification": "perfil_alterado" } },
+    { "inputs": { "total_cholesterol_mg_dl": 130.2, "hdl_mg_dl": 30.2, "triglycerides_mg_dl": 50, "fasting": true }, "expected": { "values": { "ldl_mg_dl": 87.18, "martin_factor": 3.9, "non_hdl_mg_dl": 100 }, "classification": "perfil_alterado" } },
+    { "inputs": { "total_cholesterol_mg_dl": 250, "hdl_mg_dl": 50, "triglycerides_mg_dl": 85, "fasting": true }, "expected": { "values": { "ldl_mg_dl": 180.68, "martin_factor": 4.4, "non_hdl_mg_dl": 200 }, "classification": "perfil_alterado" } },
+    { "inputs": { "total_cholesterol_mg_dl": 150, "hdl_mg_dl": 60, "triglycerides_mg_dl": 49.5, "fasting": true }, "expected": { "values": { "ldl_mg_dl": 75.86, "martin_factor": 3.5, "non_hdl_mg_dl": 90 }, "classification": "perfil_desejavel" } }
   ]
 }

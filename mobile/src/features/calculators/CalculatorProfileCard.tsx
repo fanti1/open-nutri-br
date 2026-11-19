@@ -108,6 +108,13 @@ export function CalculatorProfileCard({ entry, patient, saved, preferredStage, o
     setEditing(false);
   };
 
+  // Na primeira vez não há o que confirmar: escolhidos faixa e sexo, o perfil já vale.
+  const choose = (patch: Partial<CalculatorProfile>) => {
+    const next = { ...draft, ...patch };
+    setDraft(next);
+    if (firstTime && isCompleteProfile(next)) onSave(next);
+  };
+
   return (
     <Card style={{ gap: 16, borderColor: firstTime ? colors.primary : colors.border, borderWidth: firstTime ? 1.5 : 1 }}>
       <View style={{ gap: 4 }}>
@@ -116,13 +123,13 @@ export function CalculatorProfileCard({ entry, patient, saved, preferredStage, o
           {!firstTime
             ? 'Altere a faixa etária ou o sexo deste cálculo.'
             : draft.stage
-              ? 'Confirme a faixa etária e escolha o sexo. Fica salvo para esta calculadora — você só escolhe de novo se quiser mudar.'
-              : 'Escolha a faixa etária e o sexo. Fica salvo para esta calculadora — você só escolhe de novo se quiser mudar.'}
+              ? 'Escolha o sexo para começar. Fica salvo para esta calculadora.'
+              : 'Escolha a faixa etária e o sexo para começar. Fica salvo para esta calculadora.'}
         </AppText>
       </View>
 
       <View style={{ gap: 8 }}>
-        <AppText variant="caption" tone="muted">
+        <AppText variant="label" tone="muted">
           Faixa etária
         </AppText>
         <Segmented<LifeStage>
@@ -133,7 +140,7 @@ export function CalculatorProfileCard({ entry, patient, saved, preferredStage, o
             disabled: disabledStages.includes(stage),
           }))}
           value={draft.stage ?? null}
-          onChange={(stage) => setDraft((current) => ({ ...current, stage }))}
+          onChange={(stage) => choose({ stage })}
         />
         <AppText variant="small" tone="subtle">
           {draft.stage ? `${LIFE_STAGE_LABELS[draft.stage]}: ${stageAgeRangeLabel(draft.stage)}.` : ''}
@@ -144,7 +151,7 @@ export function CalculatorProfileCard({ entry, patient, saved, preferredStage, o
       </View>
 
       <View style={{ gap: 8 }}>
-        <AppText variant="caption" tone="muted">
+        <AppText variant="label" tone="muted">
           Sexo
         </AppText>
         <Segmented<ProfileSex>
@@ -153,20 +160,16 @@ export function CalculatorProfileCard({ entry, patient, saved, preferredStage, o
             { value: 'male', label: 'Masculino' },
           ]}
           value={draft.sex ?? null}
-          onChange={(sex) => setDraft((current) => ({ ...current, sex }))}
+          onChange={(sex) => choose({ sex })}
         />
       </View>
 
-      <View style={{ flexDirection: 'row', gap: 10 }}>
-        {!firstTime && <Button label="Cancelar" variant="ghost" onPress={() => { setDraft(saved!); setEditing(false); }} style={{ flex: 1 }} />}
-        <Button
-          label={firstTime ? 'Usar este perfil' : 'Salvar perfil'}
-          icon="checkmark"
-          onPress={confirm}
-          disabled={!isCompleteProfile(draft)}
-          style={{ flex: 1 }}
-        />
-      </View>
+      {!firstTime && (
+        <View style={{ flexDirection: 'row', gap: 10 }}>
+          <Button label="Cancelar" variant="ghost" onPress={() => { setDraft(saved!); setEditing(false); }} style={{ flex: 1 }} />
+          <Button label="Salvar perfil" icon="checkmark" onPress={confirm} disabled={!isCompleteProfile(draft)} style={{ flex: 1 }} />
+        </View>
+      )}
 
       <PatientLink onPress={onPickPatient} />
     </Card>
@@ -199,6 +202,8 @@ function PatientLink({ onPress }: { onPress: () => void }) {
   return (
     <Pressable
       accessibilityRole="button"
+      // Rótulo explícito: sem ele, na web o nome do botão incluiria os caracteres dos ícones.
+      accessibilityLabel="Calcular para um paciente cadastrado"
       onPress={onPress}
       style={({ pressed }) => ({
         flexDirection: 'row',

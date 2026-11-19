@@ -8,7 +8,7 @@ export interface SchofieldInputs {
 }
 
 /** [idade mínima (anos, inclusiva), a, b] — TMB = a × peso + b. */
-const COEFFICIENTS: Record<SchofieldInputs['sex'], Array<[number, number, number]>> = {
+const COEFFICIENTS: Record<SchofieldInputs['sex'], [number, number, number][]> = {
   male: [
     [0, 59.512, -30.4],
     [3, 22.706, 504.3],

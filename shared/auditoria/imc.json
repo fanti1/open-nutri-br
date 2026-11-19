@@ -1,0 +1,36 @@
+{
+  "slug": "imc",
+  "status": "conferido",
+  "verified_at": "2026-09-24",
+  "summary": "Pontos de corte conferidos na Tabela 2.1 da OMS (TRS 894), nas notas oficiais do SISVAN e na NICE NG246.",
+  "formula": "IMC = peso (kg) / altura (m)². < 18,5 baixo peso · 18,5–24,99 eutrofia · 25,0–29,99 sobrepeso · ≥ 30,0 obesidade.",
+  "sources": [
+    {
+      "citation": "Ministério da Saúde/DATASUS. SISVAN — notas técnicas: classificação do estado nutricional de adultos e idosos.",
+      "url": "http://tabnet.datasus.gov.br/cgi/SISVAN/CNV/notas_sisvan.html",
+      "evidence": "documento_oficial",
+      "checked": "Cortes 18,5 / 25,0 / 30,0 para adultos (20 a 59 anos)."
+    },
+    {
+      "citation": "NICE. Overweight and obesity management (NG246), 2025 — seção 1.9, recomendações 1.9.10 e 1.9.11.",
+      "url": "https://www.nice.org.uk/guidance/ng246/chapter/Identifying-and-assessing-overweight-obesity-and-central-adiposity",
+      "evidence": "documento_oficial",
+      "checked": "Recomendação 1.9.10: saudável 18,5–24,9; sobrepeso 25–29,9; obesidade 30 ou mais (classes 1 a 3)."
+    },
+    {
+      "citation": "WHO. Obesity: preventing and managing the global epidemic. WHO Technical Report Series 894, 2000.",
+      "url": "https://iris.who.int/handle/10665/42330",
+      "evidence": "documento_oficial",
+      "checked": "Tabela 2.1: baixo peso < 18,50; faixa normal 18,50–24,99; pré-obeso 25,00–29,99; obesidade classe I 30,00–34,99, II 35,00–39,99, III ≥ 40,00 — valores independentes de idade e sexo."
+    }
+  ],
+  "notes": [
+    "Como no SISVAN, obesidade não é subdividida em classes 1, 2 e 3.",
+    "Para pessoas de origem asiática, africana, caribenha ou do Oriente Médio a NICE (1.9.11) recomenda cortes menores; o app não aplica ajuste étnico."
+  ],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "70 ÷ 1,75² = 22,857 → 22,86. Como 18,5 ≤ 22,86 < 25 → eutrofia."
+  }
+}

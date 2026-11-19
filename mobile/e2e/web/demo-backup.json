@@ -1,0 +1,419 @@
+{
+ "format": "opennutri-br-backup",
+ "schema_version": 2,
+ "exported_at": "2026-10-28T23:35:02.204Z",
+ "data": {
+  "patients": [
+   {
+    "id": "mvsr52y5tymjdwjec0cjwfrkx5",
+    "name": "Beatriz Lima",
+    "birth_date": "1990-05-14",
+    "sex": "female",
+    "phone": null,
+    "email": null,
+    "cpf": null,
+    "notes": "Paciente fictícia (dados de demonstração).",
+    "archived": 0,
+    "created_at": "2026-10-28T23:35:02.189Z",
+    "updated_at": "2026-10-28T23:35:02.189Z"
+   },
+   {
+    "id": "mvsr52y652fobbfbz2ndv012cb",
+    "name": "Rafael Costa",
+    "birth_date": "1984-11-02",
+    "sex": "male",
+    "phone": null,
+    "email": null,
+    "cpf": null,
+    "notes": null,
+    "archived": 0,
+    "created_at": "2026-10-28T23:35:02.190Z",
+    "updated_at": "2026-10-28T23:35:02.190Z"
+   },
+   {
+    "id": "mvsr52y7ytdzlv03eom3qz36it",
+    "name": "Helena Duarte",
+    "birth_date": "1957-02-20",
+    "sex": "female",
+    "phone": null,
+    "email": null,
+    "cpf": null,
+    "notes": null,
+    "archived": 0,
+    "created_at": "2026-10-28T23:35:02.191Z",
+    "updated_at": "2026-10-28T23:35:02.191Z"
+   },
+   {
+    "id": "mvsr52y7f9ftp0nt2jewhj8kcj",
+    "name": "Lucas Andrade",
+    "birth_date": "2019-08-09",
+    "sex": "male",
+    "phone": null,
+    "email": null,
+    "cpf": null,
+    "notes": null,
+    "archived": 0,
+    "created_at": "2026-10-28T23:35:02.191Z",
+    "updated_at": "2026-10-28T23:35:02.191Z"
+   },
+   {
+    "id": "mvsr52y782597shjxhnsw3coab",
+    "name": "Joaquim Pereira",
+    "birth_date": "1949-07-30",
+    "sex": "male",
+    "phone": null,
+    "email": null,
+    "cpf": null,
+    "notes": null,
+    "archived": 0,
+    "created_at": "2026-10-28T23:35:02.191Z",
+    "updated_at": "2026-10-28T23:35:02.191Z"
+   }
+  ],
+  "consultations": [
+   {
+    "id": "mvsr52y72x781988xpnhyokahy",
+    "patient_id": "mvsr52y5tymjdwjec0cjwfrkx5",
+    "occurred_at": "2026-07-08T13:00:00.000Z",
+    "kind": "consulta",
+    "complaint": null,
+    "notes": null,
+    "plan": null,
+    "weight_kg": 82.4,
+    "height_cm": 164,
+    "waist_cm": 88,
+    "hip_cm": null,
+    "head_circumference_cm": null,
+    "created_at": "2026-10-28T23:35:02.191Z",
+    "updated_at": "2026-10-28T23:35:02.191Z"
+   },
+   {
+    "id": "mvsr52y8hhiv8qwsmy9vgmkgju",
+    "patient_id": "mvsr52y5tymjdwjec0cjwfrkx5",
+    "occurred_at": "2026-08-05T13:00:00.000Z",
+    "kind": "retorno",
+    "complaint": null,
+    "notes": null,
+    "plan": null,
+    "weight_kg": 80.9,
+    "height_cm": 164,
+    "waist_cm": 86.5,
+    "hip_cm": null,
+    "head_circumference_cm": null,
+    "created_at": "2026-10-28T23:35:02.192Z",
+    "updated_at": "2026-10-28T23:35:02.192Z"
+   },
+   {
+    "id": "mvsr52y9li8jpjrmefo1y71ba4",
+    "patient_id": "mvsr52y5tymjdwjec0cjwfrkx5",
+    "occurred_at": "2026-09-02T13:00:00.000Z",
+    "kind": "retorno",
+    "complaint": null,
+    "notes": null,
+    "plan": null,
+    "weight_kg": 79.6,
+    "height_cm": 164,
+    "waist_cm": 85,
+    "hip_cm": null,
+    "head_circumference_cm": null,
+    "created_at": "2026-10-28T23:35:02.193Z",
+    "updated_at": "2026-10-28T23:35:02.193Z"
+   },
+   {
+    "id": "mvsr52y9245qclb3jrgz8z15l2",
+    "patient_id": "mvsr52y5tymjdwjec0cjwfrkx5",
+    "occurred_at": "2026-09-30T13:00:00.000Z",
+    "kind": "retorno",
+    "complaint": null,
+    "notes": null,
+    "plan": null,
+    "weight_kg": 78.8,
+    "height_cm": 164,
+    "waist_cm": 83.5,
+    "hip_cm": null,
+    "head_circumference_cm": null,
+    "created_at": "2026-10-28T23:35:02.193Z",
+    "updated_at": "2026-10-28T23:35:02.193Z"
+   },
+   {
+    "id": "mvsr52y9hu6xp756kpcc7htmir",
+    "patient_id": "mvsr52y5tymjdwjec0cjwfrkx5",
+    "occurred_at": "2026-10-28T13:00:00.000Z",
+    "kind": "retorno",
+    "complaint": null,
+    "notes": null,
+    "plan": null,
+    "weight_kg": 77.5,
+    "height_cm": 164,
+    "waist_cm": 82,
+    "hip_cm": null,
+    "head_circumference_cm": null,
+    "created_at": "2026-10-28T23:35:02.193Z",
+    "updated_at": "2026-10-28T23:35:02.193Z"
+   }
+  ],
+  "calculations": [
+   {
+    "id": "mvsr52y9e2ga0g633knrqtb3fa",
+    "patient_id": "mvsr52y5tymjdwjec0cjwfrkx5",
+    "consultation_id": null,
+    "calculator_slug": "imc",
+    "calculator_name": "IMC",
+    "inputs": "{\"weight_kg\":77.5,\"height_m\":1.64}",
+    "result_values": "{\"value\":28.81}",
+    "classification": "sobrepeso",
+    "formula_version": "v1",
+    "created_at": "2026-10-28T23:35:02.193Z"
+   },
+   {
+    "id": "mvsr52ya3nzwn1qjdhkpijmd7k",
+    "patient_id": "mvsr52y5tymjdwjec0cjwfrkx5",
+    "consultation_id": null,
+    "calculator_slug": "mifflin-st-jeor",
+    "calculator_name": "Mifflin-St Jeor",
+    "inputs": "{\"weight_kg\":77.5,\"height_cm\":164,\"age_years\":36,\"sex\":\"female\"}",
+    "result_values": "{\"bmr_kcal\":1459}",
+    "classification": null,
+    "formula_version": "v1",
+    "created_at": "2026-10-28T23:35:02.194Z"
+   },
+   {
+    "id": "mvsr52yafhikt15d2c9fb4s6jx",
+    "patient_id": "mvsr52y5tymjdwjec0cjwfrkx5",
+    "consultation_id": null,
+    "calculator_slug": "valor-calorico-total",
+    "calculator_name": "Valor Calórico Total",
+    "inputs": "{\"bmr_kcal\":1459,\"pal\":1.6}",
+    "result_values": "{\"vct_kcal\":2334.4}",
+    "classification": "sedentario_ou_atividade_leve",
+    "formula_version": "v2",
+    "created_at": "2026-10-28T23:35:02.194Z"
+   }
+  ],
+  "attachments": [],
+  "tasks": [
+   {
+    "id": "mvsr52yhrge874748mfm5gr7qg",
+    "title": "Enviar plano alimentar da Beatriz",
+    "notes": null,
+    "due_at": "2026-10-29T21:00:00.000Z",
+    "remind_at": null,
+    "notification_id": null,
+    "patient_id": null,
+    "done": 0,
+    "done_at": null,
+    "created_at": "2026-10-28T23:35:02.201Z",
+    "updated_at": "2026-10-28T23:35:02.201Z"
+   }
+  ],
+  "appointments": [
+   {
+    "id": "mvsr52ygrtpipomshlo7pscxs5",
+    "title": "Retorno",
+    "patient_id": "mvsr52y5tymjdwjec0cjwfrkx5",
+    "starts_at": "2026-10-28T17:00:00.000Z",
+    "duration_minutes": 45,
+    "location": "Consultório",
+    "notes": null,
+    "reminder_minutes": null,
+    "notification_id": null,
+    "status": "agendado",
+    "created_at": "2026-10-28T23:35:02.200Z",
+    "updated_at": "2026-10-28T23:35:02.200Z"
+   },
+   {
+    "id": "mvsr52yge582dx6ahgcz5qdtup",
+    "title": "Primeira consulta",
+    "patient_id": null,
+    "starts_at": "2026-10-29T12:00:00.000Z",
+    "duration_minutes": 60,
+    "location": "Consultório",
+    "notes": null,
+    "reminder_minutes": null,
+    "notification_id": null,
+    "status": "agendado",
+    "created_at": "2026-10-28T23:35:02.200Z",
+    "updated_at": "2026-10-28T23:35:02.200Z"
+   }
+  ],
+  "meal_plans": [
+   {
+    "id": "mvsr52yaa6v9fp2m34hrx7kuc2",
+    "patient_id": "mvsr52y5tymjdwjec0cjwfrkx5",
+    "kind": "plano",
+    "title": "Plano alimentar — outubro",
+    "target_kcal": 1934,
+    "reference_date": null,
+    "notes": null,
+    "created_at": "2026-10-28T23:35:02.194Z",
+    "updated_at": "2026-10-28T23:35:02.200Z"
+   }
+  ],
+  "meal_plan_items": [
+   {
+    "id": "mvsr52yaxcwuruqgppus2pgzxi",
+    "plan_id": "mvsr52yaa6v9fp2m34hrx7kuc2",
+    "meal": "cafe_da_manha",
+    "food_id": 53,
+    "food_name": "Pão, trigo, francês",
+    "quantity_g": 50,
+    "household_measure": "1 unidade",
+    "position": 0,
+    "created_at": "2026-10-28T23:35:02.195Z"
+   },
+   {
+    "id": "mvsr52ycl80yckjkrcz095kvbh",
+    "plan_id": "mvsr52yaa6v9fp2m34hrx7kuc2",
+    "meal": "cafe_da_manha",
+    "food_id": 488,
+    "food_name": "Ovo, de galinha, inteiro, cozido/10minutos",
+    "quantity_g": 50,
+    "household_measure": "1 unidade",
+    "position": 1,
+    "created_at": "2026-10-28T23:35:02.196Z"
+   },
+   {
+    "id": "mvsr52ycpra58g97ki7cekll1l",
+    "plan_id": "mvsr52yaa6v9fp2m34hrx7kuc2",
+    "meal": "cafe_da_manha",
+    "food_id": 448,
+    "food_name": "Iogurte, natural",
+    "quantity_g": 170,
+    "household_measure": "1 pote",
+    "position": 2,
+    "created_at": "2026-10-28T23:35:02.196Z"
+   },
+   {
+    "id": "mvsr52ydix8mk986xzi9jpsjct",
+    "plan_id": "mvsr52yaa6v9fp2m34hrx7kuc2",
+    "meal": "lanche_da_manha",
+    "food_id": 182,
+    "food_name": "Banana, prata, crua",
+    "quantity_g": 70,
+    "household_measure": "1 unidade",
+    "position": 0,
+    "created_at": "2026-10-28T23:35:02.197Z"
+   },
+   {
+    "id": "mvsr52ydk2yvtvrza8jhjf077x",
+    "plan_id": "mvsr52yaa6v9fp2m34hrx7kuc2",
+    "meal": "almoco",
+    "food_id": 1,
+    "food_name": "Arroz, integral, cozido",
+    "quantity_g": 120,
+    "household_measure": "4 colheres de sopa",
+    "position": 0,
+    "created_at": "2026-10-28T23:35:02.197Z"
+   },
+   {
+    "id": "mvsr52ydzyup6b8sl0lot09vms",
+    "plan_id": "mvsr52yaa6v9fp2m34hrx7kuc2",
+    "meal": "almoco",
+    "food_id": 561,
+    "food_name": "Feijão, carioca, cozido",
+    "quantity_g": 100,
+    "household_measure": "1 concha",
+    "position": 1,
+    "created_at": "2026-10-28T23:35:02.197Z"
+   },
+   {
+    "id": "mvsr52yednzumldtqm5bzvfoiy",
+    "plan_id": "mvsr52yaa6v9fp2m34hrx7kuc2",
+    "meal": "almoco",
+    "food_id": 410,
+    "food_name": "Frango, peito, sem pele, grelhado",
+    "quantity_g": 120,
+    "household_measure": "1 filé",
+    "position": 2,
+    "created_at": "2026-10-28T23:35:02.198Z"
+   },
+   {
+    "id": "mvsr52ye45lhv69u9doe8p7p05",
+    "plan_id": "mvsr52yaa6v9fp2m34hrx7kuc2",
+    "meal": "almoco",
+    "food_id": 100,
+    "food_name": "Brócolis, cozido",
+    "quantity_g": 60,
+    "household_measure": null,
+    "position": 3,
+    "created_at": "2026-10-28T23:35:02.198Z"
+   },
+   {
+    "id": "mvsr52yeaj1panpn9xck5ngkra",
+    "plan_id": "mvsr52yaa6v9fp2m34hrx7kuc2",
+    "meal": "almoco",
+    "food_id": 78,
+    "food_name": "Alface, crespa, crua",
+    "quantity_g": 30,
+    "household_measure": null,
+    "position": 4,
+    "created_at": "2026-10-28T23:35:02.198Z"
+   },
+   {
+    "id": "mvsr52yfmuwyaik9xu5jdzjrc1",
+    "plan_id": "mvsr52yaa6v9fp2m34hrx7kuc2",
+    "meal": "lanche_da_tarde",
+    "food_id": 7,
+    "food_name": "Aveia, flocos, crua",
+    "quantity_g": 30,
+    "household_measure": "2 colheres de sopa",
+    "position": 0,
+    "created_at": "2026-10-28T23:35:02.199Z"
+   },
+   {
+    "id": "mvsr52yfo2lealaxdolyyv9vfj",
+    "plan_id": "mvsr52yaa6v9fp2m34hrx7kuc2",
+    "meal": "jantar",
+    "food_id": 1,
+    "food_name": "Arroz, integral, cozido",
+    "quantity_g": 90,
+    "household_measure": "3 colheres de sopa",
+    "position": 0,
+    "created_at": "2026-10-28T23:35:02.199Z"
+   },
+   {
+    "id": "mvsr52yglw9r8jnchjdav4ucu9",
+    "plan_id": "mvsr52yaa6v9fp2m34hrx7kuc2",
+    "meal": "jantar",
+    "food_id": 410,
+    "food_name": "Frango, peito, sem pele, grelhado",
+    "quantity_g": 100,
+    "household_measure": null,
+    "position": 1,
+    "created_at": "2026-10-28T23:35:02.200Z"
+   }
+  ],
+  "favorites": [
+   {
+    "calculator_slug": "imc",
+    "created_at": "2026-10-28T23:35:02.202Z"
+   },
+   {
+    "calculator_slug": "mifflin-st-jeor",
+    "created_at": "2026-10-28T23:35:02.202Z"
+   },
+   {
+    "calculator_slug": "valor-calorico-total",
+    "created_at": "2026-10-28T23:35:02.202Z"
+   }
+  ],
+  "settings": [
+   {
+    "key": "profile",
+    "value": "{\"name\":\"Ana Souza\",\"crn_number\":\"00000\",\"crn_state\":\"SP\",\"specialty\":\"Nutrição clínica\"}"
+   },
+   {
+    "key": "onboarding_done",
+    "value": "true"
+   },
+   {
+    "key": "privacy_accepted_version",
+    "value": "\"1.0\""
+   },
+   {
+    "key": "last_backup_at",
+    "value": "\"2026-10-28T11:00:00.000Z\""
+   }
+  ]
+ }
+}

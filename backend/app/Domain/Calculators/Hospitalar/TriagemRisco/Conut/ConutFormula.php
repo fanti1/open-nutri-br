@@ -6,7 +6,8 @@ use App\Domain\Calculators\Contracts\FormulaInterface;
 
 /**
  * CONUT soma 3 subescores por faixa: albumina sérica, colesterol total e
- * contagem total de linfócitos.
+ * contagem total de linfócitos — Tabela I do artigo original: colesterol
+ * > 180 = 0; 140–180 = 1 (180 mg/dL inclusive); 100–139 = 2; < 100 = 3.
  * Reference: Ignacio de Ulíbarri J et al., Nutr Hosp, 2005.
  */
 final class ConutFormula implements FormulaInterface
@@ -25,7 +26,7 @@ final class ConutFormula implements FormulaInterface
         };
 
         $cholesterolScore = match (true) {
-            $cholesterol >= 180 => 0,
+            $cholesterol > 180 => 0,
             $cholesterol >= 140 => 1,
             $cholesterol >= 100 => 2,
             default => 3,

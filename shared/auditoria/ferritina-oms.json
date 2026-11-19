@@ -1,0 +1,25 @@
+{
+  "slug": "ferritina-oms",
+  "status": "conferido",
+  "verified_at": "2026-09-24",
+  "summary": "Cortes conferidos na Tabela 1 e na recomendação 1.2 da diretriz da OMS de 2020.",
+  "formula": "Deficiência de ferro se ferritina < 12 µg/L (< 5 anos) ou < 15 µg/L (≥ 5 anos); com infecção ou inflamação < 30 e < 70 µg/L.",
+  "sources": [
+    {
+      "citation": "WHO. WHO guideline on use of ferritin concentrations to assess iron status in individuals and populations. Geneva, 2020 (ISBN 978-92-4-000012-4).",
+      "url": "https://www.who.int/publications/i/item/9789240000124",
+      "pmid": "33909381",
+      "evidence": "documento_oficial",
+      "checked": "Tabela 1: deficiência de ferro < 12 µg/L de 0 a 59 meses (< 30 com infecção ou inflamação) e < 15 µg/L de 5 anos em diante (< 70 com infecção ou inflamação); gestantes < 15 µg/L no 1º trimestre. Inflamação definida, por exemplo, por PCR > 5 mg/L ou AGP > 1 g/L."
+    }
+  ],
+  "notes": [
+    "Para gestantes a OMS só define corte no 1º trimestre (< 15 µg/L, igual ao do grupo etário). No 2º e 3º trimestres não há corte, e o resultado do app deve ser lido com cautela.",
+    "A mesma tabela traz cortes de risco de sobrecarga de ferro (> 150 µg/L mulheres, > 200 µg/L homens, > 500 µg/L em doentes), que o app não classifica."
+  ],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "35 anos, sem inflamação → corte 15. 10 < 15 → deficiência de ferro."
+  }
+}

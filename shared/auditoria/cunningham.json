@@ -1,0 +1,24 @@
+{
+  "slug": "cunningham",
+  "status": "conferido",
+  "verified_at": "2026-09-24",
+  "summary": "Equação conferida no resumo do artigo original.",
+  "formula": "TMB = 500 + 22 × massa magra (kg); massa magra = peso × (1 − %G/100).",
+  "sources": [
+    {
+      "citation": "Cunningham JJ. A reanalysis of the factors influencing basal metabolic rate in normal adults. Am J Clin Nutr. 1980;33(11):2372-4.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/7435418/",
+      "pmid": "7435418",
+      "evidence": "resumo",
+      "checked": "BMR (cal/day) = 500 + 22 (LBM)."
+    }
+  ],
+  "notes": [
+    "A massa magra é estimada a partir do % de gordura informado (dobras ou bioimpedância)."
+  ],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "Massa magra = 70 × (1 − 0,20) = 56 kg. TMB = 500 + 22 × 56 = 1.732 kcal."
+  }
+}

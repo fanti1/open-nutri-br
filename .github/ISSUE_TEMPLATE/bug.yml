@@ -1,0 +1,58 @@
+# Os ids dos campos são preenchidos pelo app em "Mais → Relatar um problema" (mobile/src/lib/report.ts).
+name: Problema no app
+description: Algo não funciona como deveria (erro, tela travada, resultado que não aparece…)
+title: "[Problema] "
+labels: [problema]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por relatar! Pelo app (**Mais → Relatar um problema**) este formulário já chega preenchido com as informações técnicas.
+
+        **Não inclua dados de pacientes** (nomes, CPF, datas de nascimento, resultados): issues são públicas. Use dados inventados.
+
+        Um valor ou classificação que não bate com a fonte científica? Use o modelo **Divergência científica**.
+  - type: textarea
+    id: descricao
+    attributes:
+      label: O que aconteceu?
+      description: O que você esperava e o que aconteceu de fato.
+    validations:
+      required: true
+  - type: textarea
+    id: passos
+    attributes:
+      label: Passos para reproduzir
+      placeholder: |
+        1. Abrir a ficha de um paciente
+        2. Tocar em "Exportar PDF"
+        3. ...
+  - type: input
+    id: versao
+    attributes:
+      label: Versão do app
+      description: Em Mais → Sobre o OpenNutri BR.
+      placeholder: "1.0.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: plataforma
+    attributes:
+      label: Onde você usa o app
+      options:
+        - Android
+        - iPhone ou iPad
+        - Navegador
+  - type: textarea
+    id: diagnostico
+    attributes:
+      label: Informações técnicas
+      description: Preenchido pelo app (sistema, tela, erros registrados no aparelho). Sem dados de pacientes.
+      render: text
+  - type: checkboxes
+    id: privacidade
+    attributes:
+      label: Privacidade
+      options:
+        - label: Conferi que o relato e os prints não têm dados de pacientes.
+          required: true

@@ -3,6 +3,8 @@
   "cases": [
     { "inputs": { "weight_kg": 80, "height_cm": 175, "age_years": 50, "sex": "male", "minute_ventilation_l_min": 10, "max_temperature_c": 37.5 }, "expected": { "values": { "ree_kcal": 1943.30, "mifflin_kcal": 1648.75, "bmi": 26.12 }, "classification": "equacao_2003b" } },
     { "inputs": { "weight_kg": 95, "height_cm": 160, "age_years": 70, "sex": "female", "minute_ventilation_l_min": 9, "max_temperature_c": 37.8 }, "expected": { "values": { "ree_kcal": 1725.69, "mifflin_kcal": 1439, "bmi": 37.11 }, "classification": "equacao_2010_idoso_com_obesidade" } },
-    { "inputs": { "weight_kg": 80, "height_cm": 170, "age_years": 65, "sex": "male", "minute_ventilation_l_min": 8, "max_temperature_c": 38 }, "expected": { "values": { "ree_kcal": 1862.80, "mifflin_kcal": 1542.5, "bmi": 27.68 }, "classification": "equacao_2003b" } }
+    { "inputs": { "weight_kg": 80, "height_cm": 170, "age_years": 65, "sex": "male", "minute_ventilation_l_min": 8, "max_temperature_c": 38 }, "expected": { "values": { "ree_kcal": 1862.80, "mifflin_kcal": 1542.5, "bmi": 27.68 }, "classification": "equacao_2003b" } },
+    { "_comment": "IMC exatamente 30 (76,8 kg / 1,60 m²): em ponto flutuante dá 29,999999999999993 e precisa contar como ≥ 30 → versão 2010", "inputs": { "weight_kg": 76.8, "height_cm": 160, "age_years": 65, "sex": "male", "minute_ventilation_l_min": 10, "max_temperature_c": 38 }, "expected": { "values": { "ree_kcal": 1813.08, "mifflin_kcal": 1448, "bmi": 30.0 }, "classification": "equacao_2010_idoso_com_obesidade" } },
+    { "_comment": "IMC 29,997 (exibido 30,00): a fórmula usa a 2003b e o rótulo tem de dizer a mesma versão", "inputs": { "weight_kg": 76.792, "height_cm": 160, "age_years": 65, "sex": "male", "minute_ventilation_l_min": 10, "max_temperature_c": 38 }, "expected": { "values": { "ree_kcal": 1834.0, "mifflin_kcal": 1447.92, "bmi": 30.0 }, "classification": "equacao_2003b" } }
   ]
 }

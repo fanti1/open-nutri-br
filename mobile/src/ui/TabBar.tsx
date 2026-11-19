@@ -27,9 +27,9 @@ export function TabBar<T extends string>({ tabs, value, onChange }: { tabs: TabI
             accessibilityRole="tab"
             accessibilityState={{ selected: active }}
             aria-selected={active}
-            accessibilityLabel={tab.label}
+            accessibilityLabel={tab.count ? `${tab.label}, ${tab.count}` : tab.label}
             onPress={() => onChange(tab.value)}
-            style={{ flex: 1, alignItems: 'center', gap: 4, paddingTop: 6, paddingBottom: 10 }}
+            style={{ flex: 1, alignItems: 'center', gap: 4, paddingTop: 8, paddingBottom: 10, minHeight: 52 }}
           >
             <View>
               <Ionicons name={tab.icon} size={20} color={color} />
@@ -54,7 +54,7 @@ export function TabBar<T extends string>({ tabs, value, onChange }: { tabs: TabI
                 </View>
               )}
             </View>
-            <AppText style={{ fontSize: tabs.length > 4 ? 10 : 11, fontWeight: active ? '700' : '500' }} color={color} numberOfLines={1}>
+            <AppText style={{ fontSize: tabs.length > 4 ? 11 : 12, fontWeight: active ? '700' : '500' }} color={color} numberOfLines={1}>
               {tab.label}
             </AppText>
             <View

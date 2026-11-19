@@ -1,0 +1,43 @@
+{
+  "slug": "necessidades-proteicas",
+  "status": "conferido",
+  "verified_at": "2026-09-24",
+  "summary": "Conta aritmética (peso × g/kg/dia) com a meta escolhida pelo profissional. As recomendações mostradas como orientação foram conferidas no texto completo das diretrizes da ESPEN.",
+  "formula": "Proteína (g/dia) = peso (kg) × meta (g/kg/dia), com a meta entre 0,3 e 3,0 g/kg/dia.",
+  "sources": [
+    {
+      "citation": "Singer P, Blaser AR, Berger MM et al. ESPEN practical and partially revised guideline: clinical nutrition in the intensive care unit. Clin Nutr. 2023;42(9):1671-89.",
+      "url": "https://www.espen.org/files/ESPEN-Guidelines/ESPEN_practical_and_partially_revised_guideline_Clinical_nutrition_in_the_intensive_care_unit.pdf",
+      "evidence": "texto_completo",
+      "checked": "Recomendação para o doente crítico: 1,3 g/kg/dia de proteína, oferecida de forma progressiva."
+    },
+    {
+      "citation": "Gomes F, Schuetz P, Bounoure L et al. ESPEN guidelines on nutritional support for polymorbid internal medicine patients. Clin Nutr. 2018;37(1):336-53.",
+      "url": "https://www.espen.org/files/ESPEN-Guidelines/ESPEN_guidelines_on_nutritional_support_for_polymorbid_internal_medicine_patients.pdf",
+      "evidence": "texto_completo",
+      "checked": "Recomendação 5.1: polimórbidos internados que precisam de suporte nutricional devem receber no mínimo 1,0 g/kg/dia (grau A)."
+    },
+    {
+      "citation": "Volkert D, Beck AM, Cederholm T et al. ESPEN guideline on clinical nutrition and hydration in geriatrics. Clin Nutr. 2019;38(1):10-47.",
+      "url": "https://www.espen.org/files/ESPEN-Guidelines/ESPEN_guideline_on_clincal_nutrition_and_hydration_in_geriatrics.pdf",
+      "evidence": "texto_completo",
+      "checked": "Idosos: pelo menos 1,0 g/kg/dia; o texto cita 0,8 g/kg/dia como a recomendação tradicional para adultos de todas as idades."
+    }
+  ],
+  "notes": [
+    "O app não escolhe a meta: a necessidade proteica depende do quadro clínico, e as diretrizes dão valores para situações específicas, não uma escala por \"gravidade\".",
+    "Os 0,8 g/kg/dia para adultos saudáveis (DRI do Institute of Medicine) foram conferidos pela citação na diretriz da ESPEN de geriatria; o documento do IOM não foi acessado.",
+    "Qual peso usar (atual, ideal, ajustado) também é decisão clínica; a ESPEN (UTI) sugere peso ajustado em pacientes com obesidade."
+  ],
+  "changes": [
+    {
+      "date": "2026-09-24",
+      "version": "v2",
+      "text": "Os fatores 0,8 · 1,2 · 1,5 · 2,0 g/kg por \"contexto clínico\" (sem correspondência nas diretrizes) deram lugar à meta em g/kg/dia escolhida pelo profissional, com as recomendações da ESPEN como orientação no formulário."
+    }
+  ],
+  "example": {
+    "spec_case": 0,
+    "calculation": "70 kg × 1,3 g/kg/dia (meta da ESPEN para o doente crítico) = 91 g/dia."
+  }
+}

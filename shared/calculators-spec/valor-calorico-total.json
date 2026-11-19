@@ -1,7 +1,13 @@
 {
   "slug": "valor-calorico-total",
   "cases": [
-    { "inputs": { "bmr_kcal": 1648.75, "activity_level": "moderado" }, "expected": { "values": { "vct_kcal": 2555.56 }, "classification": null } },
-    { "inputs": { "bmr_kcal": 1400, "activity_level": "sedentario" }, "expected": { "values": { "vct_kcal": 1680 }, "classification": null } }
+    { "inputs": { "bmr_kcal": 1302, "pal": 1.85 }, "expected": { "values": { "vct_kcal": 2408.7 }, "classification": "ativo_ou_moderadamente_ativo" } },
+    { "inputs": { "bmr_kcal": 1400, "pal": 1.4 }, "expected": { "values": { "vct_kcal": 1960 }, "classification": "sedentario_ou_atividade_leve" } },
+    { "inputs": { "bmr_kcal": 1500, "pal": 1.69 }, "expected": { "values": { "vct_kcal": 2535 }, "classification": "sedentario_ou_atividade_leve" } },
+    { "inputs": { "bmr_kcal": 1500, "pal": 1.7 }, "expected": { "values": { "vct_kcal": 2550 }, "classification": "ativo_ou_moderadamente_ativo" } },
+    { "inputs": { "bmr_kcal": 1500, "pal": 1.99 }, "expected": { "values": { "vct_kcal": 2985 }, "classification": "ativo_ou_moderadamente_ativo" } },
+    { "inputs": { "bmr_kcal": 1500, "pal": 2.0 }, "expected": { "values": { "vct_kcal": 3000 }, "classification": "vigorosamente_ativo" } },
+    { "inputs": { "bmr_kcal": 1648.75, "pal": 2.4 }, "expected": { "values": { "vct_kcal": 3957 }, "classification": "vigorosamente_ativo" } },
+    { "inputs": { "bmr_kcal": 1648.75, "pal": 1.55 }, "expected": { "values": { "vct_kcal": 2555.56 }, "classification": "sedentario_ou_atividade_leve" } }
   ]
 }

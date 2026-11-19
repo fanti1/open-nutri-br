@@ -7,6 +7,8 @@
     { "inputs": { "age_months": 74.27, "sex": "female", "weight_kg": 29.7, "height_cm": 125 }, "expected": { "values": { "z_score": 1.88 }, "classification": "sobrepeso" } },
     { "inputs": { "age_months": 78.74, "sex": "male", "weight_kg": 16.6, "height_cm": 115.7 }, "expected": { "values": { "z_score": -2.76 }, "classification": "magreza" } },
     { "inputs": { "age_months": 188.57, "sex": "male", "weight_kg": 126.4, "height_cm": 171.4 }, "expected": { "values": { "z_score": 4.21 }, "classification": "obesidade_grave" } },
-    { "inputs": { "age_months": 144.13, "sex": "male", "weight_kg": 27.7, "height_cm": 145.2 }, "expected": { "values": { "z_score": -3.24 }, "classification": "magreza_acentuada" } }
+    { "inputs": { "age_months": 144.13, "sex": "male", "weight_kg": 27.7, "height_cm": 145.2 }, "expected": { "values": { "z_score": -3.24 }, "classification": "magreza_acentuada" } },
+    { "_comment": "SISVAN 2011, Quadro 13: de 19 anos e 1 mês a 19 anos e 11 meses usam-se os valores de 19 anos completos (228 meses) — mesmo escore-Z do caso seguinte", "inputs": { "age_months": 234.5, "sex": "male", "weight_kg": 70, "height_cm": 175 }, "expected": { "values": { "z_score": 0.23, "measure": 22.86, "reference_median": 22.19 }, "classification": "eutrofia" } },
+    { "inputs": { "age_months": 228, "sex": "male", "weight_kg": 70, "height_cm": 175 }, "expected": { "values": { "z_score": 0.23, "measure": 22.86, "reference_median": 22.19 }, "classification": "eutrofia" } }
   ]
 }

@@ -31,4 +31,16 @@ describe('schemaToFields', () => {
 
     expect(field).toMatchObject({ name: 'acute_disease_effect', type: 'boolean', required: true });
   });
+
+  it('reads between:a,b as min/max (e.g. NRS-2002 scores, 0 to 3)', () => {
+    const [field] = schemaToFields({ severity_score: ['required', 'integer', 'between:0,3'] });
+
+    expect(field).toMatchObject({ type: 'number', min: 0, max: 3, integer: true });
+  });
+
+  it('marks a list of numeric options as numeric (MNA-SF item D: 0 or 2)', () => {
+    const [field] = schemaToFields({ psychological_stress_score: ['required', 'integer', 'in:0,2'] });
+
+    expect(field).toMatchObject({ type: 'select', options: ['0', '2'], numeric: true });
+  });
 });

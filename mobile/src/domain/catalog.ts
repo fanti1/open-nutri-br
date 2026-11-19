@@ -1,6 +1,8 @@
 import type { Ionicons } from '@expo/vector-icons';
 import rawCatalog from '../data/catalog.json';
+import type { AreaColor } from '../theme/tokens';
 import type { LifeStage } from './calculators/types';
+import type { MethodAudit } from './methodAudit';
 
 type IconName = keyof typeof Ionicons.glyphMap;
 
@@ -16,9 +18,14 @@ export interface CatalogEntry {
   input_schema: Record<string, unknown>;
   life_stages: LifeStage[];
   sort_order: number;
+  /** Versão da fórmula (a mesma gravada em cada cálculo salvo). */
+  version: string;
+  /** Auditoria científica do método (fontes conferidas, ressalvas, exemplo). */
+  audit: MethodAudit;
 }
 
-export const CATALOG: CatalogEntry[] = rawCatalog as CatalogEntry[];
+// Gerado por `php artisan catalog:export`; a forma é verificada nos testes (calculatorSpec e methodAudit).
+export const CATALOG: CatalogEntry[] = rawCatalog as unknown as CatalogEntry[];
 
 const BY_SLUG = new Map(CATALOG.map((entry) => [entry.slug, entry]));
 
@@ -31,15 +38,16 @@ export interface ModuleInfo {
   label: string;
   description: string;
   icon: IconName;
-  colorKey: 'primary' | 'info' | 'child' | 'elderly';
+  /** Cor da área (coral, azul, amarelo, violeta): cabeçalho da calculadora e blocos da área. */
+  colorKey: AreaColor;
 }
 
 /** Áreas de atuação — a porta de entrada das calculadoras. */
 export const MODULES: ModuleInfo[] = [
-  { key: 'ambulatorio', label: 'Consultório', description: 'Antropometria, composição corporal e gasto energético', icon: 'body-outline', colorKey: 'primary' },
-  { key: 'hospitalar', label: 'Hospitalar e Terapia Intensiva', description: 'Triagem, suporte nutricional e ventilação mecânica', icon: 'medkit-outline', colorKey: 'info' },
-  { key: 'pediatria', label: 'Pediatria', description: 'Curvas de crescimento da OMS e necessidades', icon: 'happy-outline', colorKey: 'child' },
-  { key: 'bioquimica', label: 'Exames laboratoriais', description: 'Anemia, glicemia, lipídios e função renal', icon: 'flask-outline', colorKey: 'elderly' },
+  { key: 'ambulatorio', label: 'Consultório', description: 'Antropometria, composição corporal e gasto energético', icon: 'body-outline', colorKey: 'coral' },
+  { key: 'hospitalar', label: 'Hospitalar e Terapia Intensiva', description: 'Triagem, suporte nutricional e ventilação mecânica', icon: 'medkit-outline', colorKey: 'sky' },
+  { key: 'pediatria', label: 'Pediatria', description: 'Curvas de crescimento da OMS e necessidades', icon: 'happy-outline', colorKey: 'sun' },
+  { key: 'bioquimica', label: 'Exames laboratoriais', description: 'Anemia, glicemia, lipídios e função renal', icon: 'flask-outline', colorKey: 'violet' },
 ];
 
 export function moduleInfo(key: string): ModuleInfo | undefined {
@@ -47,7 +55,7 @@ export function moduleInfo(key: string): ModuleInfo | undefined {
 }
 
 /** Calculadoras de uma área agrupadas por categoria, na ordem do catálogo. */
-export function categoriesOf(entries: CatalogEntry[]): Array<{ category: string; label: string; entries: CatalogEntry[] }> {
+export function categoriesOf(entries: CatalogEntry[]): { category: string; label: string; entries: CatalogEntry[] }[] {
   const groups = new Map<string, CatalogEntry[]>();
   for (const entry of entries) groups.set(entry.category, [...(groups.get(entry.category) ?? []), entry]);
   return [...groups.entries()].map(([category, list]) => ({ category, label: CATEGORY_LABELS[category] ?? category, entries: list }));
@@ -57,10 +65,18 @@ export function normalizeSearch(text: string): string {
   return text.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 }
 
+/** Texto de busca de cada calculadora, normalizado uma vez só — a busca roda a cada tecla. */
+let searchable: Map<CatalogEntry, string> | null = null;
+
+function searchText(entry: CatalogEntry): string {
+  searchable ??= new Map(CATALOG.map((item) => [item, normalizeSearch(`${item.name} ${item.short_description} ${item.slug}`)]));
+  return searchable.get(entry) ?? normalizeSearch(`${entry.name} ${entry.short_description} ${entry.slug}`);
+}
+
 export function searchCatalog(term: string, entries: CatalogEntry[] = CATALOG): CatalogEntry[] {
   const needle = normalizeSearch(term.trim());
   if (!needle) return entries;
-  return entries.filter((entry) => normalizeSearch(`${entry.name} ${entry.short_description} ${entry.slug}`).includes(needle));
+  return entries.filter((entry) => searchText(entry).includes(needle));
 }
 
 export const CATEGORY_LABELS: Record<string, string> = {
@@ -135,6 +151,9 @@ const EXPLICIT_TONES: Record<string, ResultTone> = {
   risco_coronariano_elevado: 'danger',
   equacao_2003b: 'info',
   equacao_2010_idoso_com_obesidade: 'info',
+  sedentario_ou_atividade_leve: 'info',
+  ativo_ou_moderadamente_ativo: 'info',
+  vigorosamente_ativo: 'info',
 };
 
 /**

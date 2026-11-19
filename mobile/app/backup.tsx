@@ -185,7 +185,7 @@ export default function BackupScreen() {
       <Sheet visible={!!pendingEncrypted} onClose={() => setPendingEncrypted(null)} title="Backup protegido">
         <View style={{ gap: 14 }}>
           <AppText tone="muted">Digite a senha usada ao gerar este backup.</AppText>
-          <TextField label="Senha do backup" value={restorePassword} onChangeText={setRestorePassword} secureTextEntry autoCapitalize="none" autoFocus error={restoreError} onSubmitEditing={restoreEncrypted} />
+          <TextField label="Senha do arquivo a restaurar" value={restorePassword} onChangeText={setRestorePassword} secureTextEntry autoCapitalize="none" autoFocus error={restoreError} onSubmitEditing={restoreEncrypted} />
           <Button label="Restaurar" icon="cloud-download-outline" onPress={restoreEncrypted} loading={busy === 'import'} disabled={!restorePassword} fullWidth />
         </View>
       </Sheet>

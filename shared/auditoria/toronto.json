@@ -1,0 +1,24 @@
+{
+  "slug": "toronto",
+  "status": "conferido",
+  "verified_at": "2026-09-24",
+  "summary": "Equação conferida no resumo do artigo original.",
+  "formula": "GER = −4343 + 10,5 × %SCQ + 0,23 × ingestão calórica + 0,84 × Harris-Benedict + 114 × T (°C) − 4,5 × dias pós-queimadura.",
+  "sources": [
+    {
+      "citation": "Allard JP, Pichard C, Hoshino E et al. Validation of a new formula for calculating the energy requirements of burn patients. JPEN. 1990;14(2):115-8.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/2112617/",
+      "pmid": "2112617",
+      "evidence": "resumo",
+      "checked": "Fórmula de Toronto: −4343 + (10,5 × %TBSA) + (0,23 × CI) + (0,84 × EBEE) + (114 × Temp) − (4,5 × PBD)."
+    }
+  ],
+  "notes": [
+    "O artigo não diz qual versão da equação de Harris-Benedict usou; o valor é informado pelo profissional."
+  ],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "−4.343 + 10,5 × 40 + 0,23 × 2.000 + 0,84 × 1.600 + 114 × 38 − 4,5 × 5 = 2.190,5 kcal."
+  }
+}

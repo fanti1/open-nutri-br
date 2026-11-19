@@ -1,0 +1,22 @@
+{
+  "slug": "mifflin-st-jeor",
+  "status": "conferido",
+  "verified_at": "2026-09-24",
+  "summary": "Equações simplificadas por sexo conferidas no resumo do artigo original.",
+  "formula": "Homens: 10 × peso + 6,25 × estatura (cm) − 5 × idade + 5. Mulheres: 10 × peso + 6,25 × estatura (cm) − 5 × idade − 161.",
+  "sources": [
+    {
+      "citation": "Mifflin MD, St Jeor ST, Hill LA et al. A new predictive equation for resting energy expenditure in healthy individuals. Am J Clin Nutr. 1990;51(2):241-7.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/2305711/",
+      "pmid": "2305711",
+      "evidence": "resumo",
+      "checked": "REE (homens) = 10 × peso + 6,25 × altura − 5 × idade + 5; REE (mulheres) = … − 161. Derivada em 498 adultos de 19 a 78 anos."
+    }
+  ],
+  "notes": [],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "10 × 70 + 6,25 × 175 − 5 × 30 + 5 = 700 + 1.093,75 − 150 + 5 = 1.648,75 kcal."
+  }
+}

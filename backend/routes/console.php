@@ -1,8 +1,4 @@
 <?php
 
-use Illuminate\Foundation\Inspiring;
-use Illuminate\Support\Facades\Artisan;
-
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->purpose('Display an inspiring quote');
+// Os comandos do projeto ficam em app/Console/Commands (descobertos automaticamente):
+// catalog:export e foods:import-taco.

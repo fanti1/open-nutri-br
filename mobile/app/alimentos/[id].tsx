@@ -10,7 +10,7 @@ import { Section } from '../../src/ui/Section';
 
 type Row = [keyof TacoFood, string];
 
-const GROUPS: Array<{ title: string; rows: Row[] }> = [
+const GROUPS: { title: string; rows: Row[] }[] = [
   {
     title: 'Composição centesimal',
     rows: [

@@ -2,7 +2,6 @@
 
 namespace App\Domain\Calculators\Hospitalar\SuporteNutricional\NutricaoParenteral;
 
-use App\Domain\Calculators\Contracts\ClassifierInterface;
 use App\Domain\Calculators\Contracts\FormulaInterface;
 use App\Domain\Calculators\Support\AbstractCalculator;
 use App\Domain\Calculators\Support\CalculatorReference;
@@ -27,7 +26,7 @@ final class NutricaoParenteralCalculator extends AbstractCalculator
 
     public function version(): string
     {
-        return 'v1';
+        return 'v2';
     }
 
     public function inputsSchema(): array
@@ -41,12 +40,12 @@ final class NutricaoParenteralCalculator extends AbstractCalculator
     public function reference(): CalculatorReference
     {
         return new CalculatorReference(
-            method: 'Nutrição Parenteral (relação kcal não-proteica : N)',
-            citation: 'ASPEN/BRASPEN Guidelines for Parenteral Nutrition.',
+            method: 'Nutrição Parenteral (relação kcal não proteicas : g de N)',
+            citation: 'Conta aritmética: N (g) = proteína ÷ 6,25 (a proteína tem cerca de 16% de nitrogênio); relação = kcal não proteicas ÷ N.',
         );
     }
 
-    /** Faixa 100-150:1 citada é a recomendação para adultos; pediatria usa relações próprias. */
+    /** Uso em adultos; a relação é mostrada sem faixa de referência (nenhuma foi conferida numa fonte). */
     public function lifeStages(): array
     {
         return [LifeStage::Adult, LifeStage::Elderly];
@@ -55,10 +54,5 @@ final class NutricaoParenteralCalculator extends AbstractCalculator
     protected function formula(): FormulaInterface
     {
         return new NutricaoParenteralFormula;
-    }
-
-    protected function classifier(): ?ClassifierInterface
-    {
-        return new NutricaoParenteralClassifier;
     }
 }

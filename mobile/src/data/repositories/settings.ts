@@ -3,6 +3,7 @@ import type { SqlDatabase } from '../db/types';
 import { nowIso } from '../ids';
 import type { CalculatorProfile, CalculatorProfiles } from '../../domain/calculatorProfile';
 import type { LifeStage } from '../../domain/calculators/types';
+import type { ErrorEntry } from '../../lib/errorLog';
 import type { Profile } from '../models';
 import type { AppLockConfig } from '../services/appLock';
 
@@ -20,6 +21,8 @@ export interface AppSettings {
   calculator_audience: LifeStage;
   /** Bloqueio por PIN/digital (null = desligado). */
   app_lock: AppLockConfig | null;
+  /** Erros inesperados recentes, só neste aparelho (fora do backup), para o "Relatar um problema". */
+  error_log: ErrorEntry[];
 }
 
 const DEFAULTS: AppSettings = {
@@ -31,6 +34,7 @@ const DEFAULTS: AppSettings = {
   calculator_profiles: {},
   calculator_audience: 'adulto',
   app_lock: null,
+  error_log: [],
 };
 
 /** Preferências e perfil do profissional (chave → JSON) e calculadoras favoritas. */
@@ -48,6 +52,17 @@ export function settingsRepository(db: SqlDatabase) {
         [key, JSON.stringify(value)],
       );
       notifyChange('settings');
+    },
+
+    /**
+     * Grava o registro de erros sem avisar as telas: quem lê é só o "Relatar um problema",
+     * e um erro numa tela não pode disparar novas renderizações em cadeia.
+     */
+    async saveErrorLog(entries: ErrorEntry[]): Promise<void> {
+      await db.runAsync(
+        'INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value',
+        ['error_log', JSON.stringify(entries)],
+      );
     },
 
     /** Guarda o perfil de uma calculadora (fica salvo para as próximas vezes). */

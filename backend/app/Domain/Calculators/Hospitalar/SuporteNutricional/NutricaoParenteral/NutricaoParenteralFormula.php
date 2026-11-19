@@ -5,8 +5,9 @@ namespace App\Domain\Calculators\Hospitalar\SuporteNutricional\NutricaoParentera
 use App\Domain\Calculators\Contracts\FormulaInterface;
 
 /**
- * Relação kcal não-proteica : g de nitrogênio = kcal não-proteicas / (proteína(g) / 6.25).
- * Reference: ASPEN/BRASPEN Guidelines for Parenteral Nutrition.
+ * Relação kcal não proteicas : g de nitrogênio = kcal não proteicas / (proteína(g) / 6,25),
+ * já que a proteína tem cerca de 16% de nitrogênio. Sem classificação: a faixa
+ * "recomendada" de 100–150 kcal/g N não foi encontrada numa fonte conferível.
  */
 final class NutricaoParenteralFormula implements FormulaInterface
 {

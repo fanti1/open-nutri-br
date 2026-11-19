@@ -1,0 +1,36 @@
+{
+  "slug": "distribuicao-macros",
+  "status": "conferido_com_ressalvas",
+  "verified_at": "2026-09-24",
+  "summary": "Faixas AMDR (45–65% carboidrato, 20–35% lipídio, 10–35% proteína) conferidas em reprodução aberta; fatores de Atwater (4 e 9 kcal/g) convencionais.",
+  "formula": "gramas = VCT × % / 100 ÷ 4 (carboidrato, proteína) ou ÷ 9 (lipídio). Faixas aceitas: carboidrato 45–65%, proteína 10–35%, lipídio 20–35%; a soma precisa ser 100%.",
+  "sources": [
+    {
+      "citation": "Institute of Medicine. Dietary Reference Intakes for Energy, Carbohydrate, Fiber, Fat, Fatty Acids, Cholesterol, Protein, and Amino Acids. Washington: National Academies Press, 2005.",
+      "url": "https://doi.org/10.17226/10490",
+      "evidence": "nao_acessado",
+      "checked": "Faixas AMDR para adultos; documento não acessado."
+    },
+    {
+      "citation": "Alcalá-Santiago Á, Rodríguez-Martín NM, Casas-Albertos E et al. Nutrient adequacy and environmental foot-print of Mediterranean, pesco-, ovo-lacto-, and vegan menus: a modelling study. Front Nutr. 2025;12:1681512.",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12644066/",
+      "pmid": "41306666",
+      "evidence": "reproducao",
+      "checked": "AMDR do IOM: carboidratos 45–65% da energia, lipídios 20–35%, proteínas 10–35%."
+    }
+  ],
+  "notes": [
+    "As faixas AMDR são para adultos; a soma dos três percentuais precisa ser 100% (senão o cálculo é recusado)."
+  ],
+  "changes": [
+    {
+      "date": "2026-09-24",
+      "version": "v1",
+      "text": "Percentuais que não somam 100% passam a ser recusados com mensagem (antes o app devolvia gramas incoerentes, ex.: 65 + 35 + 35 = 135%)."
+    }
+  ],
+  "example": {
+    "spec_case": 0,
+    "calculation": "2.000 × 50% ÷ 4 = 250 g de carboidrato; 2.000 × 20% ÷ 4 = 100 g de proteína; 2.000 × 30% ÷ 9 = 66,67 g de lipídio."
+  }
+}

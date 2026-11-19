@@ -1,0 +1,28 @@
+{
+  "slug": "cockcroft-gault",
+  "status": "conferido_com_ressalvas",
+  "verified_at": "2026-09-24",
+  "summary": "Redução de 15% para mulheres conferida no resumo; a fórmula (que no artigo está numa figura) foi conferida por equivalência com uma reprodução aberta em unidades SI.",
+  "formula": "ClCr (mL/min) = (140 − idade) × peso ÷ (72 × Scr em mg/dL) × 0,85 se mulher.",
+  "sources": [
+    {
+      "citation": "Cockcroft DW, Gault MH. Prediction of creatinine clearance from serum creatinine. Nephron. 1976;16(1):31-41.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/1244564/",
+      "pmid": "1244564",
+      "evidence": "resumo",
+      "checked": "Fórmula para homens adultos e 15% a menos para mulheres."
+    },
+    {
+      "citation": "Artigo de acesso aberto com a fórmula de Cockcroft-Gault em unidades SI (fatores 1,23 e 1,04 com creatinina em µmol/L).",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13588138/",
+      "evidence": "reproducao",
+      "checked": "Forma SI: (140 − idade) × peso × 1,23 ÷ Scr (µmol/L); 88,4 ÷ 72 = 1,23, equivalente à forma em mg/dL."
+    }
+  ],
+  "notes": [],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "(140 − 60) × 70 ÷ (72 × 1,0) = 77,78 mL/min."
+  }
+}

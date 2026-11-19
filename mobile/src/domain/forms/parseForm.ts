@@ -9,6 +9,17 @@ export interface ParsedForm {
 }
 
 /**
+ * Número decimal como se digita no Brasil: "70", "70,5", "70.5", ",5".
+ * Number() sozinho aceitaria "0x46" (70), "1e2" (100) e "Infinity".
+ */
+const DECIMAL = /^[+-]?(\d+([.,]\d*)?|[.,]\d+)$/;
+
+export function parseDecimal(text: string): number | null {
+  const trimmed = text.trim();
+  return DECIMAL.test(trimmed) ? Number(trimmed.replace(',', '.')) : null;
+}
+
+/**
  * Converte o texto digitado em valores tipados e valida contra as mesmas
  * regras de faixa do backend — permite mostrar o erro ao lado do campo e
  * calcular em tempo real assim que tudo estiver válido.
@@ -23,9 +34,9 @@ export function parseCalculatorForm(fields: FieldDescriptor[], raw: Record<strin
     if (text === '') continue;
 
     if (field.type === 'number') {
-      const value = Number(text.replace(',', '.'));
+      const value = parseDecimal(text);
 
-      if (!Number.isFinite(value)) {
+      if (value === null) {
         errors[field.name] = 'Digite um número.';
         continue;
       }
@@ -43,7 +54,17 @@ export function parseCalculatorForm(fields: FieldDescriptor[], raw: Record<strin
       }
 
       inputs[field.name] = value;
+    } else if (field.type === 'select') {
+      if (!field.options?.includes(text)) {
+        errors[field.name] = 'Escolha uma das opções.';
+        continue;
+      }
+      inputs[field.name] = field.numeric ? Number(text) : text;
     } else if (field.type === 'boolean') {
+      if (text !== 'true' && text !== 'false') {
+        errors[field.name] = 'Escolha Sim ou Não.';
+        continue;
+      }
       inputs[field.name] = text === 'true';
     } else {
       inputs[field.name] = text;

@@ -3,6 +3,7 @@
 namespace App\Domain\Calculators\Hospitalar\TriagemRisco\Must;
 
 use App\Domain\Calculators\Contracts\FormulaInterface;
+use App\Domain\Calculators\Support\Cutoff;
 
 /**
  * MUST soma 3 subescores (0-2 cada): IMC, % de perda de peso não intencional
@@ -18,8 +19,8 @@ final class MustFormula implements FormulaInterface
         $acuteDiseaseEffect = (bool) $inputs['acute_disease_effect'];
 
         $bmiScore = match (true) {
-            $bmi > 20.0 => 0,
-            $bmi >= 18.5 => 1,
+            Cutoff::exceeds($bmi, 20.0) => 0,
+            Cutoff::reaches($bmi, 18.5) => 1,
             default => 2,
         };
 

@@ -1,0 +1,38 @@
+{
+  "slug": "anemia-oms",
+  "status": "conferido",
+  "verified_at": "2026-09-24",
+  "summary": "Cortes de gravidade (Tabela 3) e ajustes da hemoglobina pela altitude da residência (Tabela 4) e pelo tabagismo (Tabela 5) conferidos na diretriz da OMS de 2024, que substitui a de 2011.",
+  "formula": "Sem anemia / leve / moderada a partir de (g/dL): 6–23 meses 10,5 / 9,5 / 7,0 · 24–59 meses 11,0 / 10,0 / 7,0 · 5–11 anos 11,5 / 11,0 / 8,0 · 12–14 anos 12,0 / 11,0 / 8,0 · mulheres ≥ 15 anos 12,0 / 11,0 / 8,0 · homens ≥ 15 anos 13,0 / 11,0 / 8,0 · gestantes no 1º e 3º trimestres 11,0 / 10,0 / 7,0 · no 2º trimestre 10,5 / 9,5 / 7,0; abaixo do último, grave. Antes de classificar, desconta-se da hemoglobina o ajuste da altitude (0,4 a 3,3 g/dL, de 500 a 4.999 m) e do tabagismo (0,3 a 0,6 g/dL), quando informados.",
+  "sources": [
+    {
+      "citation": "WHO. Guideline on haemoglobin cutoffs to define anaemia in individuals and populations. Geneva, 2024.",
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK602198/",
+      "evidence": "documento_oficial",
+      "checked": "Tabela 2 (cortes de anemia), Tabela 3 (gravidade por grupo, inclusive por trimestre da gestação), Tabela 4 (ajuste por altitude em faixas de 500 m: 0, 4, 8, 11, 14, 18, 21, 25, 29, 33 g/L) e Tabela 5 (tabagismo: 3 g/L para quantidade desconhecida ou < 10 cigarros/dia, 5 g/L para 10–19, 6 g/L para > 20). Os ajustes são subtraídos da hemoglobina observada."
+    },
+    {
+      "citation": "WHO. Haemoglobin concentrations for the diagnosis of anaemia and assessment of severity. WHO/NMH/NHD/MNM/11.1, 2011.",
+      "url": "https://iris.who.int/handle/10665/85839",
+      "evidence": "documento_oficial",
+      "checked": "Tabela 1, usada pelo app até a v1: igual à de 2024 exceto 6–59 meses num grupo só (11,0 / 10,0 / 7,0) e gestantes sem distinção de trimestre."
+    }
+  ],
+  "notes": [
+    "A diretriz de 2024 cobre de 6 meses a 65 anos; acima de 65 anos o app usa os cortes de adultos (a de 2011 valia para \"15 anos ou mais\").",
+    "A Tabela 5 lista < 10, 10–19 e > 20 cigarros/dia; o app põe 20 na última faixa, onde a própria equação da OMS (0,4565 × n − 0,0078 × n²) dá 6 g/L.",
+    "Altitude e tabagismo em branco significam nenhum ajuste; a OMS recomenda ajustar quando se sabe.",
+    "A diretriz não recomenda ajuste por inflamação nem por ancestralidade; a ferritina tem calculadora própria."
+  ],
+  "changes": [
+    {
+      "date": "2026-09-24",
+      "version": "v2",
+      "text": "Cortes da OMS 2024: 6–23 meses passou a ter corte próprio (10,5 g/dL) e o 2º trimestre da gestação, 10,5 g/dL (trimestre agora é informado). Incluídos os ajustes por altitude e tabagismo."
+    }
+  ],
+  "example": {
+    "spec_case": 0,
+    "calculation": "Homem de 40 anos, sem ajuste: sem anemia a partir de 13,0 g/dL. 14,0 ≥ 13,0 → sem anemia."
+  }
+}

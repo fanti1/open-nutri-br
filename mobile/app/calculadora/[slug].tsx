@@ -19,18 +19,23 @@ import { IncompleteInputsError, type LifeStage } from '../../src/domain/calculat
 import { catalogEntry, catalogIcon, moduleInfo } from '../../src/domain/catalog';
 import { computeLocally } from '../../src/domain/computeCalculation';
 import { fieldHint, fieldLabel, optionLabel } from '../../src/domain/forms/fieldLabels';
+import { AUDIT_STATUS_LABELS } from '../../src/domain/methodAudit';
 import { missingFieldsMessage, parseCalculatorForm } from '../../src/domain/forms/parseForm';
 import { isFieldActive, schemaToFields, type FieldDescriptor } from '../../src/domain/forms/schemaToFields';
 import { CalculatorProfileCard } from '../../src/features/calculators/CalculatorProfileCard';
-import { ResultCard } from '../../src/features/calculators/ResultCard';
+import { MethodAuditPanel } from '../../src/features/calculators/MethodAuditPanel';
+import { ResultCard, ResultSummary } from '../../src/features/calculators/ResultCard';
 import { LifeStageBadges } from '../../src/features/common/LifeStageBadge';
 import { PatientPicker } from '../../src/features/patients/PatientPicker';
 import { useTheme } from '../../src/theme/ThemeProvider';
+import { areaColors } from '../../src/theme/tokens';
 import { AppText } from '../../src/ui/AppText';
 import { Button } from '../../src/ui/Button';
+import { Callout } from '../../src/ui/Callout';
 import { Card } from '../../src/ui/Card';
 import { ChipGroup } from '../../src/ui/Chips';
 import { EmptyState } from '../../src/ui/EmptyState';
+import { IconButton } from '../../src/ui/IconButton';
 import { IconTile } from '../../src/ui/IconTile';
 import { Screen } from '../../src/ui/Screen';
 import { TextField } from '../../src/ui/TextField';
@@ -151,6 +156,7 @@ export default function CalculatorScreen() {
 
   const favorite = favoriteSlugs.includes(slug);
   const module = moduleInfo(entry.module);
+  const area = module ? areaColors(colors, module.colorKey) : undefined;
   const answeredByProfile = fieldsAnsweredByProfile(entry.input_schema);
   const visibleFields = fields.filter((field) => isFieldActive(field, values) && !(profile && answeredByProfile.includes(field.name)));
   const patientOutsideStages = patient && profile && !entry.life_stages.includes(profile.stage);
@@ -164,16 +170,64 @@ export default function CalculatorScreen() {
       : `Atenção: fora da faixa escolhida (${LIFE_STAGE_LABELS[profile.stage]}, ${stageAgeRangeLabel(profile.stage)}). Confira o perfil.`;
   };
 
+  const hasErrors = Object.keys(parsed.errors).length > 0;
+  const guidance = problem ?? (hasErrors ? 'Corrija os campos destacados em vermelho.' : (missingFieldsMessage(fields, parsed.inputs) ?? 'Preencha os dados.'));
+  const requiredFields = visibleFields.filter((field) => field.required || field.requiredIf);
+  const requiredCount = requiredFields.length;
+  const filledCount = requiredFields.filter((field) => parsed.inputs[field.name] !== undefined).length;
+
+  // Barra fixa: o resultado (ou o que falta para ele) fica sempre à vista enquanto se digita.
+  const footer = outcome ? (
+    <>
+      <ResultSummary outcome={outcome} />
+      <Button
+        label={savedId ? 'Salvo' : 'Salvar'}
+        icon={savedId ? 'checkmark-circle' : 'save-outline'}
+        accessibilityLabel={savedId ? 'Cálculo salvo' : patient ? 'Salvar na ficha do paciente' : 'Salvar no histórico'}
+        onPress={save}
+        loading={saving}
+        disabled={!!savedId}
+      />
+    </>
+  ) : (
+    <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 10, minHeight: 48 }} accessibilityLiveRegion="polite">
+      <Ionicons
+        name={problem || hasErrors ? 'alert-circle-outline' : 'calculator-outline'}
+        size={22}
+        color={problem || hasErrors ? colors.warning : colors.textSubtle}
+      />
+      <View style={{ flex: 1 }}>
+        <AppText variant="caption" color={problem || hasErrors ? colors.warning : undefined} tone="muted" numberOfLines={3}>
+          {guidance}
+        </AppText>
+        {!problem && !hasErrors && (
+          <AppText variant="small" tone="subtle">
+            O resultado aparece aqui assim que tudo estiver preenchido.
+          </AppText>
+        )}
+      </View>
+    </View>
+  );
+
   return (
     <Screen
       back
       title={entry.name}
       subtitle={`${module?.label ?? ''} · ${entry.short_description}`}
+      // Cabeçalho na cor da área (consultório coral, hospital azul, pediatria amarelo, exames violeta).
+      hero={{ color: area?.fill, onColor: area?.onFill, overlap: 40 }}
       right={
-        <Pressable accessibilityLabel="Favoritar" onPress={() => settings.toggleFavorite(slug)} hitSlop={12}>
-          <Ionicons name={favorite ? 'star' : 'star-outline'} size={24} color={favorite ? colors.accent : colors.textSubtle} />
-        </Pressable>
+        <IconButton
+          icon={favorite ? 'star' : 'star-outline'}
+          label={favorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
+          selected={favorite}
+          variant="onHero"
+          color={area?.onFill}
+          size={24}
+          onPress={() => settings.toggleFavorite(slug)}
+        />
       }
+      footer={profile ? footer : undefined}
     >
       {!profileLoading && (
         <CalculatorProfileCard
@@ -187,22 +241,29 @@ export default function CalculatorScreen() {
         />
       )}
 
+      {(entry.audit.status === 'pendente' || entry.audit.status === 'divergente') && (
+        <AuditWarning status={entry.audit.status} summary={entry.audit.summary} onPress={() => setAboutOpen(true)} />
+      )}
+
       {patientOutsideStages && (
-        <Card style={{ backgroundColor: colors.warningSoft, borderColor: colors.warning, flexDirection: 'row', gap: 10 }}>
-          <Ionicons name="warning-outline" size={22} color={colors.warning} />
-          <AppText style={{ flex: 1 }} color={colors.warning}>
-            Este método é validado para {entry.life_stages.map((s) => LIFE_STAGE_PLURAL[s]).join(' e ')}, e o paciente é{' '}
-            {LIFE_STAGE_LABELS[profile!.stage].toLowerCase()}. Considere outro método.
-          </AppText>
-        </Card>
+        <Callout tone="warning" title="Método fora da faixa do paciente">
+          {`Este método é validado para ${entry.life_stages.map((s) => LIFE_STAGE_PLURAL[s]).join(' e ')}, e o paciente é ${LIFE_STAGE_LABELS[profile!.stage].toLowerCase()}. Considere outro método.`}
+        </Callout>
       )}
 
       {profile && (
         <>
           <Card style={{ gap: 16 }}>
-            <AppText variant="overline" tone="muted">
-              Dados do cálculo
-            </AppText>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
+              <AppText variant="heading" accessibilityRole="header">
+                Dados do cálculo
+              </AppText>
+              {requiredCount > 0 && (
+                <AppText variant="small" tone={filledCount === requiredCount ? 'success' : 'subtle'}>
+                  {filledCount} de {requiredCount} obrigatórios
+                </AppText>
+              )}
+            </View>
             {visibleFields.map((field) => (
               <FieldInput
                 key={field.name}
@@ -220,29 +281,11 @@ export default function CalculatorScreen() {
           {outcome ? (
             <View style={{ gap: 12 }}>
               <ResultCard outcome={outcome} />
-              <View style={{ flexDirection: 'row', gap: 10 }}>
-                <Button
-                  label={savedId ? 'Salvo ✓' : patient ? 'Salvar na ficha' : 'Salvar no histórico'}
-                  icon="save-outline"
-                  onPress={save}
-                  loading={saving}
-                  disabled={!!savedId}
-                  style={{ flex: 1 }}
-                />
-                {savedId && patient && (
-                  <Button label="Ver ficha" variant="secondary" onPress={() => router.push(`/paciente/${patient.id}`)} style={{ flex: 1 }} />
-                )}
-              </View>
+              {savedId && patient && (
+                <Button label="Ver na ficha do paciente" icon="person-outline" variant="secondary" onPress={() => router.push(`/paciente/${patient.id}`)} />
+              )}
             </View>
-          ) : (
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 4 }}>
-              <Ionicons name={problem ? 'alert-circle-outline' : 'information-circle-outline'} size={18} color={problem ? colors.warning : colors.textSubtle} />
-              <AppText variant="caption" color={problem ? colors.warning : undefined} tone="muted" style={{ flex: 1 }}>
-                {problem ?? missingFieldsMessage(fields, parsed.inputs) ?? 'Corrija os campos destacados.'}
-                {problem ? '' : ' O resultado aparece sozinho.'}
-              </AppText>
-            </View>
-          )}
+          ) : null}
         </>
       )}
 
@@ -260,18 +303,38 @@ export default function CalculatorScreen() {
           <Ionicons name={aboutOpen ? 'chevron-up' : 'chevron-down'} size={18} color={colors.textSubtle} />
         </Pressable>
         {aboutOpen && (
-          <View style={{ paddingHorizontal: 16, paddingBottom: 16, gap: 10 }}>
-            <AppText variant="caption">{entry.formula_reference}</AppText>
-            <AppText variant="small" tone="subtle">
-              Validado para:
-            </AppText>
-            <LifeStageBadges stages={entry.life_stages} />
+          <View style={{ paddingHorizontal: 16, paddingBottom: 16, gap: 14 }}>
+            <View style={{ gap: 10 }}>
+              <AppText variant="caption">{entry.formula_reference}</AppText>
+              <AppText variant="small" tone="subtle">
+                Validado para:
+              </AppText>
+              <LifeStageBadges stages={entry.life_stages} />
+            </View>
+            <View style={{ borderTopWidth: 1, borderTopColor: colors.border, paddingTop: 14 }}>
+              <MethodAuditPanel entry={entry} />
+            </View>
           </View>
         )}
       </Card>
 
       <PatientPicker visible={pickerOpen} onClose={() => setPickerOpen(false)} onSelect={selectPatient} />
     </Screen>
+  );
+}
+
+/** Método com conferência pendente ou divergência na auditoria científica: avisar antes do uso. */
+function AuditWarning({ status, summary, onPress }: { status: 'pendente' | 'divergente'; summary: string; onPress: () => void }) {
+  return (
+    <Callout
+      tone={status === 'divergente' ? 'danger' : 'warning'}
+      icon={status === 'divergente' ? 'warning-outline' : 'time-outline'}
+      title={AUDIT_STATUS_LABELS[status]}
+      actionLabel="Ver a auditoria do método"
+      onPress={onPress}
+    >
+      {summary}
+    </Callout>
   );
 }
 
@@ -293,10 +356,10 @@ function FieldInput({
 
     return (
       <View style={{ gap: 6 }}>
-        <AppText variant="caption" tone="muted">
+        <AppText variant="label" tone="muted">
           {label}
         </AppText>
-        <ChipGroup options={options} value={value || null} onChange={onChange} />
+        <ChipGroup options={options} value={value || null} onChange={onChange} accessibilityLabel={label} />
         {hint && (
           <AppText variant="small" tone="subtle">
             {hint}

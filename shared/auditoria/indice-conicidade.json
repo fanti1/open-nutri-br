@@ -1,0 +1,30 @@
+{
+  "slug": "indice-conicidade",
+  "status": "conferido",
+  "verified_at": "2026-09-24",
+  "summary": "Fórmula (constante 0,109) e pontos de corte conferidos no texto completo de Pitanga & Lessa (2004).",
+  "formula": "IC = cintura (m) / (0,109 × √(peso (kg) / estatura (m))). Risco coronariano elevado: ≥ 1,25 (homens) · ≥ 1,18 (mulheres).",
+  "sources": [
+    {
+      "citation": "Pitanga FJG, Lessa I. Sensibilidade e especificidade do índice de conicidade como discriminador do risco coronariano de adultos em Salvador, Brasil. Rev Bras Epidemiol. 2004;7(3):259-69.",
+      "url": "https://www.scielo.br/j/rbepid/a/S9YjKJfDvBn6p6Hg3PfxkqG/?lang=pt",
+      "evidence": "texto_completo",
+      "checked": "Fórmula do índice C com a constante 0,109 e melhores pontos de corte 1,25 (homens) e 1,18 (mulheres), adultos de 30 a 74 anos."
+    },
+    {
+      "citation": "Valdez R. A simple model-based index of abdominal adiposity. J Clin Epidemiol. 1991;44(9):955-6.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/1890438/",
+      "pmid": "1890438",
+      "evidence": "nao_acessado",
+      "checked": "Proposta original do índice; não acessada (sem resumo)."
+    }
+  ],
+  "notes": [
+    "Pontos de corte derivados de adultos de 30 a 74 anos de Salvador (BA)."
+  ],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "√(85 ÷ 1,75) = 6,9693; 0,109 × 6,9693 = 0,7597; 1,00 ÷ 0,7597 = 1,3164 → 1,32. Homem, ≥ 1,25 → risco coronariano elevado."
+  }
+}

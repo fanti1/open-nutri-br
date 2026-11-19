@@ -1,0 +1,28 @@
+{
+  "slug": "imc-idoso",
+  "status": "conferido",
+  "verified_at": "2026-09-24",
+  "summary": "Cortes do idoso (Lipschitz, 1994) conferidos nas notas oficiais do SISVAN.",
+  "formula": "IMC = peso (kg) / altura (m)². ≤ 22,0 baixo peso · > 22,0 e < 27,0 eutrofia (peso adequado) · ≥ 27,0 sobrepeso.",
+  "sources": [
+    {
+      "citation": "Ministério da Saúde/DATASUS. SISVAN — notas técnicas: classificação do estado nutricional de adultos e idosos.",
+      "url": "http://tabnet.datasus.gov.br/cgi/SISVAN/CNV/notas_sisvan.html",
+      "evidence": "documento_oficial",
+      "checked": "Idosos (60 anos ou mais): ≤ 22,0 baixo peso; > 22,0 e < 27,0 peso adequado; ≥ 27,0 sobrepeso. Referência: Lipschitz, 1994."
+    },
+    {
+      "citation": "Lipschitz DA. Screening for nutritional status in the elderly. Prim Care. 1994;21(1):55-67.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/8197257/",
+      "pmid": "8197257",
+      "evidence": "resumo",
+      "checked": "Artigo original; o resumo não traz os pontos de corte."
+    }
+  ],
+  "notes": [],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "50 ÷ 1,60² = 19,53. Como 19,53 ≤ 22,0 → baixo peso."
+  }
+}

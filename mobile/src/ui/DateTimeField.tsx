@@ -27,7 +27,7 @@ const MINUTES = ['00', '15', '30', '45'];
  * no navegador, sem depender do seletor nativo de cada plataforma.
  */
 export function DateTimeField({ label, value, onChange, mode = 'date', clearable, placeholder = 'Selecionar' }: DateTimeFieldProps) {
-  const { colors, radius } = useTheme();
+  const { colors, radius, layout } = useTheme();
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState<Date>(value ?? new Date());
   const [month, setMonth] = useState<Date>(value ?? new Date());
@@ -59,20 +59,24 @@ export function DateTimeField({ label, value, onChange, mode = 'date', clearable
 
   return (
     <View style={{ gap: 6 }}>
-      <AppText variant="caption" tone="muted">
+      <AppText variant="label" tone="muted">
         {label}
       </AppText>
+      {/* Mesmo visual dos campos de texto: preenchido, sem borda. */}
+      {/* O leitor de tela anuncia o campo e o valor ("Data de nascimento, 14/05/1990"), não só "Selecionar". */}
       <Pressable
         accessibilityRole="button"
+        accessibilityLabel={`${label.replace(/ \*$/, '')}, ${value ? display : 'não preenchido'}`}
+        accessibilityHint="Abre o calendário"
         onPress={openSheet}
-        style={[styles.box, { borderColor: colors.border, backgroundColor: colors.surface, borderRadius: radius.md }]}
+        style={({ pressed }) => [styles.box, { borderColor: 'transparent', backgroundColor: pressed ? colors.surfacePressed : colors.surfaceAlt, borderRadius: radius.md, minHeight: layout.controlHeight }]}
       >
         <Ionicons name={mode === 'datetime' ? 'time-outline' : 'calendar-outline'} size={18} color={colors.textSubtle} />
         <AppText variant="body" tone={value ? 'default' : 'subtle'} style={{ flex: 1 }}>
           {display}
         </AppText>
         {clearable && value && (
-          <Pressable accessibilityLabel="Limpar" onPress={() => onChange(null)} hitSlop={10}>
+          <Pressable accessibilityRole="button" accessibilityLabel={label ? `Limpar ${label}` : 'Limpar'} onPress={() => onChange(null)} hitSlop={13}>
             <Ionicons name="close-circle" size={18} color={colors.textSubtle} />
           </Pressable>
         )}
@@ -156,5 +160,5 @@ export function parseTypedDate(text: string): Date | null {
 }
 
 const styles = StyleSheet.create({
-  box: { flexDirection: 'row', alignItems: 'center', gap: 8, borderWidth: 1, paddingHorizontal: 12, paddingVertical: 12 },
+  box: { flexDirection: 'row', alignItems: 'center', gap: 8, borderWidth: 2, paddingHorizontal: 14, paddingVertical: 12 },
 });

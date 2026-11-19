@@ -1,0 +1,27 @@
+{
+  "slug": "oms-imc-idade-0-5",
+  "status": "conferido",
+  "verified_at": "2026-09-24",
+  "summary": "Tabela oficial da OMS e algoritmo do pacote anthro; classificação do SISVAN (Quadro 7).",
+  "formula": "Escore-Z pelo método LMS: z = ((medida/M)^L − 1) / (L × S). Nos indicadores de peso, além de ±3 DP usa-se o escore restrito da OMS (distância entre 2 e 3 DP). Mesmas faixas do peso-para-estatura (magreza acentuada a obesidade).",
+  "sources": [
+    {
+      "citation": "WHO Multicentre Growth Reference Study Group. WHO Child Growth Standards (2006): tabelas LMS oficiais do pacote anthro e algoritmo do próprio pacote.",
+      "url": "https://www.who.int/tools/child-growth-standards/standards",
+      "evidence": "documento_oficial",
+      "checked": "Tabelas LMS copiadas sem alteração dos pacotes oficiais; algoritmo portado do código-fonte dos pacotes (idade em dias arredondada, correção de ±0,7 cm deitado/em pé, interpolação). Gabarito da própria OMS nos testes."
+    },
+    {
+      "citation": "Ministério da Saúde. Orientações para a coleta e análise de dados antropométricos em serviços de saúde: Norma Técnica do SISVAN. Brasília, 2011.",
+      "url": "https://bvsms.saude.gov.br/bvs/publicacoes/orientacoes_coleta_analise_dados_antropometricos.pdf",
+      "evidence": "documento_oficial",
+      "checked": "Quadro 7: pontos de corte de IMC-para-idade para menores de 5 anos."
+    }
+  ],
+  "notes": [],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "Menino, 548 dias, 11 kg e 80 cm: IMC = 17,19. L = −0,5485, M = 16,1388, S = 0,07873. z = 0,79 → eutrofia."
+  }
+}

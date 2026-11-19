@@ -45,8 +45,9 @@ class CalculatorSpecTest extends TestCase
 
         $outcome = $calculator->calculate($inputs);
 
+        // Os resultados já saem arredondados (2 casas; densidade, 4): têm de bater exatamente.
         foreach ($expected['values'] as $key => $value) {
-            $this->assertEqualsWithDelta($value, $outcome->values[$key], 0.01, "Mismatch on output [{$key}] for calculator [{$slug}].");
+            $this->assertEqualsWithDelta($value, $outcome->values[$key], 1e-6, "Mismatch on output [{$key}] for calculator [{$slug}].");
         }
 
         $this->assertSame($expected['classification'], $outcome->classification, "Mismatch on classification for calculator [{$slug}].");

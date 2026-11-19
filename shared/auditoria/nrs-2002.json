@@ -1,0 +1,37 @@
+{
+  "slug": "nrs-2002",
+  "status": "conferido_com_ressalvas",
+  "verified_at": "2026-09-24",
+  "summary": "Tabela de pontuação (estado nutricional e gravidade da doença, 0 a 3), ajuste de idade e corte ≥ 3 conferidos em reprodução aberta; o formulário original da ESPEN (2002) não foi acessado.",
+  "formula": "Total = escore do estado nutricional (0–3) + escore de gravidade da doença (0–3) + 1 se idade ≥ 70 anos. Total ≥ 3 → risco nutricional.",
+  "sources": [
+    {
+      "citation": "Kondrup J, Rasmussen HH, Hamberg O, Stanga Z. Nutritional risk screening (NRS 2002): a new method based on an analysis of controlled clinical trials. Clin Nutr. 2003;22(3):321-36.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/12765673/",
+      "pmid": "12765673",
+      "evidence": "resumo",
+      "checked": "Artigo do método; o resumo não traz a tabela de pontuação."
+    },
+    {
+      "citation": "Kondrup J, Allison SP, Elia M, Vellas B, Plauth M. ESPEN guidelines for nutrition screening 2002. Clin Nutr. 2003;22(4):415-21.",
+      "url": "https://doi.org/10.1016/s0261-5614(03)00098-0",
+      "evidence": "nao_acessado",
+      "checked": "Diretriz da ESPEN com o formulário do NRS-2002; não acessada."
+    },
+    {
+      "citation": "Kabashneh S, Alkassis S, Shanah L, Ali H. A complete guide to identify and manage malnutrition in hospitalized patients. Cureus. 2020;12(6):e8486.",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7343301/",
+      "pmid": "32656004",
+      "evidence": "reproducao",
+      "checked": "Tabela 2 (NRS 2002): itens de 0 a 3 para estado nutricional (perda de peso > 5% em 3, 2 ou 1 mês — ou > 15% em 3 meses —, IMC 18,5–20,5 ou < 18,5 com estado geral comprometido, ingestão 50–75%, 25–50% ou 0–25%) e para gravidade da doença; + 1 ponto se ≥ 70 anos; total ≥ 3 indica avaliação e intervenção."
+    }
+  ],
+  "notes": [
+    "A reprodução traz \"APACHE 10\" para o escore 3 de gravidade; o formulário usual é \"APACHE > 10\", como no app."
+  ],
+  "changes": [],
+  "example": {
+    "spec_case": 0,
+    "calculation": "2 (estado nutricional) + 1 (gravidade) + 0 (45 anos) = 3 → risco nutricional."
+  }
+}

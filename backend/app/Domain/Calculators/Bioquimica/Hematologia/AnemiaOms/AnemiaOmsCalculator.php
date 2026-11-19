@@ -27,7 +27,7 @@ final class AnemiaOmsCalculator extends AbstractCalculator
 
     public function version(): string
     {
-        return 'v1';
+        return 'v2';
     }
 
     public function inputsSchema(): array
@@ -37,7 +37,11 @@ final class AnemiaOmsCalculator extends AbstractCalculator
             'age_years' => ['required', 'numeric', 'min:0.5', 'max:120'],
             'sex' => ['required', 'in:male,female'],
             'pregnant' => ['required', 'boolean'],
+            'pregnancy_trimester' => ['required_if:pregnant,true', 'nullable', 'integer', 'in:1,2,3'],
             'hemoglobin_g_dl' => ['required', 'numeric', 'min:1', 'max:25'],
+            // Ajustes da OMS (2024), Tabelas 4 e 5; em branco, nenhum ajuste.
+            'altitude_m' => ['nullable', 'integer', 'min:0', 'max:4999'],
+            'smoking' => ['nullable', 'in:'.implode(',', array_keys(AnemiaCutoffs::SMOKING_ADJUSTMENT_G_L))],
         ];
     }
 
@@ -45,11 +49,11 @@ final class AnemiaOmsCalculator extends AbstractCalculator
     {
         return new CalculatorReference(
             method: 'Diagnóstico e gravidade da anemia pela hemoglobina (OMS)',
-            citation: 'World Health Organization, Haemoglobin concentrations for the diagnosis of anaemia and assessment of severity, WHO/NMH/NHD/MNM/11.1, 2011.',
+            citation: 'World Health Organization, Guideline on haemoglobin cutoffs to define anaemia in individuals and populations, Geneva, 2024 (Tabelas 3, 4 e 5).',
         );
     }
 
-    /** A tabela da OMS cobre de 6 meses a adultos, com cortes próprios para gestantes. */
+    /** A diretriz da OMS cobre de 6 meses a 65 anos, com cortes próprios para gestantes; acima de 65 anos o app usa os cortes de adultos. */
     public function lifeStages(): array
     {
         return [LifeStage::Child, LifeStage::Adult, LifeStage::Elderly];

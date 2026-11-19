@@ -2,7 +2,7 @@
 
 namespace App\Domain\Growth;
 
-use InvalidArgumentException;
+use App\Domain\Calculators\IncompleteInputsException;
 
 /** A medida/idade informada está fora da faixa coberta pela curva de referência escolhida. */
-final class OutOfReferenceRangeException extends InvalidArgumentException {}
+final class OutOfReferenceRangeException extends IncompleteInputsException {}

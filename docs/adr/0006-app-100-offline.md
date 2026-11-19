@@ -66,3 +66,9 @@ Continua no repositório como implementação de referência das fórmulas: os
 mesmos vetores de `shared/calculators-spec/` rodam no PHPUnit e no Jest, e o
 catálogo do app é gerado a partir dele (`php artisan catalog:export`). O app não
 depende dele em tempo de execução.
+
+## Atualização (ADR 0013)
+"Relatar um problema" e os links de "Sobre" (código-fonte, licença, fontes de dados)
+não quebram a regra: o app não faz a requisição, só abre o navegador ou a folha de
+compartilhamento do sistema por ação do usuário, com o texto à vista. O roteiro de
+prints (`npm run prints`) falha se o app fizer qualquer requisição externa.

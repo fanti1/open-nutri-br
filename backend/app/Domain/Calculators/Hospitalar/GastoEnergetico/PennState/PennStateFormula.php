@@ -3,6 +3,7 @@
 namespace App\Domain\Calculators\Hospitalar\GastoEnergetico\PennState;
 
 use App\Domain\Calculators\Contracts\FormulaInterface;
+use App\Domain\Calculators\Support\Cutoff;
 
 /**
  * Gasto energético de repouso em pacientes críticos sob ventilação mecânica.
@@ -23,7 +24,7 @@ final class PennStateFormula implements FormulaInterface
         $tmax = (float) $inputs['max_temperature_c'];
 
         $mifflin = 10 * $weight + 6.25 * $heightCm - 5 * $age + ($inputs['sex'] === 'male' ? 5 : -161);
-        $bmi = $weight / ($heightCm / 100) ** 2;
+        $bmi = self::bmi($inputs);
 
         $ree = self::usesOlderObeseVersion($age, $bmi)
             ? 0.71 * $mifflin + 85 * $tmax + 64 * $ve - 3085
@@ -36,9 +37,15 @@ final class PennStateFormula implements FormulaInterface
         ];
     }
 
+    /** IMC sem arredondar — é ele que decide a versão, na fórmula e no rótulo. */
+    public static function bmi(array $inputs): float
+    {
+        return (float) $inputs['weight_kg'] / ((float) $inputs['height_cm'] / 100) ** 2;
+    }
+
     /** A versão 2010 foi validada para ≥ 60 anos com IMC ≥ 30 (Frankenfield, 2011). */
     public static function usesOlderObeseVersion(float $age, float $bmi): bool
     {
-        return $age >= 60 && $bmi >= 30;
+        return $age >= 60 && Cutoff::reaches($bmi, 30);
     }
 }

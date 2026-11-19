@@ -67,13 +67,26 @@ function who2006ByAge(table: WhoTableName, restricted: boolean, measure: (i: Ped
   };
 }
 
-/** Referência OMS 2007 (5 a 19 anos): idade em meses com interpolação entre meses inteiros. */
-function who2007ByAge(table: WhoTableName, restricted: boolean, maxMonthsExclusive: number, measure: (i: PediatricInputs) => number) {
+/**
+ * Referência OMS 2007 (5 a 19 anos): idade em meses com interpolação entre meses inteiros.
+ * `lastRowUntilExclusive`: até essa idade (meses) a última linha da tabela continua
+ * valendo — a Norma Técnica do SISVAN (2011, Quadro 13) manda avaliar de 19 anos e 1 mês
+ * a 19 anos e 11 meses com os valores de 19 anos completos.
+ */
+function who2007ByAge(
+  table: WhoTableName,
+  restricted: boolean,
+  maxMonthsExclusive: number,
+  measure: (i: PediatricInputs) => number,
+  lastRowUntilExclusive?: number,
+) {
   return (inputs: PediatricInputs): Record<string, number> => {
-    if (inputs.age_months < 60 || inputs.age_months >= maxMonthsExclusive) {
-      throw new OutOfReferenceRangeError(`Esta curva da Referência OMS 2007 cobre de 60 a ${maxMonthsExclusive - 1} meses.`);
+    const upperExclusive = lastRowUntilExclusive ?? maxMonthsExclusive;
+    if (inputs.age_months < 60 || inputs.age_months >= upperExclusive) {
+      throw new OutOfReferenceRangeError(`Esta curva da Referência OMS 2007 cobre de 60 a ${upperExclusive - 1} meses.`);
     }
-    const lms = interpolatedLms(table, whoSex(inputs.sex), inputs.age_months, 1);
+    const lookupAge = lastRowUntilExclusive !== undefined ? Math.min(inputs.age_months, maxMonthsExclusive - 1) : inputs.age_months;
+    const lms = interpolatedLms(table, whoSex(inputs.sex), lookupAge, 1);
     if (!lms) throw new OutOfReferenceRangeError('Idade fora da faixa da curva de referência.');
     return zResult(measure(inputs), lms, restricted);
   };
@@ -162,8 +175,8 @@ export const pesoComprimento0a5Calculator = growthCalculator(
 export const imcIdade5a19Calculator = growthCalculator(
   'oms-imc-idade-5-19',
   'IMC-para-idade (escore-Z, Referência OMS 2007)',
-  `${WHO_2007}; ${SISVAN}`,
-  who2007ByAge('bfawho2007', true, 229, (i) => i.weight_kg! / (i.height_cm! / 100) ** 2),
+  `${WHO_2007}; classificação e extensão até 19 anos e 11 meses: Ministério da Saúde, Norma Técnica do SISVAN, 2011 (Quadro 13).`,
+  who2007ByAge('bfawho2007', true, 229, (i) => i.weight_kg! / (i.height_cm! / 100) ** 2, 240),
   schoolAgeBmiClassifier,
 );
 

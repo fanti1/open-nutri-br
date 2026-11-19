@@ -65,7 +65,7 @@ export function emptyTotals(): NutrientTotals {
 }
 
 /** Soma os nutrientes de uma lista de alimentos (cada um com sua quantidade em gramas). */
-export function sumNutrients(portions: Array<{ food: TacoFood | undefined; grams: number }>): NutrientTotals {
+export function sumNutrients(portions: { food: TacoFood | undefined; grams: number }[]): NutrientTotals {
   const totals = emptyTotals();
   for (const { food, grams } of portions) {
     for (const { key } of TRACKED_NUTRIENTS) {

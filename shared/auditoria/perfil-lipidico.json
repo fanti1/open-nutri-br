@@ -1,0 +1,56 @@
+{
+  "slug": "perfil-lipidico",
+  "status": "conferido_com_ressalvas",
+  "verified_at": "2026-09-24",
+  "summary": "LDL-c pela equação de Martin/Hopkins, recomendada pela SBC 2025 para todos. A tabela de 180 fatores foi conferida em duas fontes independentes (Tabela 1 da SBC 2017 e o pacote LDLcalc), que coincidem em 179 das 180 células; o artigo original traz a tabela só como imagem. Valores desejáveis conferidos na SBC 2025 (iguais aos de 2017).",
+  "formula": "Não-HDL-c = CT − HDL-c. LDL-c (Martin/Hopkins) = não-HDL-c − TG ÷ fator, com o fator (mediana da razão TG:VLDL-c) da tabela de 180 células: 30 faixas de TG (7–49 … 400–13.975 mg/dL) × 6 faixas de não-HDL-c (< 100, 100–129, 130–159, 160–189, 190–219, ≥ 220 mg/dL). Com TG > 800 mg/dL o LDL-c não é estimado (avaliar o não-HDL-c). Desejável: CT < 190, HDL-c > 40, TG < 150 (jejum) ou < 175 (sem jejum).",
+  "sources": [
+    {
+      "citation": "Sociedade Brasileira de Cardiologia. Diretriz Brasileira de Dislipidemias e Prevenção da Aterosclerose 2025. Arq Bras Cardiol. 2025.",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12674852/",
+      "evidence": "texto_completo",
+      "checked": "Recomendação forte a favor de Martin/Hopkins para todos; com TG > 800 mg/dL o LDL-c pode sair subestimado e deve-se avaliar o não-HDL-c. Tabela de valores referenciais: CT < 190, TG < 150 (jejum) / < 175 (sem jejum), HDL-c > 40."
+    },
+    {
+      "citation": "Martin SS, Blaha MJ, Elshazly MB et al. Comparison of a novel method vs the Friedewald equation for estimating low-density lipoprotein cholesterol levels from the standard lipid profile. JAMA. 2013;310(19):2061-8.",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4226221/",
+      "pmid": "24240933",
+      "evidence": "texto_completo",
+      "checked": "Equação LDL-c = não-HDL-c − TG ÷ fator, com o fator igual à mediana da razão TG:VLDL-c em cada célula da tabela de 180 células (Figura 2, publicada como imagem)."
+    },
+    {
+      "citation": "Faludi AA et al. Atualização da Diretriz Brasileira de Dislipidemias e Prevenção da Aterosclerose 2017. Arq Bras Cardiol. 2017;109(2 Supl 1):1-76.",
+      "url": "https://www.scielo.br/j/abc/a/whBsCyzTDzGYJcsBY7YVkWn/?lang=pt",
+      "evidence": "texto_completo",
+      "checked": "Tabela 1 (texto): os 180 fatores de Martin/Hopkins por faixa de TG e de não-HDL-c."
+    },
+    {
+      "citation": "Pacote LDLcalc 2.1 para R (CRAN): tabela dfCell180 de Martin/Hopkins no arquivo R/sysdata.rda.",
+      "url": "https://cran.r-project.org/src/contrib/Archive/LDLcalc/",
+      "evidence": "reproducao",
+      "checked": "Os 180 fatores e as faixas de TG e de não-HDL-c, comparados célula a célula com a Tabela 1 da SBC 2017."
+    }
+  ],
+  "notes": [
+    "Na célula TG 84–87 × não-HDL-c 190–219 mg/dL a Tabela 1 da SBC 2017 traz 4,3; o pacote LDLcalc e outra implementação independente de código aberto (github.com/alperyayla1, aplicativo de estimativa de LDL-c) trazem 4,4. O app usa 4,4. A diferença no LDL-c é de no máximo 0,5 mg/dL.",
+    "As faixas são de valores inteiros; valores com decimais caem na faixa cujo limite inferior alcançam (TG 49,5 → faixa 7–49).",
+    "O HDL-c tem de ser menor que o colesterol total; caso contrário o cálculo é recusado.",
+    "Metas de LDL-c e de não-HDL-c dependem da categoria de risco cardiovascular, que este cálculo não avalia."
+  ],
+  "changes": [
+    {
+      "date": "2026-09-24",
+      "version": "v1",
+      "text": "Referência dos valores desejáveis atualizada para a SBC 2025 (valores iguais)."
+    },
+    {
+      "date": "2026-09-24",
+      "version": "v2",
+      "text": "LDL-c passou de Friedewald (TG ÷ 5, só com TG < 400) para Martin/Hopkins (tabela de 180 fatores, até TG 800), como recomenda a SBC 2025. O fator usado aparece no resultado."
+    }
+  ],
+  "example": {
+    "spec_case": 0,
+    "calculation": "Não-HDL-c = 180 − 55 = 125 (faixa 100–129); TG 100 (faixa 97–100) → fator 5,1. LDL-c = 125 − 100 ÷ 5,1 = 125 − 19,61 = 105,39. CT < 190, HDL-c > 40 e TG < 150 → perfil desejável."
+  }
+}

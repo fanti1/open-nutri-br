@@ -14,7 +14,7 @@
     "android": {
       "package": "br.com.opennutri.app",
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#046450",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
@@ -22,7 +22,10 @@
       "predictiveBackGestureEnabled": false
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "lang": "pt-BR",
+      "description": "Calculadoras clínicas, fichas de pacientes e plano alimentar para nutricionistas. Código aberto, 100% offline.",
+      "themeColor": "#0A7363"
     },
     "plugins": [
       "expo-router",
@@ -30,12 +33,28 @@
       "expo-font",
       "expo-sqlite",
       "expo-sharing",
+      "./plugins/withApkFileName",
+      "./plugins/withReleaseSigning",
       [
         "expo-local-authentication",
         {
           "faceIDPermission": "O OpenNutri BR usa o Face ID para desbloquear o app sem digitar o PIN."
         }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "enableMinifyInReleaseBuilds": true,
+            "enableShrinkResourcesInReleaseBuilds": true,
+            "useLegacyPackaging": true,
+            "buildArchs": ["armeabi-v7a", "arm64-v8a"]
+          }
+        }
       ]
-    ]
+    ],
+    "experiments": {
+      "reactCompiler": true
+    }
   }
 }

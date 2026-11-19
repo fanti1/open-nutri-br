@@ -1,0 +1,36 @@
+{
+  "slug": "ingestao-liquidos",
+  "status": "conferido",
+  "verified_at": "2026-09-24",
+  "summary": "Conta aritmética (peso × mL/kg/dia) com o volume escolhido pelo profissional. A faixa de 30–35 mL/kg, que era atribuída à ESPEN sem constar da diretriz citada, foi retirada.",
+  "formula": "Líquidos (mL/dia) = peso (kg) × volume (mL/kg/dia), com o volume entre 10 e 60 mL/kg/dia.",
+  "sources": [
+    {
+      "citation": "Bischoff SC, Austin P, Boeykens K et al. ESPEN guideline on home enteral nutrition. Clin Nutr. 2020;39(1):5-22.",
+      "url": "https://www.espen.org/files/ESPEN-Guidelines/ESPEN_guideline_on_home_enteral_nutrition.pdf",
+      "evidence": "texto_completo",
+      "checked": "Não traz recomendação de volume por kg de peso (motivo da retirada dos 30–35 mL/kg/dia)."
+    },
+    {
+      "citation": "Volkert D, Beck AM, Cederholm T et al. ESPEN guideline on clinical nutrition and hydration in geriatrics. Clin Nutr. 2019;38(1):10-47.",
+      "url": "https://www.espen.org/files/ESPEN-Guidelines/ESPEN_guideline_on_clincal_nutrition_and_hydration_in_geriatrics.pdf",
+      "evidence": "texto_completo",
+      "checked": "Idosos: oferecer pelo menos 1,6 L/dia de bebidas às mulheres e 2,0 L/dia aos homens, salvo condição clínica que peça outra conduta (mostrado como orientação no formulário)."
+    }
+  ],
+  "notes": [
+    "O app não escolhe o volume: a necessidade hídrica depende do quadro clínico (febre, perdas, insuficiência cardíaca ou renal etc.).",
+    "Para crianças e para a manutenção em pacientes internados há a calculadora de Holliday-Segar."
+  ],
+  "changes": [
+    {
+      "date": "2026-09-24",
+      "version": "v2",
+      "text": "A faixa fixa de 30–35 mL/kg/dia (sem fonte conferida) deu lugar ao volume em mL/kg/dia escolhido pelo profissional."
+    }
+  ],
+  "example": {
+    "spec_case": 0,
+    "calculation": "70 kg × 30 mL/kg/dia = 2.100 mL/dia."
+  }
+}

@@ -1,0 +1,830 @@
+[
+  {
+    "slug": "primeiros-passos",
+    "title": "Primeiros passos",
+    "summary": "O OpenNutri BR reúne calculadoras clínicas, fichas de pacientes, plano alimentar e agenda num app que funciona sem internet e sem conta. Este guia mostra o caminho básico.",
+    "keywords": [
+      "começar",
+      "instalar",
+      "primeiro acesso",
+      "perfil",
+      "crn",
+      "início",
+      "abas",
+      "tema escuro",
+      "offline",
+      "internet",
+      "conta",
+      "cadastro"
+    ],
+    "blocks": [
+      {
+        "type": "h2",
+        "text": "Primeiro acesso"
+      },
+      {
+        "type": "li",
+        "text": "Toque em **Começar** e informe como quer ser chamado(a).",
+        "ordinal": 1
+      },
+      {
+        "type": "li",
+        "text": "Preencha o perfil profissional (nome, CRN e especialidade). Ele aparece na saudação e nas fichas em PDF, e pode ser completado depois em **Mais → Perfil profissional**.",
+        "ordinal": 2
+      },
+      {
+        "type": "li",
+        "text": "Leia a política de privacidade e marque **Li e concordo com a política de privacidade.** A versão aceita fica registrada no app.",
+        "ordinal": 3
+      },
+      {
+        "type": "p",
+        "text": "Não existe cadastro, login nem senha de conta: tudo fica no aparelho."
+      },
+      {
+        "type": "h2",
+        "text": "As abas"
+      },
+      {
+        "type": "li",
+        "text": "**Início**: saudação, atalhos, próximos atendimentos, pacientes recentes e o lembrete de backup."
+      },
+      {
+        "type": "li",
+        "text": "**Calculadoras**: os métodos por público (criança, adulto ou idoso) e por área."
+      },
+      {
+        "type": "li",
+        "text": "**Pacientes**: as fichas, com atendimentos, cálculos, arquivos e evolução."
+      },
+      {
+        "type": "li",
+        "text": "**Agenda**: compromissos do dia e do mês, com lembretes."
+      },
+      {
+        "type": "li",
+        "text": "**Mais**: tarefas, planos alimentares, tabela TACO, referências, backup, segurança, privacidade, ajuda e informações sobre o app."
+      },
+      {
+        "type": "h2",
+        "text": "Sem internet, sem conta"
+      },
+      {
+        "type": "p",
+        "text": "O app não envia nada para servidor nenhum. Calculadoras, curvas da OMS e a tabela TACO estão dentro dele. Por isso:"
+      },
+      {
+        "type": "li",
+        "text": "Os dados dos pacientes ficam só neste aparelho. Faça backup com frequência (veja Backup, restauração e bloqueio)."
+      },
+      {
+        "type": "li",
+        "text": "Trocar de aparelho é feito pelo backup: gere no aparelho antigo e restaure no novo."
+      },
+      {
+        "type": "h2",
+        "text": "Aparência"
+      },
+      {
+        "type": "p",
+        "text": "Em **Mais → Aparência**, escolha **Automático** (segue o sistema), **Claro** ou **Escuro**."
+      },
+      {
+        "type": "note",
+        "text": "**Aviso clínico.** As calculadoras apoiam a decisão do nutricionista e não substituem a avaliação clínica. Confira sempre os dados de entrada."
+      }
+    ]
+  },
+  {
+    "slug": "calculadoras",
+    "title": "Calculadoras",
+    "summary": "São 55 métodos em consultório, hospitalar e terapia intensiva, pediatria e exames laboratoriais. Cada um mostra a referência científica e o público para o qual foi validado.",
+    "keywords": [
+      "calculadora",
+      "calcular",
+      "imc",
+      "tmb",
+      "vct",
+      "gasto energético",
+      "schofield",
+      "harris",
+      "mifflin",
+      "criança",
+      "adulto",
+      "idoso",
+      "público",
+      "perfil",
+      "sexo",
+      "faixa etária",
+      "favorita",
+      "estrela",
+      "referência",
+      "fonte",
+      "auditoria",
+      "fórmula",
+      "resultado",
+      "salvar cálculo",
+      "escore-z",
+      "curva",
+      "oms"
+    ],
+    "blocks": [
+      {
+        "type": "h2",
+        "text": "Escolher o público"
+      },
+      {
+        "type": "p",
+        "text": "A aba **Calculadoras** começa por **Para quem é o cálculo?**: criança (0 a 19 anos), adulto (20 a 59) ou idoso (60 ou mais). O app mostra só os métodos validados para esse público, e a escolha fica lembrada para a próxima vez."
+      },
+      {
+        "type": "p",
+        "text": "Use a busca para achar um método pelo nome (ex.: \"Mifflin\", \"NRS\", \"anemia\") ou navegue pelas áreas."
+      },
+      {
+        "type": "h2",
+        "text": "Perfil do cálculo"
+      },
+      {
+        "type": "p",
+        "text": "Na primeira vez em cada calculadora, escolha a faixa etária e o sexo. O perfil fica salvo para aquela calculadora; para mudar, toque em **Alterar**."
+      },
+      {
+        "type": "p",
+        "text": "Se o paciente estiver fora da faixa validada do método, aparece o aviso **Método fora da faixa do paciente**."
+      },
+      {
+        "type": "h2",
+        "text": "Preencher e ler o resultado"
+      },
+      {
+        "type": "li",
+        "text": "O resultado aparece enquanto você digita. Não há botão \"Calcular\"."
+      },
+      {
+        "type": "li",
+        "text": "A barra no rodapé mostra o valor principal e a classificação. Antes do resultado, ela diz o que falta preencher ou o que precisa ser corrigido."
+      },
+      {
+        "type": "li",
+        "text": "Use vírgula ou ponto para decimais. Valores fora da faixa possível (ex.: altura \"165\" em metros) são destacados para correção."
+      },
+      {
+        "type": "li",
+        "text": "A classificação vem com ícone além da cor, para quem não distingue cores."
+      },
+      {
+        "type": "h2",
+        "text": "Calcular para um paciente"
+      },
+      {
+        "type": "p",
+        "text": "Abra a ficha do paciente e toque em **Calcular**, ou escolha o paciente ao salvar. Idade, sexo e as últimas medidas da ficha preenchem o formulário. Confira antes de salvar."
+      },
+      {
+        "type": "p",
+        "text": "Cada cálculo salvo guarda a versão da fórmula usada. Se uma fórmula for corrigida no futuro, os cálculos antigos continuam como foram feitos."
+      },
+      {
+        "type": "h2",
+        "text": "Favoritas"
+      },
+      {
+        "type": "p",
+        "text": "Toque na estrela de uma calculadora para colocá-la em **Favoritas**, no topo da aba."
+      },
+      {
+        "type": "h2",
+        "text": "De onde vem cada fórmula"
+      },
+      {
+        "type": "p",
+        "text": "Em cada calculadora, toque em **Sobre o método e referência** para ver:"
+      },
+      {
+        "type": "li",
+        "text": "a fórmula e os pontos de corte usados;"
+      },
+      {
+        "type": "li",
+        "text": "as fontes conferidas, com o grau de acesso (texto completo, documento oficial, resumo ou reprodução);"
+      },
+      {
+        "type": "li",
+        "text": "ressalvas e mudanças;"
+      },
+      {
+        "type": "li",
+        "text": "um exemplo resolvido que dá para refazer à mão."
+      },
+      {
+        "type": "p",
+        "text": "O panorama de todos os métodos está em **Mais → Referências e auditoria**."
+      },
+      {
+        "type": "note",
+        "text": "Encontrou um valor que não bate com a fonte? Use **Mais → Relatar um problema → Divergência** e informe a fonte com página ou tabela."
+      }
+    ]
+  },
+  {
+    "slug": "pacientes",
+    "title": "Pacientes e atendimentos",
+    "summary": "A ficha reúne tudo de um paciente, em abas: Resumo (com a evolução), Atendimentos, Dieta (planos e recordatórios), Cálculos e Arquivos. No topo ficam os atalhos Atendimento, Calcular e Agendar.",
+    "keywords": [
+      "paciente",
+      "ficha",
+      "cadastro",
+      "atendimento",
+      "consulta",
+      "retorno",
+      "medidas",
+      "peso",
+      "altura",
+      "evolução",
+      "gráfico",
+      "arquivo",
+      "exame",
+      "foto",
+      "anexo",
+      "pdf",
+      "exportar",
+      "excluir",
+      "editar"
+    ],
+    "blocks": [
+      {
+        "type": "h2",
+        "text": "Criar uma ficha"
+      },
+      {
+        "type": "p",
+        "text": "Na aba **Pacientes**, toque em **Novo paciente**. Nome completo e data de nascimento são obrigatórios. Com a data de nascimento e o sexo, as calculadoras já abrem com o perfil certo."
+      },
+      {
+        "type": "h2",
+        "text": "Registrar um atendimento"
+      },
+      {
+        "type": "p",
+        "text": "Na ficha, toque em **Atendimento**. Informe o tipo, as medidas (peso, estatura e outras), o motivo e as observações. As medidas mais recentes passam a ser usadas no auto-preenchimento das calculadoras."
+      },
+      {
+        "type": "h2",
+        "text": "Evolução"
+      },
+      {
+        "type": "p",
+        "text": "Na aba **Resumo**, a seção **Evolução** mostra o gráfico das medidas ao longo dos atendimentos. Para ler os valores um a um, toque em **Ver como tabela**. Leitores de tela anunciam um resumo do gráfico (primeiro e último valor, mínimo, máximo e tendência)."
+      },
+      {
+        "type": "h2",
+        "text": "Arquivos"
+      },
+      {
+        "type": "p",
+        "text": "Na aba **Arquivos**, anexe exames, fotos e PDFs. Eles ficam guardados no aparelho e entram no backup."
+      },
+      {
+        "type": "h2",
+        "text": "Exportar a ficha em PDF"
+      },
+      {
+        "type": "p",
+        "text": "No menu **Mais opções** da ficha, escolha **Exportar ficha em PDF**. O PDF traz atendimentos, medidas e cálculos com a classificação, e serve também para atender a um pedido de acesso ou portabilidade do paciente (LGPD)."
+      },
+      {
+        "type": "h2",
+        "text": "Editar e excluir"
+      },
+      {
+        "type": "li",
+        "text": "**Editar ficha** altera os dados do paciente."
+      },
+      {
+        "type": "li",
+        "text": "**Excluir paciente** apaga do aparelho todos os atendimentos, cálculos, arquivos e planos dele. Compromissos e tarefas ligados ao paciente continuam na agenda, sem o vínculo."
+      },
+      {
+        "type": "note",
+        "text": "Backups guardados fora do app continuam com os dados de um paciente excluído. Apague-os também quando necessário."
+      }
+    ]
+  },
+  {
+    "slug": "plano-alimentar",
+    "title": "Plano alimentar e recordatório 24 h",
+    "summary": "Monte planos alimentares e registre recordatórios 24 h com os 597 alimentos da TACO (4ª edição), sem internet.",
+    "keywords": [
+      "plano alimentar",
+      "dieta",
+      "cardápio",
+      "refeição",
+      "recordatório",
+      "r24h",
+      "24 horas",
+      "taco",
+      "alimento",
+      "tabela nutricional",
+      "macronutrientes",
+      "proteína",
+      "carboidrato",
+      "lipídio",
+      "fibra",
+      "sódio",
+      "kcal",
+      "energia",
+      "meta",
+      "medida caseira",
+      "duplicar",
+      "pdf"
+    ],
+    "blocks": [
+      {
+        "type": "h2",
+        "text": "Criar"
+      },
+      {
+        "type": "p",
+        "text": "Em **Mais → Planos alimentares**, ou na aba **Dieta** da ficha do paciente, escolha **Plano alimentar** ou **Recordatório 24 h**."
+      },
+      {
+        "type": "h2",
+        "text": "Adicionar alimentos"
+      },
+      {
+        "type": "li",
+        "text": "Escolha a refeição.",
+        "ordinal": 1
+      },
+      {
+        "type": "li",
+        "text": "Busque o alimento pelo nome (ex.: \"arroz integral\").",
+        "ordinal": 2
+      },
+      {
+        "type": "li",
+        "text": "Informe a quantidade em gramas e, se quiser, a medida caseira.",
+        "ordinal": 3
+      },
+      {
+        "type": "p",
+        "text": "O app soma por refeição e no dia: energia, macronutrientes (em gramas e em % da energia), fibras e sódio, além da proteína em g/kg quando a ficha tem o peso."
+      },
+      {
+        "type": "h2",
+        "text": "Meta de energia"
+      },
+      {
+        "type": "p",
+        "text": "Se a ficha tem um Valor Calórico Total salvo, o plano compara o total do dia com essa meta. Também dá para informar a necessidade estimada à mão."
+      },
+      {
+        "type": "h2",
+        "text": "Duplicar e exportar"
+      },
+      {
+        "type": "li",
+        "text": "**Duplicar (ex.: para o retorno)**, no menu **Mais opções** do plano, cria uma cópia."
+      },
+      {
+        "type": "li",
+        "text": "**Exportar PDF** gera o plano para entregar ao paciente."
+      },
+      {
+        "type": "h2",
+        "text": "Tabela TACO"
+      },
+      {
+        "type": "p",
+        "text": "Em **Mais → Tabela Nutricional**, consulte a composição de qualquer alimento. A legenda oficial é respeitada: \"Tr\" é traço, \"NA\" é não aplicável e \"*\" indica análise em reavaliação."
+      }
+    ]
+  },
+  {
+    "slug": "agenda-e-tarefas",
+    "title": "Agenda e tarefas",
+    "summary": "Marque atendimentos, receba lembretes no aparelho e acompanhe um checklist de tarefas com prazos.",
+    "keywords": [
+      "agenda",
+      "compromisso",
+      "consulta marcada",
+      "horário",
+      "lembrete",
+      "notificação",
+      "alarme",
+      "tarefa",
+      "checklist",
+      "prazo",
+      "realizado",
+      "faltou"
+    ],
+    "blocks": [
+      {
+        "type": "h2",
+        "text": "Compromissos"
+      },
+      {
+        "type": "p",
+        "text": "Na aba **Agenda**, escolha o dia e toque em **Agendar**. Informe título, data, hora, local e, se quiser, o paciente e um lembrete."
+      },
+      {
+        "type": "p",
+        "text": "Depois do horário, marque o compromisso como **Realizado** ou **Faltou**."
+      },
+      {
+        "type": "h2",
+        "text": "Lembretes"
+      },
+      {
+        "type": "p",
+        "text": "Os lembretes são notificações do próprio aparelho, sem internet. Na primeira vez, o sistema pede permissão para mostrar notificações; sem ela, os lembretes não aparecem."
+      },
+      {
+        "type": "p",
+        "text": "Ao restaurar um backup, os lembretes são reagendados automaticamente."
+      },
+      {
+        "type": "h2",
+        "text": "Tarefas"
+      },
+      {
+        "type": "p",
+        "text": "Em **Mais → Tarefas**, monte um checklist com prazos e lembretes (ex.: \"enviar plano alimentar\"). Marque a caixa para concluir. O número de tarefas abertas aparece no menu **Mais**."
+      },
+      {
+        "type": "note",
+        "text": "Compromissos e tarefas não são apagados quando um paciente é excluído. Se o título identificar o paciente, apague-os também."
+      }
+    ]
+  },
+  {
+    "slug": "backup-e-seguranca",
+    "title": "Backup, restauração e bloqueio",
+    "summary": "Os dados ficam só no aparelho. Sem backup, perder o celular é perder as fichas.",
+    "keywords": [
+      "backup",
+      "cópia de segurança",
+      "restaurar",
+      "restauração",
+      "google drive",
+      "icloud",
+      "trocar de celular",
+      "aparelho novo",
+      "senha do backup",
+      "pin",
+      "bloqueio",
+      "digital",
+      "biometria",
+      "rosto",
+      "face id",
+      "esqueci o pin",
+      "esqueci a senha",
+      "segurança"
+    ],
+    "blocks": [
+      {
+        "type": "h2",
+        "text": "Fazer backup"
+      },
+      {
+        "type": "li",
+        "text": "Abra **Mais → Backup e restauração**.",
+        "ordinal": 1
+      },
+      {
+        "type": "li",
+        "text": "Deixe marcado **Proteger o arquivo com senha (recomendado)** e escolha uma senha de pelo menos 8 caracteres.",
+        "ordinal": 2
+      },
+      {
+        "type": "li",
+        "text": "Toque em **Salvar backup no Google Drive**. Na tela de compartilhar, escolha \"Salvar no Drive\" (ou e-mail, iCloud, outro app) e confirme.",
+        "ordinal": 3
+      },
+      {
+        "type": "p",
+        "text": "O Início lembra de fazer backup quando há pacientes e o último tem mais de 7 dias."
+      },
+      {
+        "type": "note",
+        "text": "**Guarde a senha do backup.** Não existe recuperação: sem ela, o arquivo não pode ser aberto, por ninguém."
+      },
+      {
+        "type": "h2",
+        "text": "Restaurar"
+      },
+      {
+        "type": "li",
+        "text": "Abra **Mais → Backup e restauração** e toque em **Restaurar do Google Drive**.",
+        "ordinal": 1
+      },
+      {
+        "type": "li",
+        "text": "No seletor de arquivos, abra o menu (☰) e escolha Google Drive.",
+        "ordinal": 2
+      },
+      {
+        "type": "li",
+        "text": "Escolha o arquivo e digite a senha, se houver.",
+        "ordinal": 3
+      },
+      {
+        "type": "p",
+        "text": "Restaurar **substitui todos os dados do aparelho** pelos do arquivo. O app confere o arquivo antes de apagar qualquer coisa: se ele estiver corrompido ou a senha estiver errada, nada muda."
+      },
+      {
+        "type": "h2",
+        "text": "Bloqueio com PIN"
+      },
+      {
+        "type": "p",
+        "text": "Em **Mais → Segurança**, toque em **Ativar bloqueio com PIN** e crie um PIN de 4 a 6 números. Você pode:"
+      },
+      {
+        "type": "li",
+        "text": "desbloquear com a digital ou o rosto;"
+      },
+      {
+        "type": "li",
+        "text": "escolher depois de quanto tempo em segundo plano o PIN é pedido de novo."
+      },
+      {
+        "type": "p",
+        "text": "Ao abrir o app do zero, o PIN é sempre pedido. Depois de 5 erros seguidos, o teclado espera 30 segundos, e a espera aumenta a cada nova sequência de erros."
+      },
+      {
+        "type": "h2",
+        "text": "Esqueci o PIN"
+      },
+      {
+        "type": "p",
+        "text": "O PIN não vai no backup, de propósito. Reinstale o app e restaure o último backup: os dados voltam, sem bloqueio, e você cria um PIN novo."
+      },
+      {
+        "type": "h2",
+        "text": "Limites"
+      },
+      {
+        "type": "p",
+        "text": "O bloqueio protege a tela do app, não cifra o banco de dados. Mantenha o aparelho com senha de tela e o sistema atualizado."
+      }
+    ]
+  },
+  {
+    "slug": "privacidade",
+    "title": "Privacidade e LGPD",
+    "summary": "Como o app guarda os dados dos pacientes e o que cabe ao nutricionista pela Lei Geral de Proteção de Dados.",
+    "keywords": [
+      "privacidade",
+      "lgpd",
+      "dados sensíveis",
+      "consentimento",
+      "controlador",
+      "titular",
+      "direitos",
+      "portabilidade",
+      "eliminação",
+      "apagar dados",
+      "internet",
+      "rede",
+      "telemetria",
+      "rastreamento",
+      "servidor"
+    ],
+    "blocks": [
+      {
+        "type": "h2",
+        "text": "Onde ficam os dados"
+      },
+      {
+        "type": "p",
+        "text": "Pacientes, atendimentos, cálculos, arquivos, planos, agenda e tarefas ficam **só no aparelho**. O app não tem servidor, conta, telemetria, anúncios nem analytics, e não faz requisições de rede."
+      },
+      {
+        "type": "p",
+        "text": "Os dados só saem do aparelho quando você mesmo(a) decide:"
+      },
+      {
+        "type": "li",
+        "text": "backup;"
+      },
+      {
+        "type": "li",
+        "text": "PDF da ficha ou do plano;"
+      },
+      {
+        "type": "li",
+        "text": "arquivos compartilhados;"
+      },
+      {
+        "type": "li",
+        "text": "relato de problema, que você revisa antes de enviar e que não leva dados de pacientes."
+      },
+      {
+        "type": "h2",
+        "text": "Quem é responsável"
+      },
+      {
+        "type": "p",
+        "text": "Dados de saúde são dados pessoais sensíveis (LGPD, art. 11). O nutricionista é o controlador dos dados dos seus pacientes: decide o que registrar, por quanto tempo guardar e com quem compartilhar. Quem desenvolve o app não recebe nem acessa esses dados."
+      },
+      {
+        "type": "h2",
+        "text": "Direitos do paciente"
+      },
+      {
+        "type": "li",
+        "text": "**Acesso e portabilidade**: exporte a ficha em PDF."
+      },
+      {
+        "type": "li",
+        "text": "**Correção**: todos os dados da ficha são editáveis."
+      },
+      {
+        "type": "li",
+        "text": "**Eliminação**: excluir a ficha apaga do aparelho tudo do paciente. Backups guardados fora do app precisam ser apagados à parte."
+      },
+      {
+        "type": "note",
+        "text": "Este resumo descreve como o software trata os dados; não é parecer jurídico."
+      }
+    ]
+  },
+  {
+    "slug": "acessibilidade",
+    "title": "Acessibilidade",
+    "summary": "O OpenNutri BR é feito para ser usado por todos os profissionais, inclusive quem usa leitor de tela, fonte ampliada ou outras tecnologias assistivas. Esta é a declaração de acessibilidade do app.",
+    "keywords": [
+      "acessibilidade",
+      "leitor de tela",
+      "talkback",
+      "voiceover",
+      "cego",
+      "baixa visão",
+      "fonte grande",
+      "aumentar letra",
+      "contraste",
+      "daltonismo",
+      "cor",
+      "movimento",
+      "animação",
+      "teclado"
+    ],
+    "blocks": [
+      {
+        "type": "h2",
+        "text": "O que o app oferece"
+      },
+      {
+        "type": "li",
+        "text": "**Leitores de tela** (TalkBack no Android, VoiceOver no iOS, leitores no navegador): botões, campos, abas e opções têm nome e papel; títulos são anunciados como títulos; erros de formulário e avisos são anunciados."
+      },
+      {
+        "type": "li",
+        "text": "**Gráficos**: o gráfico de evolução tem um resumo falado e a opção **Ver como tabela**."
+      },
+      {
+        "type": "li",
+        "text": "**Fonte do sistema**: o texto acompanha o tamanho de fonte escolhido no aparelho, até 160%. Títulos e números grandes crescem um pouco menos para caber na tela."
+      },
+      {
+        "type": "li",
+        "text": "**Contraste**: as cores de texto passam no nível AA da WCAG (4,5:1) nos temas claro e escuro, e um teste automático confere isso a cada mudança de cor."
+      },
+      {
+        "type": "li",
+        "text": "**Não depende só de cor**: a opção escolhida e a classificação de um resultado também têm ícone ou marca."
+      },
+      {
+        "type": "li",
+        "text": "**Alvos de toque** de pelo menos 44 pontos."
+      },
+      {
+        "type": "li",
+        "text": "**Reduzir movimento**: com a opção ligada no sistema, as transições de tela e os painéis aparecem sem animação."
+      },
+      {
+        "type": "li",
+        "text": "**Tema escuro** e **navegação por teclado** na versão para navegador."
+      },
+      {
+        "type": "h2",
+        "text": "Limitações conhecidas"
+      },
+      {
+        "type": "li",
+        "text": "Os PDFs gerados (ficha e plano) ainda não têm marcação de acessibilidade completa para leitores de tela."
+      },
+      {
+        "type": "li",
+        "text": "Em telas estreitas (360 pontos) com fonte muito grande, o nome da aba \"Calculadoras\" pode aparecer cortado."
+      },
+      {
+        "type": "h2",
+        "text": "Encontrou uma barreira?"
+      },
+      {
+        "type": "p",
+        "text": "Use **Mais → Relatar um problema** e conte o que aconteceu, qual tecnologia assistiva você usa e em que tela. Barreiras de acessibilidade são tratadas como problemas, não como sugestões."
+      }
+    ]
+  },
+  {
+    "slug": "perguntas-frequentes",
+    "title": "Perguntas frequentes",
+    "summary": "Respostas curtas para as dúvidas mais comuns sobre o app, os dados e o projeto.",
+    "keywords": [
+      "dúvida",
+      "pergunta",
+      "faq",
+      "gratuito",
+      "grátis",
+      "preço",
+      "pago",
+      "código aberto",
+      "open source",
+      "github",
+      "iphone",
+      "ios",
+      "android",
+      "computador",
+      "navegador",
+      "erro",
+      "problema",
+      "bug",
+      "sugestão",
+      "atualizar",
+      "versão",
+      "novidades",
+      "licença",
+      "citar"
+    ],
+    "blocks": [
+      {
+        "type": "h2",
+        "text": "O app é gratuito?"
+      },
+      {
+        "type": "p",
+        "text": "Sim, e todas as funcionalidades são abertas a todos. O código é aberto sob a licença GPL-3.0: qualquer pessoa pode ler, conferir, adaptar e contribuir."
+      },
+      {
+        "type": "h2",
+        "text": "Funciona no iPhone e no computador?"
+      },
+      {
+        "type": "p",
+        "text": "O app roda no Android, no iOS e no navegador. Os dados de cada aparelho são independentes: para levar as fichas de um para outro, use o backup."
+      },
+      {
+        "type": "h2",
+        "text": "Preciso de internet?"
+      },
+      {
+        "type": "p",
+        "text": "Não. Só para salvar o backup na nuvem, se você escolher o Google Drive, ou para abrir links externos."
+      },
+      {
+        "type": "h2",
+        "text": "Os resultados são confiáveis?"
+      },
+      {
+        "type": "p",
+        "text": "Cada fórmula foi conferida na fonte primária, e o exemplo publicado de cada método é testado automaticamente nas duas implementações do projeto. Mesmo assim, as calculadoras apoiam e não substituem o julgamento clínico. Veja **Mais → Referências e auditoria**."
+      },
+      {
+        "type": "h2",
+        "text": "Encontrei um erro. Como aviso?"
+      },
+      {
+        "type": "p",
+        "text": "Em **Mais → Relatar um problema**. O app monta o relato com informações técnicas (versão, sistema, erros registrados no aparelho) e abre o GitHub já preenchido. Nada é enviado sem você ver. Não inclua dados de pacientes."
+      },
+      {
+        "type": "h2",
+        "text": "Como sei o que mudou numa versão?"
+      },
+      {
+        "type": "p",
+        "text": "Em **Mais → Sobre o OpenNutri BR → Novidades**."
+      },
+      {
+        "type": "h2",
+        "text": "Como citar o app num trabalho?"
+      },
+      {
+        "type": "p",
+        "text": "Em **Mais → Sobre o OpenNutri BR → Como citar**."
+      },
+      {
+        "type": "h2",
+        "text": "O app fica com os dados dos meus pacientes?"
+      },
+      {
+        "type": "p",
+        "text": "Não. Os dados ficam só no seu aparelho; ninguém mais tem acesso. Veja Privacidade e LGPD."
+      }
+    ]
+  }
+]

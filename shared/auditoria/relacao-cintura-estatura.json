@@ -1,0 +1,36 @@
+{
+  "slug": "relacao-cintura-estatura",
+  "status": "conferido",
+  "verified_at": "2026-09-24",
+  "summary": "Faixas conferidas no texto oficial da NICE NG246 (recomendação 1.9.11).",
+  "formula": "RCE = cintura (cm) / estatura (cm). < 0,4 fora da faixa classificada · 0,4–0,49 saudável · 0,5–0,59 aumentada · ≥ 0,6 alta.",
+  "sources": [
+    {
+      "citation": "NICE. Overweight and obesity management (NG246), 2025 — seção 1.9, recomendações 1.9.10 e 1.9.11.",
+      "url": "https://www.nice.org.uk/guidance/ng246/chapter/Identifying-and-assessing-overweight-obesity-and-central-adiposity",
+      "evidence": "documento_oficial",
+      "checked": "Adultos com IMC < 35: 0,4 a 0,49 adiposidade central saudável; 0,5 a 0,59 aumentada; 0,6 ou mais alta."
+    },
+    {
+      "citation": "Ashwell M, Gunn P, Gibson S. Waist-to-height ratio is a better screening tool than waist circumference and BMI for adult cardiometabolic risk factors. Obes Rev. 2012;13(3):275-86.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/22106927/",
+      "pmid": "22106927",
+      "evidence": "resumo",
+      "checked": "Base científica da relação cintura-estatura (meta-análise)."
+    }
+  ],
+  "notes": [
+    "A NICE aplica as faixas a adultos com IMC abaixo de 35."
+  ],
+  "changes": [
+    {
+      "date": "2026-09-24",
+      "version": "v2",
+      "text": "Valores abaixo de 0,4 deixaram de ser chamados de 'saudável' (a NICE classifica só a partir de 0,4) e passam a sair como 'abaixo da faixa de referência'."
+    }
+  ],
+  "example": {
+    "spec_case": 0,
+    "calculation": "78 ÷ 164 = 0,4756 → 0,48. Entre 0,4 e 0,49 → saudável."
+  }
+}

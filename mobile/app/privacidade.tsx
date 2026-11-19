@@ -26,6 +26,19 @@ export default function PrivacyScreen() {
         </Card>
       </Section>
 
+      <Section title="Relatos de problema">
+        <Card style={{ gap: 8 }}>
+          <AppText>
+            “Relatar um problema” não envia nada sozinho: o app monta o texto na tela, com informações técnicas (versão, sistema, tamanho
+            da tela e, se você quiser, os erros registrados) e abre o GitHub ou a folha de compartilhamento para você revisar e enviar.
+          </AppText>
+          <AppText>
+            Os erros inesperados ficam registrados só neste aparelho, fora do backup, e podem ser apagados na tela de relato. Eles não
+            trazem dados de pacientes; mesmo assim, não digite dados de pacientes no relato.
+          </AppText>
+        </Card>
+      </Section>
+
       {settings?.privacy_accepted_version && (
         <AppText variant="small" tone="subtle" align="center">
           Termos de privacidade aceitos (versão {settings.privacy_accepted_version}).

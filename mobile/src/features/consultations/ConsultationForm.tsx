@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { View } from 'react-native';
 import type { Consultation, ConsultationKind } from '../../data/models';
 import type { ConsultationInput } from '../../data/repositories/consultations';
+import { parseDecimal } from '../../domain/forms/parseForm';
 import { AppText } from '../../ui/AppText';
 import { Button } from '../../ui/Button';
 import { ChipGroup } from '../../ui/Chips';
@@ -14,7 +15,7 @@ interface ConsultationFormProps {
   onSubmit: (input: ConsultationInput) => Promise<void>;
 }
 
-const MEASURES: Array<{ key: keyof ConsultationInput; label: string; unit: string }> = [
+const MEASURES: { key: keyof ConsultationInput; label: string; unit: string }[] = [
   { key: 'weight_kg', label: 'Peso', unit: 'kg' },
   { key: 'height_cm', label: 'Estatura/comprimento', unit: 'cm' },
   { key: 'waist_cm', label: 'Cintura', unit: 'cm' },
@@ -26,9 +27,11 @@ function toText(value: number | null | undefined): string {
   return value == null ? '' : String(value).replace('.', ',');
 }
 
-function toNumber(text: string): number | null {
-  const value = Number(text.trim().replace(',', '.'));
-  return text.trim() && Number.isFinite(value) && value > 0 ? value : null;
+/** Vazio = não medido (null); texto que não é um número positivo = erro no campo (undefined). */
+function toMeasure(text: string): number | null | undefined {
+  if (!text.trim()) return null;
+  const value = parseDecimal(text);
+  return value !== null && value > 0 ? value : undefined;
 }
 
 /** Registro do atendimento: motivo, evolução, conduta e as medidas do dia (que alimentam as calculadoras). */
@@ -43,8 +46,12 @@ export function ConsultationForm({ patientId, initial, onSubmit }: ConsultationF
   );
   const [saving, setSaving] = useState(false);
 
+  // Uma medida digitada errado não pode sumir em silêncio: ela alimenta as calculadoras.
+  const parsed = Object.fromEntries(MEASURES.map((m) => [m.key, toMeasure(measures[m.key])])) as Record<string, number | null | undefined>;
+  const invalid = MEASURES.some((m) => parsed[m.key] === undefined);
+
   const submit = async () => {
-    if (!occurredAt) return;
+    if (!occurredAt || invalid) return;
     setSaving(true);
     try {
       await onSubmit({
@@ -54,11 +61,11 @@ export function ConsultationForm({ patientId, initial, onSubmit }: ConsultationF
         complaint: complaint.trim() || null,
         notes: notes.trim() || null,
         plan: plan.trim() || null,
-        weight_kg: toNumber(measures.weight_kg),
-        height_cm: toNumber(measures.height_cm),
-        waist_cm: toNumber(measures.waist_cm),
-        hip_cm: toNumber(measures.hip_cm),
-        head_circumference_cm: toNumber(measures.head_circumference_cm),
+        weight_kg: parsed.weight_kg ?? null,
+        height_cm: parsed.height_cm ?? null,
+        waist_cm: parsed.waist_cm ?? null,
+        hip_cm: parsed.hip_cm ?? null,
+        head_circumference_cm: parsed.head_circumference_cm ?? null,
       });
     } finally {
       setSaving(false);
@@ -89,6 +96,7 @@ export function ConsultationForm({ patientId, initial, onSubmit }: ConsultationF
               unit={measure.unit}
               keyboardType="decimal-pad"
               value={measures[measure.key]}
+              error={parsed[measure.key] === undefined ? 'Digite um número maior que zero.' : null}
               onChangeText={(text) => setMeasures((current) => ({ ...current, [measure.key]: text }))}
             />
           </View>
@@ -102,7 +110,7 @@ export function ConsultationForm({ patientId, initial, onSubmit }: ConsultationF
       <TextField label="Evolução e observações" value={notes} onChangeText={setNotes} multiline />
       <TextField label="Conduta / plano alimentar" value={plan} onChangeText={setPlan} multiline />
 
-      <Button label="Salvar atendimento" onPress={submit} loading={saving} fullWidth />
+      <Button label="Salvar atendimento" onPress={submit} loading={saving} disabled={invalid} fullWidth />
     </View>
   );
 }

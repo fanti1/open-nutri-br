@@ -1,9 +1,10 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { AccessibilityInfo, Platform, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { create } from 'zustand';
 import { useTheme } from '../theme/ThemeProvider';
+import { darkPalette, lightPalette } from '../theme/tokens';
 import { AppText } from './AppText';
 
 interface ToastState {
@@ -28,24 +29,28 @@ export const toast = {
 
 export function ToastHost() {
   const { message, tone, hide } = useToastStore();
-  const { colors } = useTheme();
+  const { colors, dark } = useTheme();
   const insets = useSafeAreaInsets();
 
   useEffect(() => {
     if (!message) return;
+    // No Android a região viva anuncia; o VoiceOver (iOS) ignora regiões vivas e precisa do anúncio explícito.
+    if (Platform.OS === 'ios') AccessibilityInfo.announceForAccessibility(message);
     const timer = setTimeout(hide, 2600);
     return () => clearTimeout(timer);
   }, [message, hide]);
 
   if (!message) return null;
 
-  const color = tone === 'success' ? colors.success : colors.danger;
+  // O aviso usa as cores invertidas do tema; o ícone usa a cor do tema oposto para manter o contraste.
+  const inverse = dark ? lightPalette : darkPalette;
+  const color = tone === 'success' ? inverse.success : inverse.danger;
 
   return (
     <View pointerEvents="none" style={[styles.wrap, { bottom: insets.bottom + 90 }]}>
-      <View style={[styles.toast, { backgroundColor: colors.text }]}>
+      <View accessibilityRole="alert" accessibilityLiveRegion="polite" style={[styles.toast, { backgroundColor: colors.text }]}>
         <Ionicons name={tone === 'success' ? 'checkmark-circle' : 'alert-circle'} size={20} color={color} />
-        <AppText variant="bodyStrong" color={colors.background}>
+        <AppText variant="bodyStrong" color={colors.background} style={{ flexShrink: 1 }}>
           {message}
         </AppText>
       </View>

@@ -1,0 +1,54 @@
+name: Divergência científica
+description: Um método, coeficiente, ponto de corte ou classificação do app não bate com a fonte
+title: "[Divergência] "
+labels: [auditoria-cientifica]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Cada apontamento é conferido na fonte antes de qualquer mudança. Veja o que o app faz hoje em "Sobre o método e referência", na própria calculadora, ou em [docs/METODOS.md](https://github.com/fanti1/open-nutri-br/blob/HEAD/docs/METODOS.md).
+
+        **Não inclua dados que identifiquem pacientes.**
+  - type: input
+    id: metodo
+    attributes:
+      label: Método
+      description: Nome e identificador.
+      placeholder: "CONUT / conut"
+    validations:
+      required: true
+  - type: textarea
+    id: app
+    attributes:
+      label: O que o app faz hoje
+      description: Valor, fórmula ou classificação.
+    validations:
+      required: true
+  - type: textarea
+    id: fonte
+    attributes:
+      label: O que a fonte diz
+      description: Cite a fonte e o local exato (página, tabela, equação ou recomendação) e, se possível, o link.
+    validations:
+      required: true
+  - type: textarea
+    id: exemplo
+    attributes:
+      label: Exemplo
+      description: Entradas → resultado do app → resultado esperado pela fonte.
+  - type: dropdown
+    id: acesso
+    attributes:
+      label: Grau de acesso à fonte
+      options:
+        - Texto completo
+        - Documento oficial
+        - Resumo
+        - Reprodução em outro artigo
+    validations:
+      required: true
+  - type: input
+    id: versao
+    attributes:
+      label: Versão do app
+      placeholder: "1.0.0"

@@ -143,6 +143,12 @@ export async function migrate(db: SqlDatabase): Promise<void> {
   const current = row?.user_version ?? 0;
 
   for (let version = current; version < MIGRATIONS.length; version++) {
-    await db.execAsync(`BEGIN; ${MIGRATIONS[version]} PRAGMA user_version = ${version + 1}; COMMIT;`);
+    try {
+      await db.execAsync(`BEGIN; ${MIGRATIONS[version]} PRAGMA user_version = ${version + 1}; COMMIT;`);
+    } catch (error) {
+      // Sem isso a conexão ficaria presa numa transação aberta e pela metade.
+      await db.execAsync('ROLLBACK;').catch(() => undefined);
+      throw error;
+    }
   }
 }

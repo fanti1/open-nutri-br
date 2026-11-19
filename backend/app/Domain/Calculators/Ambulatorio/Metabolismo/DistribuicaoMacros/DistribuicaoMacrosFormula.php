@@ -3,6 +3,7 @@
 namespace App\Domain\Calculators\Ambulatorio\Metabolismo\DistribuicaoMacros;
 
 use App\Domain\Calculators\Contracts\FormulaInterface;
+use App\Domain\Calculators\IncompleteInputsException;
 
 /**
  * Converte percentuais de macronutrientes (dentro das faixas AMDR) em gramas/dia,
@@ -22,6 +23,15 @@ final class DistribuicaoMacrosFormula implements FormulaInterface
         $carbPercent = (float) $inputs['carb_percent'];
         $proteinPercent = (float) $inputs['protein_percent'];
         $fatPercent = (float) $inputs['fat_percent'];
+
+        // Uma distribuição reparte o VCT inteiro: os três percentuais somam 100%.
+        $sum = $carbPercent + $proteinPercent + $fatPercent;
+        if (abs($sum - 100) > 1e-6) {
+            throw new IncompleteInputsException(sprintf(
+                'A soma de carboidratos, proteínas e lipídios precisa ser 100%% (está em %s%%).',
+                str_replace('.', ',', (string) round($sum, 2)),
+            ));
+        }
 
         return [
             'carbohydrate_g' => round(($totalKcal * $carbPercent / 100) / self::KCAL_PER_G_CARB_OR_PROTEIN, 2),
