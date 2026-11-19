@@ -14,7 +14,7 @@ Use só as seções Adicionado, Alterado, Corrigido, Removido e Segurança, e it
 
 ## [Não lançado]
 
-## [1.0.0] - 2026-10-28
+## [1.0.0] - 2026-11-19
 
 Primeira versão aberta.
 
